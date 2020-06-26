@@ -13,8 +13,9 @@ import static org.hamcrest.core.IsEqual.equalTo;
  * they also make use of the <a href="http://hamcrest.org/JavaHamcrest/">hamcrest</a>
  * matchers for more readable assertion statements.
  */
-public class StudentTest
+public class StudentTest<name>
 {
+  public String name = "Pat";
 
   private Student createPatObject(String name) {
     return new Student(name, new ArrayList<>(), 0.0, "Doesn't matter");
@@ -22,18 +23,21 @@ public class StudentTest
 
   @Test
   public void studentNamedPatIsNamedPat() {
-    String name = "Pat";
     var pat = createPatObject(name);
     assertThat(pat.getName(), equalTo(name));
   }
 
 
-  /* when i call toString method check if that contains student name "pat" */
+//  /* when i call toString method check if that contains student name "pat" */
+//  @Test
+//  public void toStringContainsStudentName() {
+//    Student pat = createPatObject(name);
+//    assertThat(pat.toString(), containsString(name));
+//  }
   @Test
-  public void testToString() {
-    String name = "Pat";
-    Student pat = createPatObject(name);
-    assertThat(pat.toString(), containsString(name));
+  public void toStringContainsGpa(){
+    Student pat = new Student("Pat", new ArrayList<>(), 4.0, "Doesn't matter");
+    assertThat(pat.toString(), containsString(name +" has a GPA of 4.0"));
   }
 
 }
