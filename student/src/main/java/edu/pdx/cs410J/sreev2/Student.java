@@ -50,14 +50,23 @@ public class Student extends Human {
             + " and is taking "
             + classesSize + " class" + (classesSize != 1 ? "es" : "")
             + (classesSize == 0 ? "." : ":")
-            + (classesSize != 0 ? " "+this.classNames()+"." : "");
+            + (classesSize != 0 ? " "+this.classNames()+"." : "")
+            + "  ";
   }
 
   public String classNames(){
     StringBuilder sb = new StringBuilder();
-    for(String className : this.classes){
-      sb.append(className);
+    int classesSize = this.classes.size();
+    sb.append(String.join(", ", this.classes.subList(0, classesSize - 1)));
+    if(classesSize > 1) {
+      if(classesSize == 2) {
+        sb.append(" and ");
+      }
+      else{
+        sb.append(", and ");
+      }
     }
+    sb.append(this.classes.get(classesSize - 1));
     return sb.toString();
   }
 

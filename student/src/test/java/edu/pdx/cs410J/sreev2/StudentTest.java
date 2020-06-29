@@ -68,14 +68,14 @@ public class StudentTest<name>
   public void nameGpaZeroClassSize(){
     ArrayList<String> classes = new ArrayList<>();
     Student s = new Student("Sree", classes, 4.0, "Female");
-    assertThat(s.toString(), containsString("Sree has a GPA of 4.0 and is taking 0 classes:"));
+    assertThat(s.toString(), containsString("Sree has a GPA of 4.0 and is taking 0 classes.  "));
   }
 
   @Test
   public void zeroClassesNames(){
     ArrayList<String> classes = new ArrayList<>();
     Student s = new Student("Sree", classes, 4.0, "Female");
-    assertThat(s.toString(), containsString("Sree has a GPA of 4.0 and is taking 0 classes."));
+    assertThat(s.toString(), containsString("Sree has a GPA of 4.0 and is taking 0 classes.  "));
   }
 
   @Test
@@ -83,26 +83,27 @@ public class StudentTest<name>
     ArrayList<String> classes = new ArrayList<>();
     classes.add("Algorithms");
     Student s = new Student("Sree", classes, 4.0, "Female");
-    assertThat(s.toString(), containsString("Sree has a GPA of 4.0 and is taking 1 class: Algorithms."));
+    assertThat(s.toString(), containsString("Sree has a GPA of 4.0 and is taking 1 class: Algorithms.  "));
   }
-  @Ignore
+
   @Test
   public void TwoClassesNames(){
     ArrayList<String> classes = new ArrayList<>();
-    classes.add("Algoritms");
+    classes.add("Algorithms");
     classes.add("OS");
     Student s = new Student("Sree", classes, 4.0, "Female");
-    assertThat(s.toString(), containsString("Sree has a GPA of 4.0 and is taking 2 classes: Algorithms and OS."));
+    assertThat(s.toString(), containsString("Sree has a GPA of 4.0 and is taking 2 classes: Algorithms and OS.  "));
   }
-  @Ignore
+
+
   @Test
   public void threeClassesNames(){
     ArrayList<String> classes = new ArrayList<>();
-    classes.add("Algoritms");
+    classes.add("Algorithms");
     classes.add("OS");
     classes.add("Java");
     Student s = new Student("Sree", classes, 4.0, "Female");
-    assertThat(s.toString(), containsString("Sree has a GPA of 4.0 and is taking 1 class: Algorithms, OS, and Java"));
+    assertThat(s.toString(), containsString("Sree has a GPA of 4.0 and is taking 3 classes: Algorithms, OS, and Java.  "));
   }
 
 }
