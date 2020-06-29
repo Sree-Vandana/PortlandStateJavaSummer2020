@@ -28,14 +28,10 @@ public class StudentTest<name>
   }
 
 
-//  /* when i call toString method check if that contains student name "pat" */
-//  @Test
-//  public void toStringContainsStudentName() {
-//    Student pat = createPatObject(name);
-//    assertThat(pat.toString(), containsString(name));
-//  }
+ /* when i call toString method check if that contains student name "pat"; and gpa */
+
   @Test
-  public void toStringContainsGpa(){
+  public void toStringContainsNameGpa(){
     Student pat = new Student("Pat", new ArrayList<>(), 4.0, "Doesn't matter");
     assertThat(pat.toString(), containsString(name +" has a GPA of 4.0"));
   }
