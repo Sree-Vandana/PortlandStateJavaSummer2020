@@ -106,4 +106,14 @@ public class StudentTest<name>
     assertThat(s.toString(), containsString("Sree has a GPA of 4.0 and is taking 3 classes: Algorithms, OS, and Java.  "));
   }
 
+  @Test
+  public void completeSentance(){
+    ArrayList<String> classes = new ArrayList<>();
+    classes.add("Algorithms");
+    classes.add("OS");
+    classes.add("Java");
+    Student s = new Student("Sree", classes, 4.0, "Female");
+    assertThat(s.toString(), containsString("Sree has a GPA of 4.0 and is taking 3 classes: Algorithms, OS, and Java.  He says \"This class is too much work\"."));
+  }
+
 }

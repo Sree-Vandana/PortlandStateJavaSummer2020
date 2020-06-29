@@ -37,7 +37,7 @@ public class Student extends Human {
    */
   @Override
   public String says() {
-    throw new UnsupportedOperationException("Not implemented yet");
+    return "He says \"This class is too much work\".";
   }
                                                                                     
   /**                                                                               
@@ -51,7 +51,8 @@ public class Student extends Human {
             + classesSize + " class" + (classesSize != 1 ? "es" : "")
             + (classesSize == 0 ? "." : ":")
             + (classesSize != 0 ? " "+this.classNames()+"." : "")
-            + "  ";
+            + "  "
+            + this.says();
   }
 
   public String classNames(){
