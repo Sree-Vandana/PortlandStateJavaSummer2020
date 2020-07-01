@@ -11,6 +11,7 @@ public class Student extends Human {
 
   private final double gpa;
   private final   ArrayList<String> classes;
+  private final String gender;
 
   /**                                                                               
    * Creates a new <code>Student</code>                                             
@@ -27,7 +28,7 @@ public class Student extends Human {
    */                                                                               
   public Student(String name, ArrayList<String> classes, double gpa, String gender) {
     super(name);
-
+    this.gender = gender;
     this.gpa = gpa;
     this.classes = classes;
   }
@@ -78,6 +79,21 @@ public class Student extends Human {
    */
   public static void main(String[] args) {
     System.err.println("Missing command line arguments");
+    System.err.println("Hello");
+    ArrayList<String> classes = new ArrayList<>();
+    classes.add("Algorithms");
+    classes.add("OS");
+    classes.add("Java");
+    String name = "sree";
+    Double gpa = 4.0;
+    String gender = "female";
+    Student sreev2 = new Student(name, classes, gpa, gender);
+    String output = sreev2.toString();
+    System.out.println(output);
+
+    /*for (String arg : args) {
+      System.out.println(arg);
+    }*/
     System.exit(1);
   }
 }
