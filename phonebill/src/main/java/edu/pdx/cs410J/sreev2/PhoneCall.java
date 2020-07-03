@@ -21,6 +21,7 @@ public class PhoneCall extends AbstractPhoneCall{
     this.calleeNum = args[2];
     this.startTimeString = args[3];
     this.endTimeString = args[4];
+
   }
 
   @Override

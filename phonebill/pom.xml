@@ -54,6 +54,12 @@
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency>
+      <dependency>
+          <groupId>com.sandwich</groupId>
+          <artifactId>koans-lib</artifactId>
+          <version>Summer2020</version>
+          <scope>test</scope>
+      </dependency>
   </dependencies>
   <build>
     <plugins>
