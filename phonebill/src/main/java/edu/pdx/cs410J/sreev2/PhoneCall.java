@@ -6,19 +6,34 @@ import java.util.Date;
 
 public class PhoneCall extends AbstractPhoneCall{
 
+  private String callerNum;
+  private String calleeNum;
+  private String startTimeString;
+  private String endTimeString;
+
+
   public PhoneCall() {
     super();
   }
 
+  public PhoneCall(final String[] args){
+    this.callerNum = args[1];
+    this.calleeNum = args[2];
+    this.startTimeString = args[3];
+    this.endTimeString = args[4];
+  }
+
   @Override
   public String getCaller() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+   // throw new UnsupportedOperationException("This method is not implemented yet");
+    return callerNum;
   }
 
   @Override
   public String getCallee() {
-    return "This method is not implemented yet";
+    return calleeNum;
   }
+
 
   @Override
   public Date getStartTime() {
@@ -30,14 +45,19 @@ public class PhoneCall extends AbstractPhoneCall{
     return super.getEndTime();
   }
 
-    @Override
+  @Override
   public String getStartTimeString() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    //throw new UnsupportedOperationException("This method is not implemented yet");
+    return startTimeString;
   }
 
   @Override
   public String getEndTimeString() {
-    throw new UnsupportedOperationException("This method is not implemented yet");
+    //throw new UnsupportedOperationException("This method is not implemented yet");
+    return endTimeString;
   }
+
+
+
 
 }
