@@ -36,40 +36,40 @@ public class Project1 {
 
     var length = args.length;
 
-    /*
-    * If no Arguments are passed, then send error message and exit with exit-code 1
-    * */
     if (length == 0) {
       System.err.println("Missing command line arguments");
       System.err.println(usage);
       System.exit(1);
     }
-/*
-* CASE 1: README
-* CASE 2: NO README
-* */
+
     else if (length <= 9) {
 
       if (Arrays.asList(args).contains("-README") &
               Arrays.asList(args).indexOf("-README") < 2) {
+
         printReadME();
+
         System.exit(1);
       }
 
       else if(Arrays.asList(args).contains("-print") &
                 Arrays.asList(args).indexOf("-print") < 1 &
               validateArgs(args)){
-          System.exit(1);
-        }
 
+        PhoneCall call = new PhoneCall(args);
+        PhoneBill bill = new PhoneBill(args[1], call);
+        System.out.println(bill);
+        System.out.println(call);
+
+        System.exit(1);
+        }
     }
-    // [no option] given and [print + no_arguments] and
-    // [print + few less arguments]
 
     System.exit(0);
   }
 
   private static Boolean validateArgs(String[] args) {
+
     String regexName = "[a-zA-Z0-9.-]*";
     String regexPhoneNo = "^\\d{3}-\\d{3}-\\d{4}$";
     String regexDate = "/^(0?[1-9]|1[0-2])\\/(0?[1-9]|1\\d|2\\d|3[01])\\/(19|20)\\d{2}$/";
@@ -78,31 +78,39 @@ public class Project1 {
     if(args.length < 8){
      //throw new IllegalNumberOfArgumentException(usage);
      // throw new NotSufficientArguments(usage);
+      System.err.println("Not Sufficient number of arguments, to perform -print function");
       return false;
     }
 
     if(args.length == 8) {
+
       if (Pattern.matches(regexName, args[1]) &
               Pattern.matches(regexPhoneNo, args[2]) &
               Pattern.matches(regexPhoneNo, args[3])){
+
         return true;
       }
-      else {
+      /*else {
         //throw new IllegalFormatOfDataException();
+        System.err.println("The given Format of one or more arguments is not accepted");
         return false;
-      }
+      }*/
+      return false;
     }
-    //System.err.println("Given Name in in wrong Fromat (should not contain ant special charecters)\nit can contain - and  _ and Numbers");
+
+    System.err.println("The Arguments required are 7. seems like you have entered more number of arguments.");
     return false;
   }
 
   private static void printReadME() {
+
     try (InputStream readme = Project1.class.getResourceAsStream("README.txt")) {
       BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
       String line = reader.readLine();
-      System.out.println(line);
+      System.out.println("data = "+ line);
     } catch (IOException e) {
       System.err.println(e);
     }
   }
+
 }

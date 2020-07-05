@@ -29,57 +29,28 @@ public class Project1IT extends InvokeMainTestCase {
    */
 
   @Test
-  public void testNoCommandLineArguments() {
-    MainMethodResult result = invokeMain();
+  public void NoCommandLineArgumentsAndOptions() {
+    MainMethodResult result = invokeMain(Project1.class);
     assertThat(result.getExitCode(), equalTo(1));
     assertThat(result.getTextWrittenToStandardError(), containsString("Missing command line arguments"));
   }
 
-  /**
-   * If its -README exits code is 1 else 0
-   * */
   @Test
-  public void testOneCommandLineArgumentsIfREADMEorNot() {
-    MainMethodResult result = invokeMain(Project1.class, "-README");
-    assertThat(result.getExitCode(), equalTo(1));
-  }
-
-  @Test
-  public void ifOneArgIsREADMEPrintFile(){
-      MainMethodResult result = invokeMain(Project1.class, "-README");
+    public void ifREADMEGivenAsAnOptionAtOneOrTwoPrintFileAndExit(){
+      MainMethodResult result = invokeMain("-print", "-README", "-1SreeV2", "123-123-1234", "111-222-3333","1/15/2020", "19:39", "1/15/2020", "20:39");
+      assertThat(result.getExitCode(), equalTo(1));
       assertThat(result.getTextWrittenToStandardOut(), containsString("This is a README file!"));
   }
 
-  @Test//(expected = IllegalArgumentException.class)
-  public void ifOneArgIsNeitherREADMENorPrintThroeIllegalArgExceptionAndExitWithZero(){
-      MainMethodResult result = invokeMain(Project1.class, "sree");
-      assertThat(result.getExitCode(), equalTo(0));
-      }
-
-
   @Test
-  public void passAnyLengthArgumentAndIfREADMEAtOneOrTwoThenPrintfile(){
-      MainMethodResult result = invokeMain(Project1.class, "-README", "-print");
-      //MainMethodResult result = invokeMain(Project1.class,"-print","-README");
-      //MainMethodResult result = invokeMain(Project1.class,"-print","-README","sree","123-123-1234");
-      //MainMethodResult result = invokeMain(Project1.class,"-print","sree","123-123-1234","-README");
-      assertThat(result.getExitCode(), equalTo(1));
-      //assertThat(result.getTextWrittenToStandardOut(), containsString("This is a README file!"));
+    public void ifPrintOptionIsGivenAllArgsNotGiven(){
+      MainMethodResult result = invokeMain(Project1.class, "-print","-1SreeV2", "123-123-1234" );
+      assertThat(result.getTextWrittenToStandardError(), containsString("Not Sufficient number of arguments, to perform -print function"));
   }
     @Ignore
-  @Test//(expected = IllegalNumberOfArgumentException.class)
-  public void onlyPrintOptionIsSentWithoutArgumemnts(){
-      MainMethodResult result = invokeMain(Project1.class,"-print");
-      assertThat(result.getExitCode(), equalTo(0));
-  }
-
   @Test
-  public void validNameIsAStringFormat(){
-    //can have -, numbers, _, " ",., alphabets
-    // should not contain "special char"
-        MainMethodResult result = invokeMain(Project1.class, "-print", "-1SreeV2", "123-123-1234", "123-123-1234","1/15/2020", "19:39", "1/15/2020", "19:39" );
-        assertThat(result.getExitCode(),equalTo(1));
-      //assertThat(result.getTextWrittenToStandardOut(), containsString("sree"));
+    public void ifGivenAllArgsValidateNameFormat(){
+      MainMethodResult result = invokeMain(Project1.class, "-print", "-1SreeV2", "123-123-1234", "111-222-3333","1/15/2020", "19:39", "1/15/2020", "20:39");
   }
 
 }
