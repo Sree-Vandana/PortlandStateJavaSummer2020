@@ -40,7 +40,7 @@ public class PhoneCallTest {
 
   @Test
   public void getCallerMethodReturnsPhoneNumber(){
-    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "1/15/2020 19:39", "1/15/2020 19:39"};
+    String[] strArray = new String[]{"-print", "sree", "123-123-1234", "123-123-1234", "1/15/2020", "19:39", "1/15/2020", "19:39"};
     PhoneCall pc = new PhoneCall(strArray);
 
     assertThat(pc.getCaller(), containsString("123-123-1234"));
@@ -48,7 +48,7 @@ public class PhoneCallTest {
 
   @Test
   public void getCalleeMethodReturnsPhoneNumber(){
-    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "1/15/2020 19:39", "1/15/2020 19:39"};
+    String[] strArray = new String[]{"-print", "sree", "123-123-1234", "123-123-1234", "1/15/2020", "19:39", "1/15/2020", "19:39"};
     PhoneCall pc = new PhoneCall(strArray);
 
     assertThat(pc.getCallee(), containsString("123-123-1234"));
@@ -56,33 +56,19 @@ public class PhoneCallTest {
 
   @Test
   public void getStartTimeStringReturnsAStartTimeAndDate(){
-    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "1/15/2020 19:39", "1/15/2020 19:39"};
+    String[] strArray = new String[]{"-print", "sree", "123-123-1234", "123-123-1234", "1/15/2020", "19:39", "1/15/2020", "19:39"};
     PhoneCall pc = new PhoneCall(strArray);
 
-    assertThat(pc.getStartTimeString(), containsString("1/15/2020 19:39"));
+    assertThat(pc.getStartTimeString(), containsString("19:39"));
   }
 
   @Test
   public void getEndtTimeStringReturnsEndTimeAndDate(){
-    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "1/15/2020 19:39", "1/15/2020 19:40"};
+    String[] strArray = new String[]{"-print", "sree", "123-123-1234", "123-123-1234", "1/15/2020", "19:39", "1/15/2020", "19:40"};
     PhoneCall pc = new PhoneCall(strArray);
 
-    assertThat(pc.getEndTimeString(), containsString("1/15/2020 19:40"));
+    assertThat(pc.getEndTimeString(), containsString("19:40"));
   }
-
-
-/*
-  @Test(expected = PhoneNumberFormatException.class)
-  public void isCallerNuminCorrectFormat(){
-    //nnn-nnn-nnnn
-    String[] strArray = new String[]{"sree", "123-123-124", "123-123-1234", "1/15/2020 19:39", "1/15/2020 19:39"};
-    PhoneCall pc = new PhoneCall(strArray);
-
-    String regex = "^\\d{3}-\\d{3}-\\d{4}$";
-    assertTrue(Pattern.matches(regex, pc.getCaller()));
-  }
-*/
-
 
   @Ignore
   @Test

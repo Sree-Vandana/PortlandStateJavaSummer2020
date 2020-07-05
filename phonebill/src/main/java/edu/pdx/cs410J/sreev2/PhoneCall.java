@@ -17,10 +17,10 @@ public class PhoneCall extends AbstractPhoneCall{
   }
 
   public PhoneCall(final String[] args){
-    this.callerNum = args[1];
-    this.calleeNum = args[2];
-    this.startTimeString = args[3];
-    this.endTimeString = args[4];
+    this.callerNum = args[2];
+    this.calleeNum = args[3];
+    this.startTimeString = args[5];
+    this.endTimeString = args[7];
 
   }
 

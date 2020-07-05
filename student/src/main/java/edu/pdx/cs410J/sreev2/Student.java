@@ -88,8 +88,9 @@ public class Student extends Human {
     Double gpa = 4.0;
     String gender = "female";
     Student sreev2 = new Student(name, classes, gpa, gender);
+    System.out.println("student obj = "+ sreev2);
     String output = sreev2.toString();
-    System.out.println(output);
+    System.out.println("output = "+output);
 
     /*for (String arg : args) {
       System.out.println(arg);
