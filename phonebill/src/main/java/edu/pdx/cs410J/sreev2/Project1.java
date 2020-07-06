@@ -90,13 +90,57 @@ public class Project1 {
       boolean phno1 = isValidatePhoneNumber(args[2]);
       if(phno1 == true){
         System.out.println("good phone number");
-       return true;
+       //return true;
       }
       else {
         System.out.println("The 1st phone number you entered is not in correct format");
-       return false;
+       //return false;
       }
 
+      boolean phno2 = isValidatePhoneNumber(args[3]);
+      if(phno2 == true){
+        System.out.println("good phone number");
+      }
+      else {
+        System.out.println("The 2nd phone number you entered is not in correct format");
+      }
+
+      boolean date1 = isValidateDate(args[4]);
+      if(date1 == true){
+        System.out.println("good 1st date");
+      }
+      else {
+        System.out.println("the 1st date you entered, is in wrong fromat");
+      }
+
+      boolean date2 = isValidateDate(args[6]);
+      if(date2 == true){
+        System.out.println("good 2nd date");
+      }
+      else {
+        System.out.println("the 2nd date you entered, is in wrong fromat");
+      }
+
+      boolean time1 = isValidateTime(args[5]);
+      if(time1 == true){
+        System.out.println("good 1st time");
+      }
+      else {
+        System.out.println("the 1st time you entered, is in wrong fromat");
+      }
+
+      boolean time2 = isValidateTime(args[7]);
+      if(time2 == true){
+        System.out.println("good 2nd time");
+      }
+      else {
+        System.out.println("the 2nd time you entered, is in wrong fromat");
+      }
+
+      if(phno1 == true & phno2 == true & date1 == true & date2 == true & time1 == true & time2 == true){
+        return true;
+      }
+      else return false;
 
 
 
@@ -131,8 +175,20 @@ public class Project1 {
   }
 
   private static boolean isValidatePhoneNumber(String phoneNumber){
-    String regexPhoneNo = "^\\d{3}[\\s.-]\\d{3}[\\s.-]\\d{4}$";
+    String regexPhoneNo = "^\\d{3}[\\s-]\\d{3}[\\s-]\\d{4}$";
     boolean bool = Pattern.matches(regexPhoneNo, phoneNumber);
+    return bool;
+  }
+
+  private static boolean isValidateDate(String date){
+    String regexDate = "^(0?[1-9]|1[0-2])/(0?[1-9]|1\\d|2\\d|3[01])/(19|20)\\d{2}$";
+    boolean bool = Pattern.matches(regexDate, date);
+    return bool;
+  }
+
+  private static boolean isValidateTime(String time){
+    String regexTime = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
+    boolean bool = Pattern.matches(regexTime, time);
     return bool;
   }
 
