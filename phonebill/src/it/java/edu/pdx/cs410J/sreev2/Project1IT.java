@@ -47,10 +47,21 @@ public class Project1IT extends InvokeMainTestCase {
       MainMethodResult result = invokeMain(Project1.class, "-print","-1SreeV2", "123-123-1234" );
       assertThat(result.getTextWrittenToStandardError(), containsString("Not Sufficient number of arguments, to perform -print function"));
   }
-    @Ignore
+
+  @Ignore
   @Test
-    public void ifGivenAllArgsValidateNameFormat(){
-      MainMethodResult result = invokeMain(Project1.class, "-print", "-1SreeV2", "123-123-1234", "111-222-3333","1/15/2020", "19:39", "1/15/2020", "20:39");
+    public void ifGiveAllArgsValid(){
+      MainMethodResult result = invokeMain(Project1.class, "-print", "-1SreeV2?", "123-123-1234", "111-222-3333","1/15/2020", "19:39", "1/15/2020", "20:39");
+      //assertThat(result.getExitCode(), equalTo(1));
+     assertThat(result.getTextWrittenToStandardOut(), containsString("sjn"));
+
   }
+
+  @Test
+  public void isValidatePhoneNumber(){
+    MainMethodResult result = invokeMain(Project1.class, "-print", "-1SreeV2?", "123", "111-222-3333","1/15/2020", "19:39", "1/15/2020", "20:39");
+    assertThat(result.getTextWrittenToStandardOut(), containsString("The 1st phone number you entered is not in correct format"));
+  }
+
 
 }

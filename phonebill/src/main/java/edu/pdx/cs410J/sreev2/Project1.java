@@ -1,5 +1,6 @@
 package edu.pdx.cs410J.sreev2;
 
+import com.sun.jdi.connect.Connector;
 import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.AbstractPhoneCall;
 
@@ -11,6 +12,8 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Collection;
 import edu.pdx.cs410J.sreev2.NotSufficientArguments;
+
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -71,8 +74,8 @@ public class Project1 {
   private static Boolean validateArgs(String[] args) {
 
     String regexName = "[a-zA-Z0-9.-]*";
-    String regexPhoneNo = "^\\d{3}-\\d{3}-\\d{4}$";
-    String regexDate = "/^(0?[1-9]|1[0-2])\\/(0?[1-9]|1\\d|2\\d|3[01])\\/(19|20)\\d{2}$/";
+    String regexPhoneNo = "^\\(?\\d{3}\\)?[\\s-]?\\d{3}[\\s-]?\\d{4}$";
+    String regexDate = "^(0?[1-9]|1[0-2])/(0?[1-9]|1\\d|2\\d|3[01])/(19|20)\\d{2}$";
     String regexTime = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
 
     if(args.length < 8){
@@ -84,18 +87,32 @@ public class Project1 {
 
     if(args.length == 8) {
 
-      if (Pattern.matches(regexName, args[1]) &
-              Pattern.matches(regexPhoneNo, args[2]) &
-              Pattern.matches(regexPhoneNo, args[3])){
+      boolean phno1 = isValidatePhoneNumber(args[2]);
+      if(phno1 == true){
+        System.out.println("good phone number");
+       return true;
+      }
+      else {
+        System.out.println("The 1st phone number you entered is not in correct format");
+       return false;
+      }
 
+
+
+
+
+      /*if (Pattern.matches(regexName, args[1]) &
+              Pattern.matches(regexPhoneNo, args[2]) &
+              Pattern.matches(regexPhoneNo, args[3])) {
         return true;
       }
-      /*else {
+      else {
         //throw new IllegalFormatOfDataException();
-        System.err.println("The given Format of one or more arguments is not accepted");
+       System.err.println("The given Format of one or more arguments is not accepted");
+       System.out.println(Pattern.matches(regexName, args[1]));
         return false;
       }*/
-      return false;
+
     }
 
     System.err.println("The Arguments required are 7. seems like you have entered more number of arguments.");
@@ -111,6 +128,12 @@ public class Project1 {
     } catch (IOException e) {
       System.err.println(e);
     }
+  }
+
+  private static boolean isValidatePhoneNumber(String phoneNumber){
+    String regexPhoneNo = "^\\d{3}[\\s.-]\\d{3}[\\s.-]\\d{4}$";
+    boolean bool = Pattern.matches(regexPhoneNo, phoneNumber);
+    return bool;
   }
 
 }
