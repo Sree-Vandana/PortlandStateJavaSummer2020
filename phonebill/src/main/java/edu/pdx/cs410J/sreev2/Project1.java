@@ -15,30 +15,66 @@ import java.util.regex.Pattern;
  */
 public class Project1 {
 
-  private static final int minArgsLen = 7;
+  /**
+   * arguments of type <code>String</code>
+   * */
+  private static final String arguments = "<customer>  <callerNumber>  <calleeNumber>  <start Date>  <start time>  <end Date>  <end time> \n";
+
+  /**
+   * usage of type <code>String</code>
+   * */
   private static final String usage = "Expected input\n" +
           "java edu.pdx.cs410J.<login-id>.Project1 [options] <args>\n" +
-          "<args> are (in this order):\n" +
-          "<customer>  <callerNumber>  <calleeNumber>  " +
-          "<start Date>  <start time>  " +
-          "<end Date>  <end time>  \n" +
           "[options] = [-print -README] can appear in any order\n" +
-          "The <args> should be given in String format." +
-          "please give the date in format \"mm/dd/yyyy\" " +
-          "and time in format \"hh:mm\"";
+          "<args> are in this order:\n" +
+           arguments+ "The <args> should be given in String.\n";
+
+  /**
+   * format of type <code>String</code>
+   * */
+  private  static final String format = "please follow these format's for phone number, Date and Time\n" +
+          "Phone Number : nnn-nnn-nnnn\n" +
+          "Date : mm/dd/yyyy\n" +
+          "Time : hh:mm\n" +
+          "Arguments Required:\n" + arguments;
+
+  /**
+   * @param args
+   *        [Options] <arguments>
+   *        [-README -print] "<customer>  <callerNumber>  <calleeNumber>  <start Date>  <start time>  <end Date>  <end time>
+   *
+   * 3 cases can happen in this main method
+   * <var>length</var> = length of command line Arguments
+   * CASE 1: length = 0
+   * CASE 2: length <= 9
+   *          [Sub case's]
+   *          CASE i:   -README option present in given arguments as 1st or 2nd Argument
+   *          CASE ii:  NO -README but -print Option is given as 1st Argument
+   *          CASE iii: NO Options Provided
+   * CASE 3: length > 9
+   * */
 
   public static void main(String[] args) {
 
     var length = args.length;
 
+    /*
+    * CASE 1
+    * */
     if (length == 0) {
       System.err.println("Missing command line arguments");
       System.err.println(usage);
       System.exit(1);
     }
 
+    /*
+    * CASE 2
+    * */
     else if (length <= 9) {
 
+      /*
+      * CASE i
+      * */
       if (Arrays.asList(args).contains("-README") &
               Arrays.asList(args).indexOf("-README") < 2) {
 
@@ -47,6 +83,11 @@ public class Project1 {
         System.exit(1);
       }
 
+      /*
+       * CASE ii
+       * -Check if all the required Arguments are given to perform -print Operation.
+       *  (using validateArgs method)
+       * */
       else if(Arrays.asList(args).contains("-print") &
                 Arrays.asList(args).indexOf("-print") < 1 &
               validateArgs(args)){
@@ -58,103 +99,97 @@ public class Project1 {
 
         System.exit(1);
         }
+
+      /*
+      * CASE iii = No options Provided
+      * */
+      System.err.println("No Options Provided.\nExit.");
     }
 
+    /*
+    * CASE 3
+    * */
+    System.err.println("Seems like you have entered more than the required Arguments.\n"
+            + "Required Arguments:\n" + arguments);
     System.exit(0);
   }
 
+  /**
+   * @param args args of type <code>String[]</code>
+   * @return boolean
+   *
+   * -print <arguments>name, CallerNum, CalleeNum, StartDate, StartTime, EndDate, EndTime</arguments>
+   * 1st If: Check if all required Arguments are given
+   * 2nd If: If all options are given;
+   *         check if they are in correct Format
+   *         if in correct Format - return true
+   *         else                 - return false
+   * */
   private static Boolean validateArgs(String[] args) {
 
-    String regexName = "[a-zA-Z0-9.-]*";
-    String regexPhoneNo = "^\\(?\\d{3}\\)?[\\s-]?\\d{3}[\\s-]?\\d{4}$";
-    String regexDate = "^(0?[1-9]|1[0-2])/(0?[1-9]|1\\d|2\\d|3[01])/(19|20)\\d{2}$";
-    String regexTime = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
-
+    /*
+    * 1st If
+    * */
     if(args.length < 8){
      //throw new IllegalNumberOfArgumentException(usage);
      // throw new NotSufficientArguments(usage);
-      System.err.println("Not Sufficient number of arguments, to perform -print function");
+      System.err.println("Not Sufficient number of arguments, to perform -print function\n"
+              + "Required Arguments\n" + arguments);
       return false;
     }
 
+    /*
+    * 2nd If
+    * */
     if(args.length == 8) {
 
       boolean phno1 = isValidatePhoneNumber(args[2]);
-      if(phno1 == true){
-        System.out.println("good phone number");
-       //return true;
-      }
-      else {
-        System.out.println("The 1st phone number you entered is not in correct format");
-       //return false;
+      if(!phno1){
+        System.err.println("The CallerNumber you entered is not in correct format\n" + format);
       }
 
       boolean phno2 = isValidatePhoneNumber(args[3]);
-      if(phno2 == true){
-        System.out.println("good phone number");
-      }
-      else {
-        System.out.println("The 2nd phone number you entered is not in correct format");
+      if(!phno2){
+       System.err.println("The CalleeNumber you entered is not in correct format\n" + format);
       }
 
       boolean date1 = isValidateDate(args[4]);
-      if(date1 == true){
-        System.out.println("good 1st date");
-      }
-      else {
-        System.out.println("the 1st date you entered, is in wrong fromat");
+      if(!date1){
+        System.err.println("The StartDate you entered, is in wrong format\n" + format);
       }
 
       boolean date2 = isValidateDate(args[6]);
-      if(date2 == true){
-        System.out.println("good 2nd date");
-      }
-      else {
-        System.out.println("the 2nd date you entered, is in wrong fromat");
+      if(!date2){
+        System.err.println("The EndDate you entered, is in wrong format\n" + format);
       }
 
       boolean time1 = isValidateTime(args[5]);
-      if(time1 == true){
-        System.out.println("good 1st time");
-      }
-      else {
-        System.out.println("the 1st time you entered, is in wrong fromat");
+      if(!time1){
+        System.err.println("The StartTime you entered, is in wrong format\n" + format);
       }
 
       boolean time2 = isValidateTime(args[7]);
-      if(time2 == true){
-        System.out.println("good 2nd time");
-      }
-      else {
-        System.out.println("the 2nd time you entered, is in wrong fromat");
+      if(!time2){
+        System.err.println("The EndTime you entered, is in wrong format\n" + format);
       }
 
-      if(phno1 == true & phno2 == true & date1 == true & date2 == true & time1 == true & time2 == true){
+      if(phno1 & phno2 & date1 & date2 & time1 & time2){
         return true;
       }
       else return false;
 
-
-
-
-      /*if (Pattern.matches(regexName, args[1]) &
-              Pattern.matches(regexPhoneNo, args[2]) &
-              Pattern.matches(regexPhoneNo, args[3])) {
-        return true;
-      }
-      else {
-        //throw new IllegalFormatOfDataException();
-       System.err.println("The given Format of one or more arguments is not accepted");
-       System.out.println(Pattern.matches(regexName, args[1]));
-        return false;
-      }*/
-
     }
 
-    System.err.println("The Arguments required are 7. seems like you have entered more number of arguments.");
+    /*
+    * If more than required Arguments are given
+    * */
+    System.err.println("The Arguments required are 7. seems like you have entered more than required Arguments." + arguments);
     return false;
   }
 
+  /**
+   * Access the README.txt and print it when -README is given as an Option
+   * */
   private static void printReadME() {
 
     try (InputStream readme = Project1.class.getResourceAsStream("README.txt")) {
@@ -166,22 +201,37 @@ public class Project1 {
     }
   }
 
+  /**
+   * @param phoneNumber
+   * @return boolean
+   *
+   * Method for validating PhoneNumber Format (nnn-nnn-nnnn)
+   * */
   private static boolean isValidatePhoneNumber(String phoneNumber){
     String regexPhoneNo = "^\\d{3}[\\s-]\\d{3}[\\s-]\\d{4}$";
-    boolean bool = Pattern.matches(regexPhoneNo, phoneNumber);
-    return bool;
+    return Pattern.matches(regexPhoneNo, phoneNumber);
   }
 
+  /**
+   * @param date
+   * @return boolean
+   *
+   * Method for validating Date Format (mm/dd/yyyy)
+   * */
   private static boolean isValidateDate(String date){
     String regexDate = "^(0?[1-9]|1[0-2])/(0?[1-9]|1\\d|2\\d|3[01])/(19|20)\\d{2}$";
-    boolean bool = Pattern.matches(regexDate, date);
-    return bool;
+    return Pattern.matches(regexDate, date);
   }
 
+  /**
+   * @param time
+   * @return boolean
+   *
+   * Method for validating Time Format (hh:mm)
+   * */
   private static boolean isValidateTime(String time){
     String regexTime = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
-    boolean bool = Pattern.matches(regexTime, time);
-    return bool;
+    return Pattern.matches(regexTime, time);
   }
 
 }

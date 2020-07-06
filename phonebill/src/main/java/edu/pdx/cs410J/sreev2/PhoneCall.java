@@ -6,57 +6,84 @@ import java.util.Date;
 
 public class PhoneCall extends AbstractPhoneCall{
 
+  /**
+   * callerNum, calleeNum, startTimeString, endTimeString of type <code>String</code>
+   * */
   private String callerNum;
   private String calleeNum;
   private String startTimeString;
   private String endTimeString;
 
-
+  /**
+   * Default constructor
+   * */
   public PhoneCall() {
     super();
   }
 
+  /**
+   * Constructor PhoneCall assigns value to global values
+   * @param args args <code>String</code>
+   * */
   public PhoneCall(final String[] args){
     this.callerNum = args[2];
     this.calleeNum = args[3];
     this.startTimeString = args[5];
     this.endTimeString = args[7];
-
   }
 
+  /**
+   * <method>getCaller</method> has no parameter
+   * @return callerNum of type <code>String</code>
+   * */
   @Override
   public String getCaller() {
-   // throw new UnsupportedOperationException("This method is not implemented yet");
     return callerNum;
   }
 
+  /**
+   * <method>getCallee</method> has no parameter
+   * @return calleeNum of type <code>String</code>
+   * */
   @Override
   public String getCallee() {
     return calleeNum;
   }
 
-
+  /**
+   * <method>getStartTime</method> has no parameter
+   * @return satrtTime of type <code>Date</code>
+   * */
   @Override
   public Date getStartTime() {
     return super.getStartTime();
   }
 
+  /**
+   * <method>getEndTime</method> has no parameter
+   * @return endTime of type <code>Date</code>
+   * */
   @Override
   public Date getEndTime() {
     return super.getEndTime();
   }
 
+  /**
+   * <method>getStartTimeString</method> has no parameter
+   * @return satrtTime of type <code>String</code>
+   * */
   @Override
   public String getStartTimeString() {
-    //throw new UnsupportedOperationException("This method is not implemented yet");
     return startTimeString;
   }
 
+  /**
+   * <method>getEndTime</method> has no parameter
+   * @return endTime of type <code>String</code>
+   * */
   @Override
   public String getEndTimeString() {
-    //throw new UnsupportedOperationException("This method is not implemented yet");
     return endTimeString;
   }
-
 
 }

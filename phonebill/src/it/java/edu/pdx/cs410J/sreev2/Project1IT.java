@@ -48,53 +48,56 @@ public class Project1IT extends InvokeMainTestCase {
       assertThat(result.getTextWrittenToStandardError(), containsString("Not Sufficient number of arguments, to perform -print function"));
   }
 
-  @Ignore
   @Test
     public void ifGiveAllArgsValid(){
       MainMethodResult result = invokeMain(Project1.class, "-print", "-1SreeV2?", "123-123-1234", "111-222-3333","1/15/2020", "19:39", "1/15/2020", "20:39");
-      //assertThat(result.getExitCode(), equalTo(1));
-     assertThat(result.getTextWrittenToStandardOut(), containsString("sjn"));
-
+      assertThat(result.getExitCode(), equalTo(1));
   }
 
   @Test
   public void isValidateFirstPhoneNumber(){
     MainMethodResult result = invokeMain(Project1.class, "-print", "-1SreeV2?", "123-45-7890", "111-222-3333","1/15/2020", "19:39", "1/15/2020", "20:39");
-    assertThat(result.getTextWrittenToStandardOut(), containsString("The 1st phone number you entered is not in correct format"));
+    assertThat(result.getTextWrittenToStandardError(), containsString("The CallerNumber you entered is not in correct format"));
   }
 
   @Test
   public void isValidateSecondPhoneNumber(){
     MainMethodResult result = invokeMain(Project1.class, "-print", "-1SreeV2?", "123-456-7890", "1-222-333","1/15/2020", "19:39", "1/15/2020", "20:39");
-    assertThat(result.getTextWrittenToStandardOut(), containsString("The 2nd phone number you entered is not in correct format"));
+    assertThat(result.getTextWrittenToStandardError(), containsString("The CalleeNumber you entered is not in correct format"));
   }
 
   @Test
   public void isValidFirstDate(){
     // wrong Formats: 13/11/2020; 12/32/2020
     MainMethodResult result = invokeMain(Project1.class, "-print", "-1SreeV2?", "123-456-7890", "111-222-3333","12/32/2020", "19:39", "1/15/2020", "20:39");
-    assertThat(result.getTextWrittenToStandardOut(), containsString("the 1st date you entered, is in wrong fromat"));
+    assertThat(result.getTextWrittenToStandardError(), containsString("The StartDate you entered, is in wrong format"));
   }
 
   @Test
   public void isValidSecondDate(){
     // wrong Formats: 13/11/2020; 12/32/2020
     MainMethodResult result = invokeMain(Project1.class, "-print", "-1SreeV2?", "123-456-7890", "111-222-3333","1/31/2020", "19:39", "13/15/2020", "20:39");
-    assertThat(result.getTextWrittenToStandardOut(), containsString("the 2nd date you entered, is in wrong fromat"));
+    assertThat(result.getTextWrittenToStandardError(), containsString("The EndDate you entered, is in wrong format"));
   }
 
   @Test
   public void isValidFirstTime(){
     // wrong fromat: 24:39; 2:60
     MainMethodResult result = invokeMain(Project1.class, "-print", "-1SreeV2?", "123-456-7890", "111-222-3333","1/31/2020", "2:60", "12/15/2020", "20:39");
-    assertThat(result.getTextWrittenToStandardOut(), containsString("the 1st time you entered, is in wrong fromat"));
+    assertThat(result.getTextWrittenToStandardError(), containsString("The StartTime you entered, is in wrong format"));
   }
 
   @Test
   public void isValidSecondTime(){
     // wrong fromat: 24:39; 2:60
     MainMethodResult result = invokeMain(Project1.class, "-print", "-1SreeV2?", "123-456-7890", "111-222-3333","1/31/2020", "2:06", "12/15/2020", "24:39");
-    assertThat(result.getTextWrittenToStandardOut(), containsString("the 2nd time you entered, is in wrong fromat"));
+    assertThat(result.getTextWrittenToStandardError(), containsString("The EndTime you entered, is in wrong format"));
+  }
+
+  @Test
+  public void moreNumberOfArgumentsEntered(){
+    MainMethodResult result = invokeMain(Project1.class, "-1SreeV2?", "123-456-7890", "111-222-3333","1/31/2020", "2:06", "12/15/2020", "24:39", "-1SreeV2?", "123-456-7890", "111-222-3333","1/31/2020", "2:06", "12/15/2020", "24:39");
+    assertThat(result.getTextWrittenToStandardError(), containsString("Seems like you have entered more than the required Arguments."));
   }
 
 }
