@@ -99,6 +99,7 @@ public class Project1IT extends InvokeMainTestCase {
     assertThat(result.getTextWrittenToStandardError(), containsString("Seems like you have entered more than the required Arguments."));
   }
 
+
   @Test
   public void noOptionsWithFewDataArgsmustPrintOnlyNoOptionsProvidedStatement(){
     MainMethodResult result = invokeMain(Project1.class, "sree", "123-123-4");

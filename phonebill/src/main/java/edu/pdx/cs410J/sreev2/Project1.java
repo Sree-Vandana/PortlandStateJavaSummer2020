@@ -102,13 +102,9 @@ public class Project1 {
       /*
       * CASE iii = No options Provided
       * */
-      if(!(Arrays.asList(args).contains("-README") &
-              Arrays.asList(args).indexOf("-README") < 2) & !(Arrays.asList(args).contains("-print") &
-              Arrays.asList(args).indexOf("-print")< 1)){
-        System.out.println("No Options Provided.\nExit.");
-        System.exit(1);
-      }
 
+     // System.err.println("no options\n");
+      System.exit(1);
 
     }
 
@@ -139,7 +135,7 @@ public class Project1 {
     /*
     * 1st If
     * */
-    if(args.length < 8){
+    if(args.length < 8 & (Arrays.asList(args).contains("-print") & Arrays.asList(args).indexOf("-print") < 1)){
      //throw new IllegalNumberOfArgumentException(usage);
      // throw new NotSufficientArguments(usage);
       System.err.println("Not Sufficient number of arguments, to perform -print function\n"
