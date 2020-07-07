@@ -102,9 +102,11 @@ public class Project1 {
       /*
       * CASE iii = No options Provided
       * */
-      if(!Arrays.asList(args).contains("-README") & !Arrays.asList(args).contains("-print")){
-        System.err.println("No Options Provided.\nExit.");
-        System.exit(0);
+      if(!(Arrays.asList(args).contains("-README") &
+              Arrays.asList(args).indexOf("-README") < 2) & !(Arrays.asList(args).contains("-print") &
+              Arrays.asList(args).indexOf("-print")< 1)){
+        System.out.println("No Options Provided.\nExit.");
+        System.exit(1);
       }
 
 

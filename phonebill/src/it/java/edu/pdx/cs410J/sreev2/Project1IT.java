@@ -7,8 +7,7 @@ import org.junit.Test;
 import java.util.IllegalFormatException;
 import java.util.regex.Pattern;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -98,6 +97,12 @@ public class Project1IT extends InvokeMainTestCase {
   public void moreNumberOfArgumentsEntered(){
     MainMethodResult result = invokeMain(Project1.class, "-1SreeV2?", "123-456-7890", "111-222-3333","1/31/2020", "2:06", "12/15/2020", "24:39", "-1SreeV2?", "123-456-7890", "111-222-3333","1/31/2020", "2:06", "12/15/2020", "24:39");
     assertThat(result.getTextWrittenToStandardError(), containsString("Seems like you have entered more than the required Arguments."));
+  }
+
+  @Test
+  public void noOptionsWithFewDataArgsmustPrintOnlyNoOptionsProvidedStatement(){
+    MainMethodResult result = invokeMain(Project1.class, "sree", "123-123-4");
+    assertThat(result.getTextWrittenToStandardOut(), not(containsString("Not Sufficient number of arguments, to perform -print function")));
   }
 
 }
