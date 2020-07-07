@@ -124,8 +124,8 @@ public class Project1 {
 
     /*
     * CASE 3
-    * NO options and too much data
-    * options given and too much data
+    * 1st if : NO options and too much data
+    * 2nd if : options given and too much data
     * */
     if(!(Arrays.asList(args).contains("-README") & Arrays.asList(args).indexOf("-README") < 2) &
             !(Arrays.asList(args).contains("-print") & Arrays.asList(args).indexOf("-print")<2)){
@@ -149,8 +149,8 @@ public class Project1 {
    * 1st If: Check if all required Arguments are given
    * 2nd If: If all options are given;
    *         check if they are in correct Format
-   *         if in correct Format - return true
-   *         else                 - return false
+   *         if in correct Format - @return true
+   *         else                 - @return false
    * */
   private static Boolean validateArgs(String[] args) {
 
@@ -169,10 +169,6 @@ public class Project1 {
     * 2nd If
     * */
     if(args.length == 8) {
-
-      String regexPhoneNo = "^\\d{3}[\\s-]\\d{3}[\\s-]\\d{4}$";
-      String regexDate = "^(0?[1-9]|1[0-2])/(0?[1-9]|1\\d|2\\d|3[01])/(19|20)\\d{2}$";
-      String regexTime = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
 
       boolean phno1 = isValidatePhoneNumber(args[2]);
       if(!phno1){
