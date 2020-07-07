@@ -94,16 +94,33 @@ public class Project1IT extends InvokeMainTestCase {
   }
 
   @Test
-  public void moreNumberOfArgumentsEntered(){
+  public void moreNumberOfArgumentsEnteredWithoutOptions(){
     MainMethodResult result = invokeMain(Project1.class, "-1SreeV2?", "123-456-7890", "111-222-3333","1/31/2020", "2:06", "12/15/2020", "24:39", "-1SreeV2?", "123-456-7890", "111-222-3333","1/31/2020", "2:06", "12/15/2020", "24:39");
-    assertThat(result.getTextWrittenToStandardError(), containsString("Seems like you have entered more than the required Arguments."));
+    assertThat(result.getTextWrittenToStandardError(), containsString("You did not enter any options and the number of arguments entered are too many"));
   }
-
 
   @Test
   public void noOptionsWithFewDataArgsmustPrintOnlyNoOptionsProvidedStatement(){
     MainMethodResult result = invokeMain(Project1.class, "sree", "123-123-4");
     assertThat(result.getTextWrittenToStandardOut(), not(containsString("Not Sufficient number of arguments, to perform -print function")));
+  }
+
+  @Test
+  public void noOptionButTooFewArgumentsPrintsError(){
+    MainMethodResult result = invokeMain(Project1.class, "sree", "123-123-1234");
+    assertThat(result.getTextWrittenToStandardError(), containsString("You did not enter any options and the number of arguments entered are incomplete"));
+  }
+
+  @Test
+  public void noOptionsAndCorrectNumberOfArgumentsPrintsNothing(){
+    MainMethodResult result = invokeMain(Project1.class, "sree", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "1/15/2020", "20:06");
+    assertThat(result.getTextWrittenToStandardError(), not(containsString("You did not enter any options and the number of arguments entered are incomplete")));
+  }
+
+  @Test
+  public void noOptionButTooManyArgumentsEightAndNineraiseError(){
+    MainMethodResult result = invokeMain(Project1.class, "sree", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "1/15/2020", "20:06", "sree");
+    assertThat(result.getTextWrittenToStandardError(), containsString("You did not enter any options and the number of arguments entered are too many"));
   }
 
 }

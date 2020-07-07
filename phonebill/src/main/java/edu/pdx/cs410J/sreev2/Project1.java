@@ -88,30 +88,52 @@ public class Project1 {
        *  (using validateArgs method)
        * */
       if(Arrays.asList(args).contains("-print") &
-                Arrays.asList(args).indexOf("-print") < 1 &
-              validateArgs(args)){
+                Arrays.asList(args).indexOf("-print") < 1){
+        if(validateArgs(args)){
+          PhoneCall call = new PhoneCall(args);
+          PhoneBill bill = new PhoneBill(args[1], call);
+          System.out.println(args[1] + "'s Phone Call Information\n");
+          System.out.println(call.toString());
 
-        PhoneCall call = new PhoneCall(args);
-        PhoneBill bill = new PhoneBill(args[1], call);
-        System.out.println(bill);
-        System.out.println(call);
-
-        System.exit(1);
+          System.exit(1);
+        }
         }
 
       /*
-      * CASE iii = No options Provided
-      * */
+      CASE iii
+       * No options but too little arguments prints error
+       * No options but too many arguments prints error
+       * */
+      if(!(Arrays.asList(args).contains("-README") & Arrays.asList(args).indexOf("-README") < 2) &
+      !(Arrays.asList(args).contains("-print") & Arrays.asList(args).indexOf("-print")<2)){
+        if(args.length < 7){
+          System.err.println("You did not enter any options and the number of arguments entered are incomplete\n" +
+                  "Required Arguments:\n" + arguments);
+        }
+        if(args.length > 7){
+          System.err.println("You did not enter any options and the number of arguments entered are too many\n" +
+                  "Required Arguments:\n" + arguments);
+        }
 
-     // System.err.println("no options\n");
+        System.exit(1);
+      }
+
       System.exit(1);
 
     }
 
     /*
     * CASE 3
+    * NO options and too much data
+    * options given and too much data
     * */
-    if(length > 9) {
+    if(!(Arrays.asList(args).contains("-README") & Arrays.asList(args).indexOf("-README") < 2) &
+            !(Arrays.asList(args).contains("-print") & Arrays.asList(args).indexOf("-print")<2)){
+      System.err.println("You did not enter any options and the number of arguments entered are too many\n" +
+              "Required Arguments:\n" + arguments);
+    }
+    if((Arrays.asList(args).contains("-README") & Arrays.asList(args).indexOf("-README") < 2) ||
+            (Arrays.asList(args).contains("-print") & Arrays.asList(args).indexOf("-print")<2)){
       System.err.println("Seems like you have entered more than the required Arguments.\n"
               + "Required Arguments:\n" + arguments);
     }
@@ -148,34 +170,38 @@ public class Project1 {
     * */
     if(args.length == 8) {
 
+      String regexPhoneNo = "^\\d{3}[\\s-]\\d{3}[\\s-]\\d{4}$";
+      String regexDate = "^(0?[1-9]|1[0-2])/(0?[1-9]|1\\d|2\\d|3[01])/(19|20)\\d{2}$";
+      String regexTime = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
+
       boolean phno1 = isValidatePhoneNumber(args[2]);
       if(!phno1){
-        System.err.println("The CallerNumber you entered is not in correct format\n" + format);
+        System.err.println("The CallerNumber you entered is not in correct format\n");
       }
 
       boolean phno2 = isValidatePhoneNumber(args[3]);
       if(!phno2){
-       System.err.println("The CalleeNumber you entered is not in correct format\n" + format);
+       System.err.println("The CalleeNumber you entered is not in correct format\n");
       }
 
       boolean date1 = isValidateDate(args[4]);
       if(!date1){
-        System.err.println("The StartDate you entered, is in wrong format\n" + format);
+        System.err.println("The StartDate you entered, is in wrong format\n");
       }
 
       boolean date2 = isValidateDate(args[6]);
       if(!date2){
-        System.err.println("The EndDate you entered, is in wrong format\n" + format);
+        System.err.println("The EndDate you entered, is in wrong format\n");
       }
 
       boolean time1 = isValidateTime(args[5]);
       if(!time1){
-        System.err.println("The StartTime you entered, is in wrong format\n" + format);
+        System.err.println("The StartTime you entered, is in wrong format\n");
       }
 
       boolean time2 = isValidateTime(args[7]);
       if(!time2){
-        System.err.println("The EndTime you entered, is in wrong format\n" + format);
+        System.err.println("The EndTime you entered, is in wrong format\n");
       }
 
       if(phno1 & phno2 & date1 & date2 & time1 & time2){
@@ -204,8 +230,12 @@ public class Project1 {
 
     try (InputStream readme = Project1.class.getResourceAsStream("README.txt")) {
       BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
-      String line = reader.readLine();
-      System.out.println(line);
+      String line;
+      //String line = reader.readLine();
+      //System.out.println(line);
+      while ((line = reader.readLine()) != null) {
+        System.out.println(line);
+      }
     } catch (IOException e) {
       System.err.println(e);
     }
