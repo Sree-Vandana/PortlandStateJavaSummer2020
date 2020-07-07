@@ -35,8 +35,7 @@ public class Project1 {
   private  static final String format = "please follow these format's for phone number, Date and Time\n" +
           "Phone Number : nnn-nnn-nnnn\n" +
           "Date : mm/dd/yyyy\n" +
-          "Time : hh:mm\n" +
-          "Arguments Required:\n" + arguments;
+          "Time : hh:mm\n";
 
   /**
    * @param args
@@ -103,7 +102,7 @@ public class Project1 {
       /*
       * CASE iii = No options Provided
       * */
-      else{
+      else if(!Arrays.asList(args).contains("-README") & !Arrays.asList(args).contains("-print")){
         System.err.println("No Options Provided.\nExit.");
         System.exit(0);
       }
