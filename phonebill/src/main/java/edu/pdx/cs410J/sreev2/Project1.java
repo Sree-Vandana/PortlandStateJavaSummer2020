@@ -18,7 +18,7 @@ public class Project1 {
   /**
    * arguments of type <code>String</code>
    * */
-  private static final String arguments = "<customer>  <callerNumber>  <calleeNumber>  <start Date>  <start time>  <end Date>  <end time> \n";
+  private static final String arguments = "<customerName>  <callerNumber>  <calleeNumber>  <start Date>  <start time>  <end Date>  <end time> \n";
 
   /**
    * usage of type <code>String</code>
@@ -41,7 +41,7 @@ public class Project1 {
   /**
    * @param args
    *        [Options] <arguments>
-   *        [-README -print] "<customer>  <callerNumber>  <calleeNumber>  <start Date>  <start time>  <end Date>  <end time>
+   *        [-README -print] "<customerName>  <callerNumber>  <calleeNumber>  <start Date>  <start time>  <end Date>  <end time>
    *
    * 3 cases can happen in this main method
    * <var>length</var> = length of command line Arguments
@@ -103,15 +103,23 @@ public class Project1 {
       /*
       * CASE iii = No options Provided
       * */
-      System.err.println("No Options Provided.\nExit.");
+      else{
+        System.err.println("No Options Provided.\nExit.");
+        System.exit(0);
+      }
+
+
     }
 
     /*
     * CASE 3
     * */
-    System.err.println("Seems like you have entered more than the required Arguments.\n"
-            + "Required Arguments:\n" + arguments);
+    if(length > 9) {
+      System.err.println("Seems like you have entered more than the required Arguments.\n"
+              + "Required Arguments:\n" + arguments);
+    }
     System.exit(0);
+
   }
 
   /**
@@ -183,7 +191,9 @@ public class Project1 {
     /*
     * If more than required Arguments are given
     * */
-    System.err.println("The Arguments required are 7. seems like you have entered more than required Arguments." + arguments);
+    if(args.length > 8) {
+      System.err.println("The Arguments required are 7. seems like you have entered more than required Arguments.\n" + arguments);
+    }
     return false;
   }
 
