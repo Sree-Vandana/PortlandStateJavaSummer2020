@@ -87,7 +87,7 @@ public class Project1 {
        * -Check if all the required Arguments are given to perform -print Operation.
        *  (using validateArgs method)
        * */
-      else if(Arrays.asList(args).contains("-print") &
+      if(Arrays.asList(args).contains("-print") &
                 Arrays.asList(args).indexOf("-print") < 1 &
               validateArgs(args)){
 
@@ -102,7 +102,7 @@ public class Project1 {
       /*
       * CASE iii = No options Provided
       * */
-      else if(!Arrays.asList(args).contains("-README") & !Arrays.asList(args).contains("-print")){
+      if(!Arrays.asList(args).contains("-README") & !Arrays.asList(args).contains("-print")){
         System.err.println("No Options Provided.\nExit.");
         System.exit(0);
       }
@@ -183,7 +183,10 @@ public class Project1 {
       if(phno1 & phno2 & date1 & date2 & time1 & time2){
         return true;
       }
-      else return false;
+      else{
+        System.err.println(format);
+        return false;
+      }
 
     }
 
@@ -204,7 +207,7 @@ public class Project1 {
     try (InputStream readme = Project1.class.getResourceAsStream("README.txt")) {
       BufferedReader reader = new BufferedReader(new InputStreamReader(readme));
       String line = reader.readLine();
-      System.out.println("data = "+ line);
+      System.out.println(line);
     } catch (IOException e) {
       System.err.println(e);
     }
