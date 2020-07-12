@@ -18,20 +18,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class PhoneCallTest {
 
-  @Ignore
-  @Test(expected = UnsupportedOperationException.class)
-  public void getStartTimeStringNeedsToBeImplemented() {
-    PhoneCall call = new PhoneCall();
-    call.getStartTimeString();
-  }
-
-  @Ignore
-  @Test
-  public void initiallyAllPhoneCallsHaveTheSameCallee() {
-    PhoneCall call = new PhoneCall();
-    assertThat(call.getCallee(), containsString("not implemented"));
-  }
-
   @Test
   public void forProject1ItIsOkayIfGetStartTimeReturnsNull() {
     PhoneCall call = new PhoneCall();
@@ -69,14 +55,5 @@ public class PhoneCallTest {
 
     assertThat(pc.getEndTimeString(), containsString("19:40"));
   }
-
-  @Ignore
-  @Test
-  public void argsShouldNotBeEmpty(){
-    String args = "";
-    PhoneCall pc = new PhoneCall();
-  }
-
-
   
 }
