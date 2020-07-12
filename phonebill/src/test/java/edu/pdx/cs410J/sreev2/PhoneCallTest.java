@@ -45,7 +45,7 @@ public class PhoneCallTest {
     String[] strArray = new String[]{"-print", "sree", "123-123-1234", "123-123-1234", "1/15/2020", "19:39", "1/15/2020", "19:39"};
     PhoneCall pc = new PhoneCall(strArray);
 
-    assertThat(pc.getStartTimeString(), containsString("19:39"));
+    assertThat(pc.getStartTimeString(), containsString("1/15/2020 19:39"));
   }
 
   @Test
@@ -53,7 +53,7 @@ public class PhoneCallTest {
     String[] strArray = new String[]{"-print", "sree", "123-123-1234", "123-123-1234", "1/15/2020", "19:39", "1/15/2020", "19:40"};
     PhoneCall pc = new PhoneCall(strArray);
 
-    assertThat(pc.getEndTimeString(), containsString("19:40"));
+    assertThat(pc.getEndTimeString(), containsString("1/15/2020 19:40"));
   }
   
 }

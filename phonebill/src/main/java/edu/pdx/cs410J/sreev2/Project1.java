@@ -94,7 +94,7 @@ public class Project1 {
           PhoneBill bill = new PhoneBill(args[1], call);
           System.out.println(args[1] + "'s Phone Call Information\n");
           System.out.println(call.toString());
-          System.out.println(bill.getPhoneCalls());
+          //System.out.println(bill.getPhoneCalls());
 
           System.exit(1);
         }
