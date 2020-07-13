@@ -133,7 +133,7 @@ public class Project2IT extends InvokeMainTestCase {
     @Test
     public void moreNumberOfArgumentsEnteredWithoutOptions(){
         MainMethodResult result = invokeMain(Project2.class, "-1SreeV2?", "123-456-7890", "111-222-3333","1/31/2020", "2:06", "12/15/2020", "24:39", "-1SreeV2?", "123-456-7890", "111-222-3333","1/31/2020", "2:06", "12/15/2020", "24:39");
-        assertThat(result.getTextWrittenToStandardError(), containsString("You did not enter any options and the number of arguments entered are too many"));
+        assertThat(result.getTextWrittenToStandardError(), containsString("You did not enter any valid options and the number of arguments entered are too many"));
     }
 
     /**
@@ -152,7 +152,7 @@ public class Project2IT extends InvokeMainTestCase {
     @Test
     public void noOptionButTooFewArgumentsPrintsError(){
         MainMethodResult result = invokeMain(Project2.class, "sree", "123-123-1234");
-        assertThat(result.getTextWrittenToStandardError(), containsString("You did not enter any options and the number of arguments entered are incomplete"));
+        assertThat(result.getTextWrittenToStandardError(), containsString("You did not enter any valid options and the number of arguments entered are incomplete"));
     }
 
     /**
@@ -173,6 +173,54 @@ public class Project2IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), containsString("You did not enter any options and the number of arguments entered are too many"));
     }
 
+    @Ignore
+    @Test
+    public void givenOnlyTextFileOptionAndAllArgumentsDumpTheContentsAndExit(){
+        MainMethodResult result = invokeMain(Project2.class, "-textFile", "sreefile", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020", "20:06");
+        assertThat(result.getTextWrittenToStandardError(), containsString(""));
+
+    }
+
+    @Test
+    public void givenOnlyTextFileOptionWithoutFileNameWithPrint(){
+        MainMethodResult result = invokeMain(Project2.class, "-textFile", "-print", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020", "20:06");
+        assertThat(result.getTextWrittenToStandardError(), containsString("Not Sufficient number of arguments provided"));
+
+    }
+
+    @Test
+    public void givenOnlyTextFileOptionWithoutFileName(){
+        MainMethodResult result = invokeMain(Project2.class, "-textFile", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020", "20:06");
+        assertThat(result.getTextWrittenToStandardError(), containsString("Not Sufficient number of arguments provided"));
+
+    }
+
+    @Test
+    public void givenTextFileFileNameOptionwithtooLittelArguments(){
+        MainMethodResult result = invokeMain(Project2.class, "-textFile", "sree/sreefile", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020");
+        assertThat(result.getTextWrittenToStandardError(), containsString("Not Sufficient number of arguments provided"));
+    }
+
+    @Test
+    public void givenTextFileFileNameOptionwithtooManyArguments(){
+        MainMethodResult result = invokeMain(Project2.class, "-textFile", "sree/sreefile", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020", "20:00", "sree");
+        assertThat(result.getTextWrittenToStandardError(), containsString("The Arguments required are 7. seems like you have entered more than required Arguments"));
+    }
+
+    @Test
+    public void givenTextFileFileNameOptionalongwithPrintOutputsPhoneCall(){
+        MainMethodResult result = invokeMain(Project2.class, "-textFile", "sree/sreefile", "-print", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020", "20:00");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("sree's Phone Call Information"));
+    }
+
+
+
+    @Ignore
+    @Test
+    public void givenTextFileFileNameOptionwithCorrectArguments(){
+        MainMethodResult result = invokeMain(Project2.class, "-textFile", "sree/sreefile", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020", "20:00");
+        assertThat(result.getTextWrittenToStandardError(), containsString("Not Sufficient number of arguments provided"));
+    }
 
     @Ignore
     @Test

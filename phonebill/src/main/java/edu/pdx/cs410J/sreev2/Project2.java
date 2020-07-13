@@ -26,7 +26,8 @@ public class Project2 {
      * */
     private static final String usage = "Expected input\n" +
             "java edu.pdx.cs410J.<login-id>.Project1 [options] <args>\n" +
-            "[options] = [-print -README] can appear in any order\n" +
+            "[options] = [-textFile fileName -print -README] can appear in any order, "
+            + "but fileName must be given after -textFile option\n" +
             "<args> are in this order:\n" +
             arguments+ "The <args> should be given in String.\n";
 
@@ -76,21 +77,6 @@ public class Project2 {
                 System.exit(1);
             }
 
-            if(Arrays.asList(args).contains("-textFile") &
-                    (Arrays.asList(args).indexOf("-textFile") == 0) &
-                    !Arrays.asList(args).contains("-print")){
-                if(validateArgs(args)){
-                    //TextDumper
-                    PhoneCall call = new PhoneCall(args);
-                    PhoneBill bill = new PhoneBill(args[1], call);
-                    try {
-                        writeIntoFile(args, bill);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
             if(Arrays.asList(args).contains("-print") &
                     (Arrays.asList(args).indexOf("-print") == 0) &
                     !Arrays.asList(args).contains("-textFile")){
@@ -103,7 +89,7 @@ public class Project2 {
                         System.err.println(ex.getMessage());
                         System.exit(1);
                     }*/
-                    PhoneCall call = new PhoneCall(args);
+                    PhoneCall call = new PhoneCall(args, "p");
                     PhoneBill bill = new PhoneBill(args[1], call);
                     System.out.println(args[1] + "'s Phone Call Information\n");
                     System.out.println(call.toString());
@@ -111,37 +97,38 @@ public class Project2 {
                 }
             }
 
-            if(Arrays.asList(args).contains("-print") & Arrays.asList(args).contains("-textFile")){
-                if((Arrays.asList(args).indexOf("-print") == 0 & Arrays.asList(args).indexOf("-textFile") == 1)
-                        || Arrays.asList(args).indexOf("-textFile") == 0 & Arrays.asList(args).indexOf("-print") == 2){
-                    if(validateArgs(args)){
-                        PhoneCall call = new PhoneCall(args);
-                        PhoneBill bill = new PhoneBill(args[1], call);
-                        //TextDumper
-                        try {
+            if(Arrays.asList(args).contains("-textFile") &
+                    Arrays.asList(args).indexOf("-textFile") == 0 &
+                        !(Arrays.asList(args).contains("-print"))) {
+                        if (validateArgs(args)) {
+                            //TextDumper
+                            String name = args[2];
+                            PhoneCall call = new PhoneCall(args, "t");
+                            PhoneBill bill = new PhoneBill(name, call);
                             writeIntoFile(args, bill);
-                        } catch (IOException e) {
-                            e.printStackTrace();
                         }
-                        try {
-                            //TextParser
-                            TextParser textParser = new TextParser(args[Arrays.asList(args).indexOf("-textFile") + 1]);
-                            System.out.println(textParser.parse());
-                        }catch (Exception ex){
-                            System.err.println(ex.getMessage());
-                            System.exit(1);
-                        }
-                        System.out.println(args[1] + "'s Phone Call Information\n");
+
+                        System.exit(0);
+            }
+
+            if(Arrays.asList(args).contains("-print") & Arrays.asList(args).contains("-textFile")){
+                 if(validateArgs(args)){
+                        PhoneCall call = new PhoneCall(args, "tp");
+                        PhoneBill bill = new PhoneBill(args[3], call);
+                        //TextDumper
+                        writeIntoFile(args, bill);
+                        System.out.println(args[3] + "'s Phone Call Information\n");
                         System.out.println(call.toString());
                     }
-                }
+                    System.exit(1);
+                //}
             }
 
             if(!(Arrays.asList(args).contains("-README")) &
                     !(Arrays.asList(args).contains("-print")) &
                     !(Arrays.asList(args).contains("-textFile"))){
                 if(args.length < 7){
-                    System.err.println("You did not enter any options and the number of arguments entered are incomplete\n" +
+                    System.err.println("You did not enter any valid options and the number of arguments entered are incomplete\n" +
                             "Required Arguments:\n" + arguments);
                 }
                 if(args.length > 7){
@@ -156,7 +143,7 @@ public class Project2 {
         if(! Arrays.asList(args).contains("-README")  &
                 !Arrays.asList(args).contains("-print") &
                 !Arrays.asList(args).contains("-textFile")){
-            System.err.println("You did not enter any options and the number of arguments entered are too many\n" +
+            System.err.println("You did not enter any valid options and the number of arguments entered are too many\n" +
                     "Required Arguments:\n" + arguments);
         }
         if(Arrays.asList(args).contains("-README") ||
@@ -169,14 +156,14 @@ public class Project2 {
 
     }
 
-    private static void writeIntoFile(String[] args, PhoneBill bill) throws IOException{
+    private static void writeIntoFile(String[] args, PhoneBill bill) {
+        //TextDumper txtDumper = null;
         try {
-            TextDumper txtDumper = new TextDumper(args[Arrays.asList(args).indexOf("=textFile")+1]);
+            System.out.println(args[Arrays.asList(args).indexOf("-textFile")+1]);
+            TextDumper txtDumper = new TextDumper(args[Arrays.asList(args).indexOf("-textFile")+1]);
             txtDumper.dump(bill);
         } catch (IOException e) {
-            System.err.println("Error when trying to dump the contents into file");
             e.printStackTrace();
-            System.exit(1);
         }
     }
 
@@ -198,7 +185,7 @@ public class Project2 {
         if(Arrays.asList(args).contains("-textFile") & !Arrays.asList(args).contains("-print")){
             l = 9;
         }
-        if(Arrays.asList(args).contains("-print") & ! Arrays.asList(args).contains("-textFile")) {
+        else if(Arrays.asList(args).contains("-print") & ! Arrays.asList(args).contains("-textFile")) {
             l = 8;
         }
         //if(Arrays.asList(args).contains("-print") & Arrays.asList(args).contains("-textFile"))
@@ -215,8 +202,8 @@ public class Project2 {
             }
             else{
                 System.err.println("Not Sufficient number of arguments provided,\n"
-                        + "Required Arguments\n" + "when giving [-textFile] option make sure to give <fileName> followed by \n"
-                        + arguments);
+                        + "Required Arguments:\n" + arguments
+                        + "\nNOTE: when giving [-textFile] option make sure to give <fileName> next to it\n");
             }
 
             return false;
@@ -305,8 +292,8 @@ public class Project2 {
 
     /**
      * @param phoneNumber
+     *        the phone number should be of the format  nnn-nnn-nnnn
      * @return boolean
-     *
      * Method for validating PhoneNumber Format (nnn-nnn-nnnn)
      * */
     private static boolean isValidatePhoneNumber(String phoneNumber){
@@ -316,8 +303,8 @@ public class Project2 {
 
     /**
      * @param date
+     *        the date should be of the format mm/dd/yyyy
      * @return boolean
-     *
      * Method for validating Date Format (mm/dd/yyyy)
      * */
     private static boolean isValidateDate(String date){
@@ -327,6 +314,7 @@ public class Project2 {
 
     /**
      * @param time
+     *        the time shuld be of the format hh:mm
      * @return boolean
      *
      * Method for validating Time Format (hh:mm)

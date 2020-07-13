@@ -53,7 +53,7 @@ public class TextDumperTest {
         try {
             TextDumper test1 = new TextDumper("sreev2/TestFileName.txt");
             String[] args = {"-print","sreev2", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "1/15/2020", "20:06"};
-            test1.dump(new PhoneBill("sreev2", new PhoneCall(args)));
+            test1.dump(new PhoneBill("sreev2", new PhoneCall(args, "p")));
         } catch (IOException e) {
             e.printStackTrace();
         }

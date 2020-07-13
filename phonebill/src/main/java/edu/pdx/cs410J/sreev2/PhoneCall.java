@@ -25,13 +25,32 @@ public class PhoneCall extends AbstractPhoneCall{
    * Constructor PhoneCall assigns value to global values
    * @param args args <code>String</code>
    * */
-  public PhoneCall(final String[] args){
-    this.callerNum = args[2];
-    this.calleeNum = args[3];
-    this.startTimeString = args[4] + " " + args[5];//args[4] +" "+ args[5]
-    this.endTimeString = args[6] + " " + args[7];//args[6] +" "+ args[7]
+  public PhoneCall(final String[] args, String status){
+    if(status.equals("p")) {
+      this.callerNum = args[2];
+      this.calleeNum = args[3];
+      this.startTimeString = args[4] + " " + args[5];
+      this.endTimeString = args[6] + " " + args[7];
+    }
+    else if(status.equals("t")){
+      this.callerNum = args[3];
+      this.calleeNum = args[4];
+      this.startTimeString = args[5] + " " + args[6];
+      this.endTimeString = args[7] + " " + args[8];
+    }
+    //if(status.equals("tp"))
+    else{
+      this.callerNum = args[4];
+      this.calleeNum = args[5];
+      this.startTimeString = args[6] + " " + args[7];
+      this.endTimeString = args[8] + " " + args[9];
+    }
+
   }
 
+  /**
+   * will be accessed by TextParser file
+   * */
   public PhoneCall(final String[] args, int status){
     this.callerNum = args[0];
     this.calleeNum = args[1];
