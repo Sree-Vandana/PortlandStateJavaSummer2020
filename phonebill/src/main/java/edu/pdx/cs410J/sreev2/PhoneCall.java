@@ -32,6 +32,13 @@ public class PhoneCall extends AbstractPhoneCall{
     this.endTimeString = args[6] + " " + args[7];//args[6] +" "+ args[7]
   }
 
+  public PhoneCall(final String[] args, int status){
+    this.callerNum = args[0];
+    this.calleeNum = args[1];
+    this.startTimeString = args[2];
+    this.endTimeString = args[3];
+  }
+
   /**
    * <method>getCaller</method> has no parameter
    * @return callerNum of type <code>String</code>

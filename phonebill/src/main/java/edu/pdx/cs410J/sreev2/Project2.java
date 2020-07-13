@@ -95,21 +95,18 @@ public class Project2 {
                     (Arrays.asList(args).indexOf("-print") == 0) &
                     !Arrays.asList(args).contains("-textFile")){
                 if(validateArgs(args)){
-                    try {
+                    /*try {
                         //TextParser
                         TextParser textParser = new TextParser(args[Arrays.asList(args).indexOf("-textFile") + 1]);
                         System.out.println(textParser.parse());
                     }catch (Exception ex){
                         System.err.println(ex.getMessage());
                         System.exit(1);
-                    }
-                    /*PhoneCall call = new PhoneCall(args);
-                    PhoneBill bill = new PhoneBill(args[1], call);
-                    System.out.println(bill);
-                    for (PhoneCall c : bill.getPhoneCalls()) {
-                        System.out.println(c);
                     }*/
-
+                    PhoneCall call = new PhoneCall(args);
+                    PhoneBill bill = new PhoneBill(args[1], call);
+                    System.out.println(args[1] + "'s Phone Call Information\n");
+                    System.out.println(call.toString());
                     System.exit(1);
                 }
             }
@@ -134,6 +131,8 @@ public class Project2 {
                             System.err.println(ex.getMessage());
                             System.exit(1);
                         }
+                        System.out.println(args[1] + "'s Phone Call Information\n");
+                        System.out.println(call.toString());
                     }
                 }
             }
