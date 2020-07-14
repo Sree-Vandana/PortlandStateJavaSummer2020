@@ -45,37 +45,4 @@ public class TextParserTest {
         TextParser test1 = new TextParser("sreev2/TestFileName.txtt");
     }
 
-    @Ignore
-    @Test
-    public void phoneBillParserStoreNameInPhoneBillObject() throws IOException, ParserException {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader("sreefile.txt"));
-        String Name = bufferedReader.readLine();
-        TextParser textParser = new TextParser("sreefile");
-        PhoneBill bill = new PhoneBill("sree");
-        PhoneBill phoneBill = textParser.parse();
-        assertThat("PhoneBill ia not stored correctly" , phoneBill.getCustomer().equals(Name));
-    }
-
-    /*@Test(expected = InvalidParameterException.class)
-    public void fileNotHavingSameCustomerNameThrowsError() throws IOException, ParserException {
-        TextParser test1 = new TextParser("sreev2/TestFileName.txt");
-        try {
-            TextDumper test = new TextDumper("sreev2/Testpat.txt");
-            String[] args = {"-print","pat", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "1/15/2020", "20:06"};
-            test.dump(new PhoneBill("pat", new PhoneCall(args)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        test1.parse();
-    }*/
-
-    /*@Test
-    public void testingTheFormatOFParsedPhoneBillObject() throws IOException, ParserException {
-        TextParser test1 = new TextParser("sreev2/TestFileName.txt");
-        TextDumper test = new TextDumper("sreev2/TestFileName.txt");
-        String[] args = {"-print","sreev2", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "1/15/2020", "20:06"};
-        test.dump(new PhoneBill("sreev2", new PhoneCall(args)));
-        PhoneBill pb = test1.parse();
-        assertThat(pb.getPhoneCalls(), equalTo("sreev2"));
-    }*/
 }

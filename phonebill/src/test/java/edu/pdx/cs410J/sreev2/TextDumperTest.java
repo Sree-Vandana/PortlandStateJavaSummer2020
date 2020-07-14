@@ -40,16 +40,6 @@ public class TextDumperTest {
         }
     }
 
-    @Test(expected = InvalidParameterException.class)
-    public void sendingFileNameWithRelativePathAndWithoutExtentionMustNotRaiseError(){
-        try {
-            TextDumper test1 = new TextDumper("sreev2/TestFileName");
-            TextDumper test2 = new TextDumper("sreev2/TestFileName");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Test
     public void checkIfDataBeingWrittenInCorrectFormatWithoutRaisingErrorsWithPrintOption(){
         try {
@@ -71,7 +61,4 @@ public class TextDumperTest {
             e.printStackTrace();
         }
     }
-
-
-
 }

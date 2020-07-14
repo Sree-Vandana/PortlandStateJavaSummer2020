@@ -198,14 +198,6 @@ public class Project2IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), containsString("The EndDate you entered, is in wrong format"));
     }
 
-    @Ignore
-    @Test
-    public void givenOnlyTextFileOptionAndAllArgumentsDumpTheContentsAndExit(){
-        MainMethodResult result = invokeMain(Project2.class, "-textFile", "sreefile", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020", "20:06");
-        assertThat(result.getTextWrittenToStandardOut(), containsString("bhb"));
-
-    }
-
     @Test
     public void givenOnlyTextFileOptionWithoutFileNameWithPrint(){
         MainMethodResult result = invokeMain(Project2.class, "-textFile", "-print", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020", "20:06");
@@ -235,23 +227,31 @@ public class Project2IT extends InvokeMainTestCase {
     @Test
     public void givenTextFileFileNameOptionalongwithPrintOutputsPhoneCall(){
         MainMethodResult result = invokeMain(Project2.class, "-textFile", "sree/sreefile", "-print", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020", "20:00");
-        assertThat(result.getTextWrittenToStandardOut(), containsString("sree's Phone Call Information"));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("sree's latest Phone Call Information"));
     }
 
-
-
-    @Ignore
-    @Test
-    public void givenTextFileFileNameOptionwithCorrectArguments(){
-        MainMethodResult result = invokeMain(Project2.class, "-textFile", "sree/sreefile", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020", "20:00");
-        assertThat(result.getTextWrittenToStandardError(), containsString("Not Sufficient number of arguments provided"));
-    }
-
-    @Ignore
     @Test
     public void givingOnlytextFileOptionPrintsErrorStatement(){
         MainMethodResult result = invokeMain(Project2.class, "-textFile", "fileName");
-        assertThat(result.getTextWrittenToStandardError(), containsString("you have to enter arguments to perform operation"));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Not Sufficient number of arguments provided"));
+    }
+
+    @Test
+    public void givingOnlytextFileOptionWithArgumentsDumpThemIntoFile(){
+        MainMethodResult result = invokeMain(Project2.class, "-textFile", "sree/sreefile", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020", "20:00");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("The given phone call is successfully dumped into the file."));
+    }
+
+    @Test
+    public void givingPrintAlingWithTextFileIsteadOfFileNameMustRaiseError(){
+        MainMethodResult result = invokeMain(Project2.class, "-textFile","-print", "sree/sreefile", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020", "20:00");
+        assertThat(result.getTextWrittenToStandardError(), containsString("The \"FileName\" must be given only after -textFile Option"));
+    }
+
+    @Test
+    public void optionsMustBegivenBeforeArguments(){
+        MainMethodResult result = invokeMain(Project2.class, "-textFile", "sree/sreefile", "sree", "-print", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020", "20:00");
+        assertThat(result.getTextWrittenToStandardError(), containsString(""));
     }
 
 }

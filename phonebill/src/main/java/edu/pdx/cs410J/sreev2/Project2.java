@@ -103,23 +103,32 @@ public class Project2 {
                             PhoneCall call = new PhoneCall(args, "t");
                             PhoneBill bill = new PhoneBill(name, call);
                             writeIntoFile(args, bill);
-                            PhoneBill readbill = readFromFile(args[Arrays.asList(args).indexOf("-textFile")+1]);
+                            System.out.println("The given phone call is successfully dumped into the file.");
+                            //PhoneBill readbill = readFromFile(args[Arrays.asList(args).indexOf("-textFile")+1]);
                             //System.out.println(readbill.getPhoneCalls());
                         }
                         System.exit(0);
             }
 
             if(Arrays.asList(args).contains("-print") & Arrays.asList(args).contains("-textFile")){
-                 if(validateArgs(args)){
-                        PhoneCall call = new PhoneCall(args, "tp");
-                        PhoneBill bill = new PhoneBill(args[3], call);
-                        //TextDumper
-                        writeIntoFile(args, bill);
-                        System.out.println(args[3] + "'s Phone Call Information\n");
-                        System.out.println(call.toString());
-                        PhoneBill readbill = readFromFile(args[Arrays.asList(args).indexOf("-textFile")+1]);
-                    }
-                    System.exit(1);
+                 if(validateArgs(args)) {
+                     if (fileNameGivenAfterTextFile(args)) {
+                         PhoneCall call = new PhoneCall(args, "tp");
+                         PhoneBill bill = new PhoneBill(args[3], call);
+                         //TextDumper
+                         writeIntoFile(args, bill);
+                         System.out.println("The given phone call is successfully dumped into the file.\n");
+                         System.out.println(args[3] + "'s latest Phone Call Information\n");
+                         System.out.println(call.toString());
+                         PhoneBill readbill = readFromFile(args[Arrays.asList(args).indexOf("-textFile") + 1]);
+                     }
+                     else {
+                         System.err.println("The \"FileName\" must be given only after -textFile Option\n"
+                                 +"[options] = [-textFile fileName -print -README] can appear in any order, "
+                                 + "but fileName must be given after -textFile option\n");
+                     }
+                 }
+                 System.exit(1);
             }
 
             if(!(Arrays.asList(args).contains("-README")) &
@@ -155,6 +164,12 @@ public class Project2 {
         }
         System.exit(0);
 
+    }
+
+    private static boolean fileNameGivenAfterTextFile(String[] args) {
+        int indexOftextFile = Arrays.asList(args).indexOf("-textFile");
+        int indexOfPrint = Arrays.asList(args).indexOf("-print");
+        return indexOfPrint != indexOftextFile + 1;
     }
 
     /**
