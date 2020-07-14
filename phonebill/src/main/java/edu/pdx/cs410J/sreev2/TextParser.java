@@ -10,13 +10,29 @@ import java.security.InvalidParameterException;
 
 public class TextParser implements PhoneBillParser<PhoneBill> {
 
+    /**
+     * argument path of <type>String</type>
+     * hold sthe path or file name which need to be written
+     * */
     private static String path;
 
+    /**
+     * @param fileName
+     *          the name or path of the file in which data is written
+     * @throws IOException
+     * By calling this constructor, path of the file will be created with the given fileName.
+     * */
     public TextParser(String fileName) throws IOException {
         super();
         path = new String(createPath(fileName));
     }
 
+    /**
+     * @return parsedPhoneBill <class>PhoneBill</class>
+     * @throws ParserException
+     * This method reads the contents present in the file, that is written by <class>TextDumper</class>
+     * and appends them to <class>PhoneBill</class>
+     * */
     @Override
     public PhoneBill parse() throws ParserException {
 
@@ -52,6 +68,12 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
         return parsedPhoneBill;
     }
 
+    /**
+     * @param fileName <type>String</type>
+     *                 file path or file name
+     * @return path <type>String</type>
+     * This method checks if the file name has extentions othe rthan .txt
+     * */
     private String createPath(String fileName) throws IOException {
         if (fileName.matches("^.+?\\..*?") && !fileName.matches("^.+?\\.txt")) {
             throw new IllegalFileNameException("File must only have .txt extension or no extention\n"

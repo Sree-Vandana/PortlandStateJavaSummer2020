@@ -27,6 +27,11 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
         super();
     }
 
+    /**
+     * Constructor of PhoneBill class, with one parameter
+     * @param name
+     *          Customer Name
+     * */
     public PhoneBill(String name){
         super();
         customerName = name;
@@ -38,7 +43,6 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
      *          Customer Name
      * @param newPhoneCallRecord
      *          This is Customers new/first phone call record.
-     *
      * */
     public PhoneBill(String name, PhoneCall newPhoneCallRecord){
         super();

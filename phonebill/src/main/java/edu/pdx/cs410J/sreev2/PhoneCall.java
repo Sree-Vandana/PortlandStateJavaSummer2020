@@ -22,8 +22,14 @@ public class PhoneCall extends AbstractPhoneCall{
   }
 
   /**
+   * @param args <code>String</code>
+   *             command line arguments
+   * @param status <type>String</type>
+   *               it can have 3 values
+   *               "p" when print option is given;
+   *               "t" when -textFile optioj is given
+   *               "tp" when both -print and -textFile options are given
    * Constructor PhoneCall assigns value to global values
-   * @param args args <code>String</code>
    * */
   public PhoneCall(final String[] args, String status){
     if(status.equals("p")) {
@@ -49,7 +55,10 @@ public class PhoneCall extends AbstractPhoneCall{
   }
 
   /**
-   * will be accessed by TextParser file
+   * @param args <type>String[]</type>
+   *             command line arguments
+   * @param status <type>int</type>
+   *               this is an int type status, this will be accessed by <class>TextParser</class>
    * */
   public PhoneCall(final String[] args, int status){
     this.callerNum = args[0];

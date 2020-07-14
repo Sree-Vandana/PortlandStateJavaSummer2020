@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.util.Arrays;
-
 import java.util.regex.Pattern;
 
 /**
@@ -44,19 +43,23 @@ public class Project2 {
     /**
      * @param args
      *        [Options] <arguments>
-     *        [-README -print] "<customerName>  <callerNumber>  <calleeNumber>  <start Date>  <start time>  <end Date>  <end time>
+     *        Options can be [-README -print -textFile FileName]
+     *        Options can be given in any order.
+     *        Arguments must be given in this order.
+     *        <customerName>  <callerNumber>  <calleeNumber>  <start Date>  <start time>  <end Date>  <end time>
      *
      * 3 cases can happen in this main method
      * <var>length</var> = length of command line Arguments
      * CASE 1: length = 0
      * CASE 2: length <= 11
      *          [Sub case's]
-     *          CASE i:   -README option present in given arguments as 1st, 2nd, 3rd or 4th Argument
-     *          CASE ii:  NO -README but -print Option is given as 1st Argument
-     *          CASE iii: NO Options Provided
-     * CASE 3: length > 9
+     *          CASE i:   README id given
+     *          CASE ii:  Only -print
+     *          CASE iii: Only -textFile FileName
+     *          CASE iv:  Both -print and -textFile FileName
+     *          CASE v:   No Option (if all arguments are given, validate their format)
+     * CASE 3: length > 11
      * */
-
     public static void main(String[] args) {
 
         var length = args.length;
@@ -117,7 +120,6 @@ public class Project2 {
                         PhoneBill readbill = readFromFile(args[Arrays.asList(args).indexOf("-textFile")+1]);
                     }
                     System.exit(1);
-                //}
             }
 
             if(!(Arrays.asList(args).contains("-README")) &
@@ -155,6 +157,14 @@ public class Project2 {
 
     }
 
+    /**
+     * @param  fileName <type>String</type>
+     *                  the name or path of the file from which data is read
+     * @return bill <class>PhoneBill</class>
+     *                  returns PhoneBill object which has all the phone calls in it
+     * @throws Exception
+     *                  can throw an IOException while reading the file
+     * */
     private static PhoneBill readFromFile(String fileName) {
         try {
             TextParser txtParser = new TextParser(fileName);
@@ -168,6 +178,14 @@ public class Project2 {
         return null;
     }
 
+    /**
+     * @param args <type>String</type>
+     *             the command line arguments, phone call information entered by the user
+     * @param bill <class>PhoneBill</class>
+     *             the PhoneBill Object which holds the phone call information, that need to be written into file
+     * @throws Exception
+     *             might throw IOExeption while trying to write to a file
+     * */
     private static void writeIntoFile(String[] args, PhoneBill bill) {
         try {
             TextDumper txtDumper = new TextDumper(args[Arrays.asList(args).indexOf("-textFile")+1]);
@@ -180,15 +198,10 @@ public class Project2 {
     }
 
     /**
-     * @param args args of type <code>String[]</code>
+     * @param args of type <code>String[]</code>
+     *             Command line arguments, PhoneCall information entered by an user
      * @return boolean
-     *
-     * -print <arguments>name, CallerNum, CalleeNum, StartDate, StartTime, EndDate, EndTime</arguments>
-     * 1st If: Check if all required Arguments are given
-     * 2nd If: If all options are given;
-     *         check if they are in correct Format
-     *         if in correct Format - @return true
-     *         else                 - @return false
+     * This method checks if the number of given arguments are valid or not for the given option
      * */
     private static Boolean validateArgs(String[] args) {
 
@@ -252,7 +265,12 @@ public class Project2 {
     }
 
     /**
-     * validate the format of given arguments
+     * @param args <type>String[]</type>
+     *             these are command line arguments
+     * @param index <type>int...</type>
+     *              send the index values of arguments that need to be validated
+     * @return Boolean
+     * this method validate the format of given command line arguments
      * */
     private static Boolean valiadteArgsFormats(String[] args, int... index) {
 
@@ -296,7 +314,9 @@ public class Project2 {
     }
 
     /**
-     * Access the README.txt and print it when -README is given as an Option
+     * This method Access the README.txt and print it when -README is given as an Option
+     * @throws IOException
+     *          this method can result in IOException, while reading README file.
      * */
     private static void printReadME() throws IOException {
 
@@ -337,8 +357,7 @@ public class Project2 {
      * @param time
      *        the time shuld be of the format hh:mm
      * @return boolean
-     *
-     * Method for validating Time Format (hh:mm)
+     *Method for validating Time Format (hh:mm)
      * */
     private static boolean isValidateTime(String time){
         String regexTime = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
