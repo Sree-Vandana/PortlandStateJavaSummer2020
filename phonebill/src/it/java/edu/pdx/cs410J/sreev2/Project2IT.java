@@ -251,7 +251,7 @@ public class Project2IT extends InvokeMainTestCase {
     @Test
     public void optionsMustBegivenBeforeArguments(){
         MainMethodResult result = invokeMain(Project2.class, "-textFile", "sree/sreefile", "sree", "-print", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020", "20:00");
-        assertThat(result.getTextWrittenToStandardError(), containsString(""));
+        assertThat(result.getTextWrittenToStandardError(), containsString("Options must be given before arguments"));
     }
 
 }

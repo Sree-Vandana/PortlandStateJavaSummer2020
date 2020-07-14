@@ -110,24 +110,28 @@ public class Project2 {
                         System.exit(0);
             }
 
-            if(Arrays.asList(args).contains("-print") & Arrays.asList(args).contains("-textFile")){
-                 if(validateArgs(args)) {
-                     if (fileNameGivenAfterTextFile(args)) {
-                         PhoneCall call = new PhoneCall(args, "tp");
-                         PhoneBill bill = new PhoneBill(args[3], call);
-                         //TextDumper
-                         writeIntoFile(args, bill);
-                         System.out.println("The given phone call is successfully dumped into the file.\n");
-                         System.out.println(args[3] + "'s latest Phone Call Information\n");
-                         System.out.println(call.toString());
-                         PhoneBill readbill = readFromFile(args[Arrays.asList(args).indexOf("-textFile") + 1]);
-                     }
-                     else {
-                         System.err.println("The \"FileName\" must be given only after -textFile Option\n"
-                                 +"[options] = [-textFile fileName -print -README] can appear in any order, "
-                                 + "but fileName must be given after -textFile option\n");
-                     }
-                 }
+            if(Arrays.asList(args).contains("-print") & Arrays.asList(args).contains("-textFile")) {
+                if (Arrays.asList(args).indexOf("-textFile") < 2 & Arrays.asList(args).indexOf("-print") < 3){
+                    if (validateArgs(args)) {
+                        if (fileNameGivenAfterTextFile(args)) {
+                            PhoneCall call = new PhoneCall(args, "tp");
+                            PhoneBill bill = new PhoneBill(args[3], call);
+                            //TextDumper
+                            writeIntoFile(args, bill);
+                            System.out.println("The given phone call is successfully dumped into the file.\n");
+                            System.out.println(args[3] + "'s latest Phone Call Information\n");
+                            System.out.println(call.toString());
+                            PhoneBill readbill = readFromFile(args[Arrays.asList(args).indexOf("-textFile") + 1]);
+                        } else {
+                            System.err.println("The \"FileName\" must be given only after -textFile Option\n"
+                                    + "[options] = [-textFile fileName -print -README] can appear in any order, "
+                                    + "but fileName must be given after -textFile option\n");
+                        }
+                    }
+            }
+                else{
+                    System.err.println("Options must be given before arguments\n" +usage);
+                }
                  System.exit(1);
             }
 
