@@ -17,30 +17,6 @@ public class TextDumper implements PhoneBillDumper<PhoneBill>{
         createFileUsingPath(path);
     }
 
-    private void createFileUsingPath(String path) throws IOException, InvalidParameterException {
-        File file = new File(path);
-        File mkdir = null;
-        if(path.contains("/")) {
-            var directory = Arrays.asList(path.split("/" + file.getName()));
-            mkdir = new File(directory.get(0));
-        }
-        if (mkdir != null && !mkdir.exists())
-            mkdir.mkdirs();
-        if (!file.exists())
-            file.createNewFile();
-        else if(file.length() == 0) {
-            throw new InvalidParameterException("Phone bill does not have customer name");
-        }
-    }
-
-    private String createPath(String fileName) throws IOException{
-        if (fileName.matches("^.+?\\..*?") && !fileName.matches("^.+?\\.txt")) {
-            throw new IllegalFileNameException("File must only have .txt extension or no extention\n"
-                    + "Correct format = "+ "fileName or fileName.txt\n"+"Relative paths are accepted as well");
-        }
-        return (fileName.matches("^.+?\\.txt$") ? fileName : fileName + ".txt");
-    }
-
     @Override
     public void dump(PhoneBill phoneBill) throws IOException {
         fileHasSameCustomerName(phoneBill.getCustomer());
@@ -74,4 +50,29 @@ public class TextDumper implements PhoneBillDumper<PhoneBill>{
             throw new InvalidParameterException("Given Customer name does not match with the name in Phone Bill");
         read.close();
     }
+
+    private void createFileUsingPath(String path) throws IOException, InvalidParameterException {
+        File file = new File(path);
+        File mkdir = null;
+        if(path.contains("/")) {
+            var directory = Arrays.asList(path.split("/" + file.getName()));
+            mkdir = new File(directory.get(0));
+        }
+        if (mkdir != null && !mkdir.exists())
+            mkdir.mkdirs();
+        if (!file.exists())
+            file.createNewFile();
+        else if(file.length() == 0) {
+            throw new InvalidParameterException("Phone bill does not have customer name");
+        }
+    }
+
+    private String createPath(String fileName) throws IOException{
+        if (fileName.matches("^.+?\\..*?") && !fileName.matches("^.+?\\.txt")) {
+            throw new IllegalFileNameException("File must only have .txt extension or no extention\n"
+                    + "Correct format = "+ "fileName or fileName.txt\n"+"Relative paths are accepted as well");
+        }
+        return (fileName.matches("^.+?\\.txt$") ? fileName : fileName + ".txt");
+    }
+
 }

@@ -1,8 +1,11 @@
 package edu.pdx.cs410J.sreev2;
 
 import edu.pdx.cs410J.ParserException;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.security.InvalidParameterException;
 import static org.hamcrest.CoreMatchers.*;
@@ -42,7 +45,18 @@ public class TextParserTest {
         TextParser test1 = new TextParser("sreev2/TestFileName.txtt");
     }
 
-    @Test(expected = InvalidParameterException.class)
+    @Ignore
+    @Test
+    public void phoneBillParserStoreNameInPhoneBillObject() throws IOException, ParserException {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader("sreefile.txt"));
+        String Name = bufferedReader.readLine();
+        TextParser textParser = new TextParser("sreefile");
+        PhoneBill bill = new PhoneBill("sree");
+        PhoneBill phoneBill = textParser.parse();
+        assertThat("PhoneBill ia not stored correctly" , phoneBill.getCustomer().equals(Name));
+    }
+
+    /*@Test(expected = InvalidParameterException.class)
     public void fileNotHavingSameCustomerNameThrowsError() throws IOException, ParserException {
         TextParser test1 = new TextParser("sreev2/TestFileName.txt");
         try {
@@ -53,7 +67,7 @@ public class TextParserTest {
             e.printStackTrace();
         }
         test1.parse();
-    }
+    }*/
 
     /*@Test
     public void testingTheFormatOFParsedPhoneBillObject() throws IOException, ParserException {

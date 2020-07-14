@@ -24,4 +24,9 @@ public class PhoneBillTest {
         pb.addPhoneCall(new PhoneCall());
     }
 
+    @Test
+    public void phoneBillHasAdefaultConstructor(){
+        PhoneBill pb = new PhoneBill();
+    }
+
 }

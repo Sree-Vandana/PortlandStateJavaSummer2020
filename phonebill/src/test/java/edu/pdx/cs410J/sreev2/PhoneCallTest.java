@@ -119,5 +119,13 @@ public class PhoneCallTest {
 
     assertThat(pc.getEndTimeString(), containsString("1/16/2020 20:40"));
   }
+
+  @Test
+  public void getStartTimeStringReturnsStartTimeAndDateWhenGivenStatust(){
+    String[] strArray = new String[]{"-textFile", "sreefile", "sree", "123-123-1234", "321-123-4567", "1/15/2020", "19:39", "1/16/2020", "20:40"};
+    PhoneCall pc = new PhoneCall(strArray, "t");
+
+    assertThat(pc.getStartTimeString(), containsString("1/15/2020 19:39"));
+  }
   
 }

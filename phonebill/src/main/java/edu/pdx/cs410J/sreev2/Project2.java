@@ -1,5 +1,7 @@
 package edu.pdx.cs410J.sreev2;
 
+import edu.pdx.cs410J.ParserException;
+
 import java.io.InputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -81,20 +83,12 @@ public class Project2 {
                     (Arrays.asList(args).indexOf("-print") == 0) &
                     !Arrays.asList(args).contains("-textFile")){
                 if(validateArgs(args)){
-                    /*try {
-                        //TextParser
-                        TextParser textParser = new TextParser(args[Arrays.asList(args).indexOf("-textFile") + 1]);
-                        System.out.println(textParser.parse());
-                    }catch (Exception ex){
-                        System.err.println(ex.getMessage());
-                        System.exit(1);
-                    }*/
                     PhoneCall call = new PhoneCall(args, "p");
                     PhoneBill bill = new PhoneBill(args[1], call);
                     System.out.println(args[1] + "'s Phone Call Information\n");
                     System.out.println(call.toString());
-                    System.exit(1);
                 }
+                System.exit(1);
             }
 
             if(Arrays.asList(args).contains("-textFile") &
@@ -106,8 +100,9 @@ public class Project2 {
                             PhoneCall call = new PhoneCall(args, "t");
                             PhoneBill bill = new PhoneBill(name, call);
                             writeIntoFile(args, bill);
+                            PhoneBill readbill = readFromFile(args[Arrays.asList(args).indexOf("-textFile")+1]);
+                            System.out.println(readbill.getPhoneCalls());
                         }
-
                         System.exit(0);
             }
 
@@ -119,6 +114,7 @@ public class Project2 {
                         writeIntoFile(args, bill);
                         System.out.println(args[3] + "'s Phone Call Information\n");
                         System.out.println(call.toString());
+                        PhoneBill readbill = readFromFile(args[Arrays.asList(args).indexOf("-textFile")+1]);
                     }
                     System.exit(1);
                 //}
@@ -156,14 +152,27 @@ public class Project2 {
 
     }
 
-    private static void writeIntoFile(String[] args, PhoneBill bill) {
-        //TextDumper txtDumper = null;
+    private static PhoneBill readFromFile(String fileName) {
         try {
-            System.out.println(args[Arrays.asList(args).indexOf("-textFile")+1]);
+            TextParser txtParser = new TextParser(fileName);
+            PhoneBill bill = txtParser.parse();
+            return bill;
+        } catch (Exception e) {
+            System.err.println("Error occured while reading from text file.");
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return null;
+    }
+
+    private static void writeIntoFile(String[] args, PhoneBill bill) {
+        try {
             TextDumper txtDumper = new TextDumper(args[Arrays.asList(args).indexOf("-textFile")+1]);
             txtDumper.dump(bill);
-        } catch (IOException e) {
+        } catch (Exception e) {
+            System.err.println("Error occured when trying to write to file");
             e.printStackTrace();
+            System.exit(1);
         }
     }
 

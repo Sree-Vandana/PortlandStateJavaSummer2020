@@ -17,6 +17,41 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
         path = new String(createPath(fileName));
     }
 
+    @Override
+    public PhoneBill parse() throws ParserException {
+
+        PhoneBill parsedPhoneBill = null;
+        final List<String> listOfPhoneCalls = new ArrayList<>();
+        BufferedReader fileData = null;
+        String strCurrentLine = null;
+        try {
+            File file = new File(path);
+            if(!file.exists() || file.length() == 0)
+                return null;
+            fileData = new BufferedReader(new FileReader(file));
+            while((strCurrentLine = fileData.readLine()) != null){
+                listOfPhoneCalls.add(strCurrentLine);
+            }
+            if(listOfPhoneCalls == null)
+                return parsedPhoneBill;
+        } catch (IOException e) {
+            throw new ParserException("Error occured when trying to read from file");
+        }
+        int count = 0;
+        for(String phoneCall: listOfPhoneCalls){
+            if(phoneCall == listOfPhoneCalls.get(0))
+                parsedPhoneBill = new PhoneBill(phoneCall);
+            else{
+                if(count != 0) {
+                    String[] args = phoneCall.split(",");
+                    parsedPhoneBill.addPhoneCall(new PhoneCall(args, 1));
+                }
+                count++;
+            }
+        }
+        return parsedPhoneBill;
+    }
+
     private String createPath(String fileName) throws IOException {
         if (fileName.matches("^.+?\\..*?") && !fileName.matches("^.+?\\.txt")) {
             throw new IllegalFileNameException("File must only have .txt extension or no extention\n"
@@ -25,53 +60,4 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
         return (fileName.matches("^.+?\\.txt$") ? fileName : fileName + ".txt");
     }
 
-    @Override
-    public PhoneBill parse() throws ParserException {
-        PhoneBill parsedPhoneBill = null;
-        PhoneBill parsedPhoneBillname =new PhoneBill();
-        String customerName = parsedPhoneBillname.getCustomer();
-        try {
-            fileHasSameCustomerName(customerName);
-        } catch (IOException e) {
-            throw new InvalidParameterException("Error occured while trying to compare customer name from console and from file");
-        }
-
-        final List<String> listOfPhoneCalls = new ArrayList<>();
-        BufferedReader filedata = null;
-        String strCurrentLine = null;
-
-        File file = new File(path);
-        if(!file.exists() || file.length() == 0){
-            return parsedPhoneBill;
-        }
-        try {
-            filedata = new BufferedReader(new FileReader(file));
-        } catch (FileNotFoundException e) {
-            throw new ParserException("Error while trying to read the file into BufferReader Object");
-        }
-        try{
-            while((strCurrentLine = filedata.readLine()) != null){
-                listOfPhoneCalls.add(strCurrentLine);
-            }
-        }catch (Exception e){
-            throw new ParserException("Error while reading the contents of the file");
-        }
-
-        parsedPhoneBill = new PhoneBill(listOfPhoneCalls.get(0));
-        for(String readPhoneCallInfo: listOfPhoneCalls){
-            String[] args = readPhoneCallInfo.split(",");
-            parsedPhoneBill.addPhoneCall(new PhoneCall(args, 1));
-            }
-        return parsedPhoneBill;
-    }
-
-    private void fileHasSameCustomerName(String customer) throws IOException{
-        BufferedReader read = new BufferedReader(new FileReader(path));
-        String customerName = read.readLine();
-        if (customerName == null && customer == null)
-            throw new InvalidParameterException("No customer name in Phone Bill");
-        else if(customerName != null && !customerName.equals(customer))
-            throw new InvalidParameterException("Given Customer name does not match with the name in Phone Bill");
-        read.close();
-    }
 }

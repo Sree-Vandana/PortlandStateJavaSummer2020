@@ -173,11 +173,12 @@ public class Project2IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), containsString("You did not enter any options and the number of arguments entered are too many"));
     }
 
+
     @Ignore
     @Test
     public void givenOnlyTextFileOptionAndAllArgumentsDumpTheContentsAndExit(){
         MainMethodResult result = invokeMain(Project2.class, "-textFile", "sreefile", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020", "20:06");
-        assertThat(result.getTextWrittenToStandardError(), containsString(""));
+        assertThat(result.getTextWrittenToStandardOut(), containsString("bhb"));
 
     }
 
