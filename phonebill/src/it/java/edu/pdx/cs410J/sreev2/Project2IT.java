@@ -116,7 +116,7 @@ public class Project2IT extends InvokeMainTestCase {
     @Test
     public void isValidSecondTime(){
         // wrong fromat: 24:39; 2:60
-        MainMethodResult result = invokeMain(Project2.class, "-print", "-1SreeV2?", "123-456-7890", "111-222-3333","1/31/2020", "2:06", "12/15/2020", "24:39");
+        MainMethodResult result = invokeMain(Project2.class, "-print", "-1SreeV2?", "ABC-456-7890", "111-222-3333","1/31/2020", "2:06", "12/15/2020", "24:39");
         assertThat(result.getTextWrittenToStandardError(), containsString("The EndTime you entered, is in wrong format"));
     }
 
@@ -173,6 +173,30 @@ public class Project2IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), containsString("You did not enter any options and the number of arguments entered are too many"));
     }
 
+
+    @Test
+    public void callerPhoneNumberHasNonIntegerValuesRaiseError(){
+        MainMethodResult result = invokeMain(Project2.class, "sree", "ABC-222-3333", "123-123-8888", "1/31/2020", "2:06", "12/15/2020", "20:39");
+        assertThat(result.getTextWrittenToStandardError(), containsString("The CallerNumber you entered is not in correct format"));
+    }
+
+    @Test
+    public void calleePhoneNumberHasNonIntegerValuesRaiseError(){
+        MainMethodResult result = invokeMain(Project2.class, "sree", "123-222-3333", "123-1A3-8888", "1/31/2020", "2:06", "12/15/2020", "20:39");
+        assertThat(result.getTextWrittenToStandardError(), containsString("The CalleeNumber you entered is not in correct format"));
+    }
+
+    @Test
+    public void startTimeIsMalformattedRaiseError(){
+        MainMethodResult result = invokeMain(Project2.class, "sree", "123-222-3333", "123-123-8888", "1/31/2020", "2:XX", "12/15/2020", "20:39");
+        assertThat(result.getTextWrittenToStandardError(), containsString("The StartTime you entered, is in wrong format"));
+    }
+
+    @Test
+    public void endDateIsMalformattedRaiseError(){
+        MainMethodResult result = invokeMain(Project2.class, "sree", "123-222-3333", "123-123-8888", "1/31/2020", "2:00", "01/04/20/1", "20:39");
+        assertThat(result.getTextWrittenToStandardError(), containsString("The EndDate you entered, is in wrong format"));
+    }
 
     @Ignore
     @Test

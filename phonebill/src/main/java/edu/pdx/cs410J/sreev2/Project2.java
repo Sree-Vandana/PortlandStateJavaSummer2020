@@ -101,7 +101,7 @@ public class Project2 {
                             PhoneBill bill = new PhoneBill(name, call);
                             writeIntoFile(args, bill);
                             PhoneBill readbill = readFromFile(args[Arrays.asList(args).indexOf("-textFile")+1]);
-                            System.out.println(readbill.getPhoneCalls());
+                            //System.out.println(readbill.getPhoneCalls());
                         }
                         System.exit(0);
             }
@@ -130,6 +130,9 @@ public class Project2 {
                 if(args.length > 7){
                     System.err.println("You did not enter any options and the number of arguments entered are too many\n" +
                             "Required Arguments:\n" + arguments);
+                }
+                if(args.length == 7){
+                    boolean validate = validateArgs(args);
                 }
                 System.exit(1);
             }
@@ -189,18 +192,24 @@ public class Project2 {
      * */
     private static Boolean validateArgs(String[] args) {
 
-        int l;
+        int l = 0;
 
         if(Arrays.asList(args).contains("-textFile") & !Arrays.asList(args).contains("-print")){
             l = 9;
         }
-        else if(Arrays.asList(args).contains("-print") & ! Arrays.asList(args).contains("-textFile")) {
+        if(Arrays.asList(args).contains("-print") & ! Arrays.asList(args).contains("-textFile")) {
             l = 8;
         }
         //if(Arrays.asList(args).contains("-print") & Arrays.asList(args).contains("-textFile"))
-        else{
+        if(Arrays.asList(args).contains("-print") & Arrays.asList(args).contains("-textFile")){
             l = 10;
         }
+        if(!(Arrays.asList(args).contains("-README")) &
+                !(Arrays.asList(args).contains("-print")) &
+                !(Arrays.asList(args).contains("-textFile"))){
+            l = 7;
+        }
+
 //& (Arrays.asList(args).contains("-print") & Arrays.asList(args).indexOf("-print") == 0 )
         if(args.length < l){
             //throw new IllegalNumberOfArgumentException(usage);
@@ -229,6 +238,9 @@ public class Project2 {
             //both -textFile and -print
             if(l == 10) {
                 return valiadteArgsFormats(args, 4, 5, 6, 8, 7, 9);
+            }
+            if(l == 7){
+                return valiadteArgsFormats(args, 1, 2, 3, 5, 4, 6);
             }
 
         }
