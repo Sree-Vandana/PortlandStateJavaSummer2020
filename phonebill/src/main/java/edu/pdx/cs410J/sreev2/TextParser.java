@@ -62,7 +62,7 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
                 if(count != 0) {
                     String[] args = phoneCall.split("\\s|,");
                     if(!valiadteArgsFormats(args, 0,1,2,4,3,5))
-                        throw new ParserException("The Data in the File is malformatted at line number "+(count+1));
+                        throw new ParserException("The Data in the File is malformatted. phonecall information number " + count + " is modified");
                     parsedPhoneBill.addPhoneCall(new PhoneCall(args, 1));
                 }
                 count++;
