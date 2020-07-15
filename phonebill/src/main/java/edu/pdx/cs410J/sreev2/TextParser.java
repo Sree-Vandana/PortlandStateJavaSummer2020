@@ -7,6 +7,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.security.InvalidParameterException;
+import java.util.regex.Pattern;
 
 public class TextParser implements PhoneBillParser<PhoneBill> {
 
@@ -59,7 +60,9 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
                 parsedPhoneBill = new PhoneBill(phoneCall);
             else{
                 if(count != 0) {
-                    String[] args = phoneCall.split(",");
+                    String[] args = phoneCall.split("\\s|,");
+                    if(!valiadteArgsFormats(args, 0,1,2,4,3,5))
+                        throw new ParserException("The Data in the File is malformatted at line number "+(count+1));
                     parsedPhoneBill.addPhoneCall(new PhoneCall(args, 1));
                 }
                 count++;
@@ -80,6 +83,80 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
                     + "Correct format = "+ "fileName or fileName.txt\n"+"Relative paths are accepted as well");
         }
         return (fileName.matches("^.+?\\.txt$") ? fileName : fileName + ".txt");
+    }
+
+    private static Boolean valiadteArgsFormats(String[] args, int... index) {
+
+        boolean phno1 = isValidatePhoneNumber(args[index[0]]);
+        if(!phno1){
+            System.err.println("The CallerNumber read from file is not in correct format\n");
+        }
+
+        boolean phno2 = isValidatePhoneNumber(args[index[1]]);
+        if(!phno2){
+            System.err.println("The CalleeNumber read from file is not in correct format\n");
+        }
+
+        boolean date1 = isValidateDate(args[index[2]]);
+        if(!date1){
+            System.err.println("The StartDate read from file, is in wrong format\n");
+        }
+
+        boolean date2 = isValidateDate(args[index[3]]);
+        if(!date2){
+            System.err.println("The EndDate read from file, is in wrong format\n");
+        }
+
+        boolean time1 = isValidateTime(args[index[4]]);
+        if(!time1){
+            System.err.println("The StartTime read from file, is in wrong format\n");
+        }
+
+        boolean time2 = isValidateTime(args[index[5]]);
+        if(!time2){
+            System.err.println("The EndTime read from file, is in wrong format\n");
+        }
+
+        if(phno1 & phno2 & date1 & date2 & time1 & time2){
+            return true;
+        }
+        else{
+            //System.err.println("The Data in the File is malformatted\n");
+            return false;
+        }
+    }
+
+    /**
+     * @param phoneNumber
+     *        the phone number should be of the format  nnn-nnn-nnnn
+     * @return boolean
+     * Method for validating PhoneNumber Format (nnn-nnn-nnnn)
+     * */
+    private static boolean isValidatePhoneNumber(String phoneNumber){
+        String regexPhoneNo = "^\\d{3}[\\s-]\\d{3}[\\s-]\\d{4}$";
+        return Pattern.matches(regexPhoneNo, phoneNumber);
+    }
+
+    /**
+     * @param date
+     *        the date should be of the format mm/dd/yyyy
+     * @return boolean
+     * Method for validating Date Format (mm/dd/yyyy)
+     * */
+    private static boolean isValidateDate(String date){
+        String regexDate = "^(0?[1-9]|1[0-2])/(0?[1-9]|1\\d|2\\d|3[01])/(19|20)\\d{2}$";
+        return Pattern.matches(regexDate, date);
+    }
+
+    /**
+     * @param time
+     *        the time shuld be of the format hh:mm
+     * @return boolean
+     *Method for validating Time Format (hh:mm)
+     * */
+    private static boolean isValidateTime(String time){
+        String regexTime = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
+        return Pattern.matches(regexTime, time);
     }
 
 }

@@ -63,8 +63,8 @@ public class PhoneCall extends AbstractPhoneCall{
   public PhoneCall(final String[] args, int status){
     this.callerNum = args[0];
     this.calleeNum = args[1];
-    this.startTimeString = args[2];
-    this.endTimeString = args[3];
+    this.startTimeString = args[2] + " " +args[3];
+    this.endTimeString = args[4] + " " +args[5];
   }
 
   /**

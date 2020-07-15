@@ -104,7 +104,7 @@ public class Project2 {
                             PhoneBill bill = new PhoneBill(name, call);
                             writeIntoFile(args, bill);
                             System.out.println("The given phone call is successfully dumped into the file.");
-                            //PhoneBill readbill = readFromFile(args[Arrays.asList(args).indexOf("-textFile")+1]);
+                            PhoneBill readbill = readFromFile(args[Arrays.asList(args).indexOf("-textFile")+1]);
                             //System.out.println(readbill.getPhoneCalls());
                         }
                         System.exit(0);
