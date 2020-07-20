@@ -551,7 +551,7 @@ public class Project3 {
      * Method for validating Date Format (mm/dd/yyyy)
      * */
     private static boolean isValidateDate(String date){
-        String regexDate = "^(0?[1-9]|1[0-2])/(0?[1-9]|1\\d|2\\d|3[01])/(19|20)\\d{2}$";
+        String regexDate = "^(0[1-9]|1[0-2])/(0?[1-9]|1\\d|2\\d|3[01])/(19|20)\\d{2}$";
         return Pattern.matches(regexDate, date);
     }
 

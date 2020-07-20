@@ -47,8 +47,8 @@ public class PrettyPrinter implements PhoneBillDumper<PhoneBill> {
         pretty += "#     Caller Phone Number     Callee Phone Number     Call Started At     Call Ended At     Call Duration\n";
         pretty += "---------------------------------------------------------------------------------------------------------\n";
         for (PhoneCall c : phoneBill.getPhoneCalls()) {
-            pretty += String.format("%-8d %-23s %-19s %-19s %-18s\n",size - --counter, c.getCaller(),c.getCallee(),
-                    c.getStartTimeString(), c.getEndTimeString());//, c.callDuration());
+            pretty += String.format("%-8d %-23s %-19s %-19s %-18s %d Minutes\n",size - --counter, c.getCaller(),c.getCallee(),
+                    c.getStartTimeString(), c.getEndTimeString(), c.callDuration());
         }
         return pretty;
     }

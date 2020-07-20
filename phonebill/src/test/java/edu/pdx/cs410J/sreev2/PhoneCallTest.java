@@ -4,6 +4,7 @@ import org.hamcrest.core.StringContains;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
@@ -19,6 +20,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class PhoneCallTest {
 
+  @Ignore
   @Test
   public void forProject1ItIsOkayIfGetStartTimeReturnsNull() {
     PhoneCall call = new PhoneCall();
@@ -27,7 +29,7 @@ public class PhoneCallTest {
 
   @Test
   public void getCallerMethodReturnsPhoneNumber(){
-    String[] strArray = new String[]{"-print", "sree", "123-123-1234", "123-123-1234", "1/15/2020", "19:39", "1/15/2020", "19:39"};
+    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
     PhoneCall pc = new PhoneCall(strArray);
 
     assertThat(pc.getCaller(), containsString("123-123-1234"));
@@ -35,7 +37,7 @@ public class PhoneCallTest {
 
   @Test
   public void getCalleeMethodReturnsPhoneNumber(){
-    String[] strArray = new String[]{"-print", "sree", "123-123-1234", "123-123-1234", "1/15/2020", "19:39", "1/15/2020", "19:39"};
+    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
     PhoneCall pc = new PhoneCall(strArray);
 
     assertThat(pc.getCallee(), containsString("123-123-1234"));
@@ -43,23 +45,23 @@ public class PhoneCallTest {
 
   @Test
   public void getStartTimeStringReturnsAStartTimeAndDate(){
-    String[] strArray = new String[]{"-print", "sree", "123-123-1234", "123-123-1234", "1/15/2020", "19:39", "1/15/2020", "19:39"};
+    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
     PhoneCall pc = new PhoneCall(strArray);
 
-    assertThat(pc.getStartTimeString(), containsString("1/15/2020 19:39"));
+    assertThat(pc.getStartTimeString(), containsString("01/15/2020 1:39 AM"));
   }
 
   @Test
   public void getEndtTimeStringReturnsEndTimeAndDate(){
-    String[] strArray = new String[]{"-print", "sree", "123-123-1234", "123-123-1234", "1/15/2020", "19:39", "1/15/2020", "19:40"};
+    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
     PhoneCall pc = new PhoneCall(strArray);
 
-    assertThat(pc.getEndTimeString(), containsString("1/15/2020 19:40"));
+    assertThat(pc.getEndTimeString(), containsString("01/15/2020 1:39 PM"));
   }
 
   @Test
   public void getCallerMethodReturnsPhoneNumberWhenGiventStatus(){
-    String[] strArray = new String[]{"-textFile", "sreefile", "sree", "123-123-1234", "321-123-4567", "1/15/2020", "19:39", "1/15/2020", "19:39"};
+    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
     PhoneCall pc = new PhoneCall(strArray);
 
     assertThat(pc.getCaller(), containsString("123-123-1234"));
@@ -67,31 +69,31 @@ public class PhoneCallTest {
 
   @Test
   public void getCalleeMethodReturnsPhoneNumberWhenGiventStatus(){
-    String[] strArray = new String[]{"-textFile", "sreefile", "sree", "123-123-1234", "321-123-4567", "1/15/2020", "19:39", "1/15/2020", "19:39"};
+    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
     PhoneCall pc = new PhoneCall(strArray);
 
-    assertThat(pc.getCallee(), containsString("321-123-4567"));
+    assertThat(pc.getCallee(), containsString("123-123-1234"));
   }
 
   @Test
   public void getStartTimeStringReturnsAStartTimeAndDateWhenGiventStatus(){
-    String[] strArray = new String[]{"-textFile","sreefile", "sree", "123-123-1234", "321-123-4567", "1/15/2020", "19:39", "1/16/2020", "20:39"};
+    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
     PhoneCall pc = new PhoneCall(strArray);
 
-    assertThat(pc.getStartTimeString(), containsString("1/15/2020 19:39"));
+    assertThat(pc.getStartTimeString(), containsString("01/15/2020 1:39 AM"));
   }
 
   @Test
   public void getEndtTimeStringReturnsEndTimeAndDateWhenGiventStatus(){
-    String[] strArray = new String[]{"-textFile", "sreefile", "sree", "123-123-1234", "321-123-4567", "1/15/2020", "19:39", "1/16/2020", "20:40"};
+    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
     PhoneCall pc = new PhoneCall(strArray);
 
-    assertThat(pc.getEndTimeString(), containsString("1/16/2020 20:40"));
+    assertThat(pc.getEndTimeString(), containsString("01/15/2020 1:39 PM"));
   }
 
   @Test
   public void getCallerMethodReturnsPhoneNumberWhenGiventpStatus(){
-    String[] strArray = new String[]{"-textFile", "sreefile", "-print", "sree", "123-123-1234", "321-123-4567", "1/15/2020", "19:39", "1/15/2020", "19:39"};
+    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
     PhoneCall pc = new PhoneCall(strArray);
 
     assertThat(pc.getCaller(), containsString("123-123-1234"));
@@ -99,44 +101,59 @@ public class PhoneCallTest {
 
   @Test
   public void getCalleeMethodReturnsPhoneNumberWhenGiventpStatus(){
-    String[] strArray = new String[]{"-print", "-textFile", "sreefile", "sree", "123-123-1234", "321-123-4567", "1/15/2020", "19:39", "1/15/2020", "19:39"};
+    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
     PhoneCall pc = new PhoneCall(strArray);
 
-    assertThat(pc.getCallee(), containsString("321-123-4567"));
+    assertThat(pc.getCallee(), containsString("123-123-1234"));
   }
 
   @Test
   public void getStartTimeStringReturnsAStartTimeAndDateWhenGiventpStatus(){
-    String[] strArray = new String[]{"-textFile","sreefile", "-print", "sree", "123-123-1234", "321-123-4567", "1/15/2020", "19:39", "1/16/2020", "20:39"};
+    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
     PhoneCall pc = new PhoneCall(strArray);
 
-    assertThat(pc.getStartTimeString(), containsString("1/15/2020 19:39"));
+    assertThat(pc.getStartTimeString(), containsString("01/15/2020 1:39 AM"));
   }
 
   @Test
   public void getEndtTimeStringReturnsEndTimeAndDateWhenGiventpStatus(){
-    String[] strArray = new String[]{"-print", "-textFile", "sreefile", "sree", "123-123-1234", "321-123-4567", "1/15/2020", "19:39", "1/16/2020", "20:40"};
+    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
     PhoneCall pc = new PhoneCall(strArray);
 
-    assertThat(pc.getEndTimeString(), containsString("1/16/2020 20:40"));
+    assertThat(pc.getEndTimeString(), containsString("01/15/2020 1:39 PM"));
   }
 
   @Test
   public void getStartTimeStringReturnsStartTimeAndDateWhenGivenStatust(){
-    String[] strArray = new String[]{"-textFile", "sreefile", "sree", "123-123-1234", "321-123-4567", "1/15/2020", "19:39", "1/16/2020", "20:40"};
+    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
     PhoneCall pc = new PhoneCall(strArray);
 
-    assertThat(pc.getStartTimeString(), containsString("1/15/2020 19:39"));
+    assertThat(pc.getStartTimeString(), containsString("01/15/2020 1:39 AM"));
   }
 
   @Test
   public void getStartTimeStringReturnsStartTimeAndDateWhenGivenStatus1(){
-    String[] strArray = new String[]{"123-123-1234", "321-123-4567", "1/15/2020", "19:39", "1/16/2020", "20:40"};
+    String[] strArray = new String[]{"123-123-1234", "123-123-1234", "01/15/2020", "1:39", "AM", "01/15/2020", "1:39", "PM"};
     PhoneCall pc = new PhoneCall(strArray, 1);
 
-    assertThat(pc.getStartTimeString(), containsString("1/15/2020 19:39"));
+    assertThat(pc.getStartTimeString(), containsString("01/15/2020 1:39 AM"));
   }
 
+  @Test
+  public void getStartTimeReturnsStartTimeAndDateInDateFormat(){
+    String[] strArray = new String[]{"sree","123-123-1234", "321-123-4567", "01/15/2020 12:39 AM", "01/16/2020 1:40 PM"};
+    PhoneCall pc = new PhoneCall(strArray);
+    assertThat(pc.getStartTime().toString(), containsString("1/15/2020 19:39"));
+  }
+
+  @Test
+  public void checkingDuration(){
+    String[] strArray = new String[]{"sree","123-123-1234", "321-123-4567", "01/15/2020 1:40 AM", "01/15/2020 1:42 AM"};
+    PhoneCall pc = new PhoneCall(strArray);
+    assertThat(String.valueOf(pc.callDuration()), containsString("2"));
+  }
+
+  @Ignore
   @Test
   public void testinggetStartTimeMethod(){
     String[] strArray = new String[]{"123-123-1234", "321-123-4567", "1/15/2020", "19:39", "1/16/2020", "20:40"};

@@ -226,7 +226,7 @@ public class Project3IT extends InvokeMainTestCase {
 
     @Test
     public void givenTextFileFileNameOptionalongwithPrintOutputsPhoneCall(){
-        MainMethodResult result = invokeMain(Project3.class, "-textFile", "sree/sreefile", "-print", "sree", "123-456-7890", "111-222-3333","1/15/2020", "12:39", "AM", "1/15/2020", "2:39", "PM");
+        MainMethodResult result = invokeMain(Project3.class, "-textFile", "sree/sreefile", "-print", "sree", "123-456-7890", "111-222-3333","01/15/2020", "12:39", "AM", "01/15/2020", "2:39", "PM");
         assertThat(result.getTextWrittenToStandardOut(), containsString("sree's latest Phone Call Information"));
     }
 
@@ -238,13 +238,13 @@ public class Project3IT extends InvokeMainTestCase {
 
     @Test
     public void givingOnlytextFileOptionWithArgumentsDumpThemIntoFile(){
-        MainMethodResult result = invokeMain(Project3.class, "-textFile", "sree/sreefile", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "11:39","AM", "2/15/2020", "12:00", "PM");
+        MainMethodResult result = invokeMain(Project3.class, "-textFile", "sree/sreefile", "sree", "111-222-3333", "000-999-8888", "01/15/2020", "11:39","AM", "02/15/2020", "12:00", "PM");
         assertThat(result.getTextWrittenToStandardOut(), containsString("The given phone call is successfully dumped into the textFile."));
     }
 
     @Test
     public void givingPrintAlingWithTextFileIsteadOfFileNameMustRaiseError(){
-        MainMethodResult result = invokeMain(Project3.class, "-textFile","-print", "sree/sreefile", "-1SreeV2?", "123-456-7890", "111-222-3333","1/15/2020", "12:39", "AM", "1/15/2020", "2:39", "PM");
+        MainMethodResult result = invokeMain(Project3.class, "-textFile","-print", "sree/sreefile", "-1SreeV2?", "123-456-7890", "111-222-3333","01/15/2020", "12:39", "AM", "01/15/2020", "2:39", "PM");
         assertThat(result.getTextWrittenToStandardError(), containsString("The \"FileName\" must be given only after -textFile Option"));
     }
 
@@ -262,19 +262,19 @@ public class Project3IT extends InvokeMainTestCase {
 
     @Test
     public void givingPrettyOptionWithArgumentsPrintsTheLatestPhoneCallInPretty(){
-        MainMethodResult result = invokeMain(Project3.class, "-pretty", "-", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "11:39","AM", "2/15/2020", "12:00", "PM");
+        MainMethodResult result = invokeMain(Project3.class, "-pretty", "-", "sree", "111-222-3333", "000-999-8888", "01/15/2020", "11:39","AM", "02/15/2020", "12:00", "PM");
         assertThat(result.getTextWrittenToStandardOut(),containsString("Customer: sree"));
     }
 
     @Test
     public void giveningPrettyOptionWithFileNameDumpsTheLatestPhoneCallIntoPrettyFile(){
-        MainMethodResult result = invokeMain(Project3.class, "-pretty", "prettyTest/prettyFile", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "11:39","AM", "2/15/2020", "12:00", "PM");
+        MainMethodResult result = invokeMain(Project3.class, "-pretty", "prettyTest/prettyFile", "sree", "111-222-3333", "000-999-8888", "01/15/2020", "11:39","AM", "02/15/2020", "12:00", "PM");
         assertThat(result.getTextWrittenToStandardOut(),containsString("Phone calls successfully entered into pretty file"));
     }
 
     @Test
     public void givingPrettyAndTextFileOptionAtATimeWithFileNAmes(){
-        MainMethodResult result = invokeMain(Project3.class, "-pretty", "prettyTest/prettyFile", "-textFile", "sree/sreefile", "sree", "111-222-3333", "000-999-8888", "1/15/2020", "11:39","AM", "2/15/2020", "12:00", "PM");
+        MainMethodResult result = invokeMain(Project3.class, "-pretty", "prettyTest/prettyFile", "-textFile", "sree/sreefile", "sree", "111-222-3333", "000-999-8888", "01/15/2020", "11:39","AM", "02/15/2020", "12:00", "PM");
         assertThat(result.getTextWrittenToStandardOut(),containsString("Phone calls successfully entered into pretty file"));
     }
 

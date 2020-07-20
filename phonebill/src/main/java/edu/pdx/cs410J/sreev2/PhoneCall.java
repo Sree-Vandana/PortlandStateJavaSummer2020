@@ -2,6 +2,8 @@ package edu.pdx.cs410J.sreev2;
 
 import edu.pdx.cs410J.AbstractPhoneCall;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -49,8 +51,12 @@ public class PhoneCall extends AbstractPhoneCall{
     this.endTimeString = args[5] + " " +args[6] + " " + args[7];
   }
 
-  public long callDuration(){
-    return TimeUnit.MINUTES.convert(Math.abs(endTime.getTime() - startTime.getTime()),TimeUnit.MILLISECONDS);
+  /*public long callDuration(){
+    return TimeUnit.convert(Math.abs(getEndTime().getTime() - getStartTime().getTime()),TimeUnit.MILLISECONDS);
+  }*/
+  public long callDuration() {
+    long diffInMillies = Math.abs(getEndTime().getTime() - getStartTime().getTime());
+    return TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS);
   }
 
   /**
@@ -77,7 +83,9 @@ public class PhoneCall extends AbstractPhoneCall{
    * */
   @Override
   public Date getStartTime() {
-    return super.getStartTime();
+    //return super.getStartTime();
+    this.startTime = getDateAndTimeInDate(getStartTimeString());
+    return startTime;
   }
 
   /**
@@ -86,7 +94,9 @@ public class PhoneCall extends AbstractPhoneCall{
    * */
   @Override
   public Date getEndTime() {
-    return super.getEndTime();
+    //return super.getEndTime();
+    this.endTime = getDateAndTimeInDate(getEndTimeString());
+    return endTime;
   }
 
   /**
@@ -105,6 +115,33 @@ public class PhoneCall extends AbstractPhoneCall{
   @Override
   public String getEndTimeString() {
     return endTimeString;
+  }
+
+  public Date getDateAndTimeInDate(String dateTime) {
+    try {
+      SimpleDateFormat formatter1 = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+      SimpleDateFormat formatter2 = new SimpleDateFormat("MM/dd/yyyy h:mm a");
+      formatter1.setLenient(false);
+      formatter2.setLenient(false);
+      Date date1 = formatter1.parse(dateTime);
+      Date date2 = formatter2.parse(dateTime);
+
+      if (formatter1.format(date1).equals(dateTime)) {
+
+        return date1;
+      } else if (formatter2.format(date2).equals(dateTime)) {
+
+        return date2;
+      } else {
+        System.err.println("Incorrect date/time format given.\n");
+        System.exit(1);
+      }
+    } catch (ParseException e){
+      System.err.println("Date parsing error");
+      System.exit(1);
+    }
+
+    return null;
   }
 
 }
