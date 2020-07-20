@@ -45,7 +45,7 @@ public class TextDumperTest {
         try {
             TextDumper test1 = new TextDumper("sreev2/Testsvfile.txt");
             String[] args = {"-print","sreev2", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "1/15/2020", "20:06"};
-            test1.dump(new PhoneBill("sreev2", new PhoneCall(args, "p")));
+            test1.dump(new PhoneBill("sreev2", new PhoneCall(args)));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,7 +56,7 @@ public class TextDumperTest {
         try {
             TextDumper test1 = new TextDumper("svfile.txt");
             String[] args = {"-print","-textFile", "svfile.txt","sreev2", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "1/15/2020", "20:06"};
-            test1.dump(new PhoneBill("sreev2", new PhoneCall(args, "tp")));
+            test1.dump(new PhoneBill("sreev2", new PhoneCall(args)));
         } catch (IOException e) {
             e.printStackTrace();
         }

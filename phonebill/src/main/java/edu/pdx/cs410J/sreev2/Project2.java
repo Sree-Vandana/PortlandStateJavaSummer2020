@@ -86,7 +86,7 @@ public class Project2 {
                     (Arrays.asList(args).indexOf("-print") == 0) &
                     !Arrays.asList(args).contains("-textFile")){
                 if(validateArgs(args)){
-                    PhoneCall call = new PhoneCall(args, "p");
+                    PhoneCall call = new PhoneCall(args);
                     PhoneBill bill = new PhoneBill(args[1], call);
                     System.out.println(args[1] + "'s Phone Call Information\n");
                     System.out.println(call.toString());
@@ -100,7 +100,7 @@ public class Project2 {
                         if (validateArgs(args)) {
                             //TextDumper
                             String name = args[2];
-                            PhoneCall call = new PhoneCall(args, "t");
+                            PhoneCall call = new PhoneCall(args);
                             PhoneBill bill = new PhoneBill(name, call);
                             writeIntoFile(args, bill);
                             System.out.println("The given phone call is successfully dumped into the file.");
@@ -114,7 +114,7 @@ public class Project2 {
                 if (Arrays.asList(args).indexOf("-textFile") < 2 & Arrays.asList(args).indexOf("-print") < 3){
                     if (validateArgs(args)) {
                         if (fileNameGivenAfterTextFile(args)) {
-                            PhoneCall call = new PhoneCall(args, "tp");
+                            PhoneCall call = new PhoneCall(args);
                             PhoneBill bill = new PhoneBill(args[3], call);
                             //TextDumper
                             writeIntoFile(args, bill);

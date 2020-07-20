@@ -90,7 +90,7 @@ public class Project1 {
       if(Arrays.asList(args).contains("-print") &
                 Arrays.asList(args).indexOf("-print") < 1){
         if(validateArgs(args)){
-          PhoneCall call = new PhoneCall(args, "p");
+          PhoneCall call = new PhoneCall(args);
           PhoneBill bill = new PhoneBill(args[1], call);
           System.out.println(args[1] + "'s Phone Call Information\n");
           System.out.println(call.toString());

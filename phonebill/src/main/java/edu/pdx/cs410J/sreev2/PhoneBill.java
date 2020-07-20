@@ -3,8 +3,10 @@ package edu.pdx.cs410J.sreev2;
 import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.AbstractPhoneCall;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
 
@@ -18,7 +20,7 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
      * Holds all phone calls records.
      * For project 1, it holds one <code>PhoneCall</code> record.
      * */
-    final private ArrayList<PhoneCall> phoneCalls= new ArrayList<>();
+    private ArrayList<PhoneCall> phoneCalls= new ArrayList<>();
 
     /**
      * Constructor for PhoneBill class, with no parameters.
@@ -50,6 +52,12 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
         addPhoneCall(newPhoneCallRecord);
     }
 
+    public PhoneBill(final String name, PhoneBill... bills){
+        super();
+        customerName = name;
+        copyPhoneBills(bills);
+    }
+
     /**
      * <method>getCustomer</method> has no parameter
      * @return customerName
@@ -65,7 +73,7 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
      *          phoneCall is of type <class>PhoneCall</class>
      */
     @Override
-    public void addPhoneCall(PhoneCall phoneCall) {
+    public void addPhoneCall(final PhoneCall phoneCall) {
             phoneCalls.add(phoneCall);
     }
 
@@ -74,6 +82,18 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
      * */
     @Override
     public Collection<PhoneCall> getPhoneCalls() {
-        return phoneCalls;
+        return this.phoneCalls;
     }
+
+    private void copyPhoneBills(PhoneBill... bills){
+        for(var bill : bills){
+            if(bill != null && customerName.equals(bill.customerName)) {
+                phoneCalls.addAll(bill.getPhoneCalls());
+                //Collections.sort(phoneCalls);
+            } else{
+                throw new InvalidParameterException("PhoneBills does not contain the same customer");
+            }
+        }
+    }
+
 }

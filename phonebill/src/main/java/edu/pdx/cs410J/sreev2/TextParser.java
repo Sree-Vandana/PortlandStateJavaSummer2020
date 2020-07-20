@@ -41,6 +41,7 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
         final List<String> listOfPhoneCalls = new ArrayList<>();
         BufferedReader fileData = null;
         String strCurrentLine = null;
+
         try {
             File file = new File(path);
             if(!file.exists() || file.length() == 0)
@@ -61,7 +62,7 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
             else{
                 if(count != 0) {
                     String[] args = phoneCall.split("\\s|,");
-                    if(!valiadteArgsFormats(args, 0,1,2,4,3,5))
+                    if(!valiadteArgsFormats(args, 0,1,2,3,4,5,6,7))
                         throw new ParserException("The Data in the File is malformatted. phonecall information number " + count + " is modified");
                     parsedPhoneBill.addPhoneCall(new PhoneCall(args, 1));
                 }
@@ -102,17 +103,17 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
             System.err.println("The StartDate read from file, is in wrong format\n");
         }
 
-        boolean date2 = isValidateDate(args[index[3]]);
+        boolean date2 = isValidateDate(args[index[5]]);
         if(!date2){
             System.err.println("The EndDate read from file, is in wrong format\n");
         }
 
-        boolean time1 = isValidateTime(args[index[4]]);
+        boolean time1 = isValidateTime(args[index[3]] + " " + args[index[4]]);
         if(!time1){
             System.err.println("The StartTime read from file, is in wrong format\n");
         }
 
-        boolean time2 = isValidateTime(args[index[5]]);
+        boolean time2 = isValidateTime(args[index[6]] + " " + args[index[7]]);
         if(!time2){
             System.err.println("The EndTime read from file, is in wrong format\n");
         }
@@ -155,7 +156,7 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
      *Method for validating Time Format (hh:mm)
      * */
     private static boolean isValidateTime(String time){
-        String regexTime = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
+        String regexTime = "^(((0?[1-9])|(1[0-2])):([0-5])([0-9])\\s[PpAa][Mm])$";
         return Pattern.matches(regexTime, time);
     }
 
