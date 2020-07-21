@@ -251,7 +251,7 @@ public class Project3IT extends InvokeMainTestCase {
     @Test
     public void optionsMustBegivenBeforeArguments(){
         MainMethodResult result = invokeMain(Project3.class, "-textFile", "sree/sreefile", "sree", "-print", "111-222-3333", "000-999-8888", "1/15/2020", "19:39", "2/15/2020", "20:00");
-        assertThat(result.getTextWrittenToStandardError(), containsString("Options must be given before arguments"));
+        assertThat(result.getTextWrittenToStandardError(), containsString("SomeThing is out of order"));
     }
 
     @Test
@@ -261,21 +261,100 @@ public class Project3IT extends InvokeMainTestCase {
     }
 
     @Test
-    public void givingPrettyOptionWithArgumentsPrintsTheLatestPhoneCallInPretty(){
-        MainMethodResult result = invokeMain(Project3.class, "-pretty", "-", "sree", "111-222-3333", "000-999-8888", "01/15/2020", "11:39","AM", "02/15/2020", "12:00", "PM");
-        assertThat(result.getTextWrittenToStandardOut(),containsString("Customer: sree"));
-    }
-
-    @Test
     public void giveningPrettyOptionWithFileNameDumpsTheLatestPhoneCallIntoPrettyFile(){
-        MainMethodResult result = invokeMain(Project3.class, "-pretty", "prettyTest/prettyFile", "sree", "111-222-3333", "000-999-8888", "01/15/2020", "11:39","AM", "02/15/2020", "12:00", "PM");
+        MainMethodResult result = invokeMain(Project3.class, "-pretty", "prettyTest/prettyFile", "sree", "111-222-3333", "000-999-8888", "01/14/2020", "11:39","AM", "02/14/2020", "12:00", "PM");
         assertThat(result.getTextWrittenToStandardOut(),containsString("Phone calls successfully entered into pretty file"));
     }
 
     @Test
     public void givingPrettyAndTextFileOptionAtATimeWithFileNAmes(){
-        MainMethodResult result = invokeMain(Project3.class, "-pretty", "prettyTest/prettyFile", "-textFile", "sree/sreefile", "sree", "111-222-3333", "000-999-8888", "01/15/2020", "11:39","AM", "02/15/2020", "12:00", "PM");
+        MainMethodResult result = invokeMain(Project3.class, "-pretty", "pretty/prettyFile", "-textFile", "sree/sreefile", "sree", "211-222-3333", "000-999-8888", "01/15/2020", "9:38","AM", "01/15/2020", "9:40", "AM");
         assertThat(result.getTextWrittenToStandardOut(),containsString("Phone calls successfully entered into pretty file"));
     }
+
+    @Test
+    public void givenOnlyPrintOption(){
+        MainMethodResult result = invokeMain(Project3.class, "-print", "sree", "111-222-3333", "000-999-8888", "01/14/2020", "11:39","AM", "02/14/2020", "12:00", "PM");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("sree's Phone Call Information"));
+    }
+
+    @Test
+    public void givenPrittyAndPrintWithFileName(){
+        MainMethodResult result = invokeMain(Project3.class, "-print", "-pretty", "pretty/prettyFile.txt", "sree", "111-222-3333", "000-999-8888", "01/14/2020", "12:09","AM", "01/14/2020", "12:30", "AM");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Phone calls successfully entered into pretty file"));
+    }
+
+    @Test
+    public void givenPrittyAndPrintWithHypin(){
+        MainMethodResult result = invokeMain(Project3.class, "-print", "-pretty", "-", "sree", "111-222-3333", "000-999-8888", "01/14/2020", "12:09","AM", "01/14/2020", "12:30", "AM");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Customer: sree"));
+    }
+
+    @Test
+    public void notGivingFileNameOrHyphinAfterPrettyRaisesError(){
+        MainMethodResult result = invokeMain(Project3.class, "-pretty","-print", "-", "sree", "111-222-3333", "000-999-8888", "01/14/2020", "12:09","AM", "01/14/2020", "12:30", "AM");
+        assertThat(result.getTextWrittenToStandardError(), containsString("The \"FileName\" or \"-\" must be given after -pretty Option"));
+    }
+
+    @Test
+    public void notGivingFileNameOrHyphinAfterPrettyOrTextFileRaisesError(){
+        MainMethodResult result = invokeMain(Project3.class, "-textFile","-pretty","fileName.txt","pretty/prettyFile", "sree", "111-222-3333", "000-999-8888", "01/14/2020", "12:09","AM", "01/14/2020", "12:30", "AM");
+        assertThat(result.getTextWrittenToStandardError(), containsString("Something is out of order"));
+    }
+
+    @Test
+    public void AllThreeOptionsAreGivenWithPrettyTextFile(){
+        MainMethodResult result = invokeMain(Project3.class, "-textFile","fileName.txt","-pretty","pretty/prettyFile","-print", "sree", "111-222-3333", "000-999-8888", "01/14/2020", "12:09","AM", "01/14/2020", "12:30", "AM");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("The given phone call is successfully dumped into the textFile"));
+    }
+
+    @Test
+    public void AllThreeOptionsAreGivenWithPrettyHyphen(){
+        MainMethodResult result = invokeMain(Project3.class, "-textFile","fileName.txt","-pretty","-","-print", "sree", "111-222-3333", "000-999-8888", "01/14/2020", "12:09","AM", "01/14/2020", "12:30", "AM");
+        assertThat(result.getTextWrittenToStandardOut(), containsString("The given phone call is successfully dumped into the textFile"));
+    }
+
+    @Test
+    public void prityPrintGivenOutOfOrder(){
+        MainMethodResult result = invokeMain(Project3.class, "-pretty","-print","-", "sree", "111-222-3333", "000-999-8888", "01/14/2020", "12:09","AM", "01/14/2020", "12:30", "AM");
+        assertThat(result.getTextWrittenToStandardError(), containsString("The \"FileName\" or \"-\" must be given after -pretty Option"));
+    }
+
+    @Test
+    public void givingSameFileNameForTextFileAndPretty(){
+        MainMethodResult result = invokeMain(Project3.class, "-textFile","fileName.txt","-pretty","fileName.txt", "sree", "111-222-3333", "000-999-8888", "01/14/2020", "12:09","AM", "01/14/2020", "12:30", "AM");
+        assertThat(result.getTextWrittenToStandardError(), containsString("please provide different file name/path for -pretty option and -textFile option to avoid unwanted behaviour."));
+    }
+
+    @Test
+    public void AllThreeOptionsGivenSameFileNameForTextFileAndPretty(){
+        MainMethodResult result = invokeMain(Project3.class, "-textFile","fileName.txt","-pretty","fileName.txt","-print", "sree", "111-222-3333", "000-999-8888", "01/14/2020", "12:09","AM", "01/14/2020", "12:30", "AM");
+        assertThat(result.getTextWrittenToStandardError(), containsString("please provide different file name/path for -pretty option and -textFile option to avoid unwanted behaviour."));
+    }
+
+    @Test
+    public void greaterThanFifteenArgumentsWithOptions(){
+        MainMethodResult result = invokeMain(Project3.class, "-textFile","fileName.txt","-pretty","fileName.txt","-print", "sree", "111-222-3333", "000-999-8888", "01/14/2020", "12:09","AM", "01/14/2020", "12:30", "AM", "sree","asdf");
+        assertThat(result.getTextWrittenToStandardError(), containsString("Seems like you have entered more than the required Arguments"));
+    }
+
+    @Test
+    public void givingGreateThanFifteenArgumentsWithoutOptions(){
+        MainMethodResult result = invokeMain(Project3.class, "sree", "111-222-3333", "000-999-8888", "01/14/2020", "sree", "111-222-3333", "000-999-8888", "01/14/2020", "12:09","AM", "01/14/2020", "12:30", "AM");
+        assertThat(result.getTextWrittenToStandardError(), containsString("You did not enter any valid options and the number of arguments entered are too many"));
+    }
+
+    @Test
+    public void givingNoOptionsWithAllCorrectArguments(){
+        MainMethodResult result = invokeMain(Project3.class, "sree", "111-222-3333", "000-999-8888", "01/14/2020", "12:09","AM", "01/14/2020", "12:30", "AM");
+        assertThat(result.getTextWrittenToStandardOut(), containsString(""));
+    }
+
+    @Test
+    public void startDateAndtimeShouldNotBEAfterEndDateAndTime(){
+        MainMethodResult result = invokeMain(Project3.class, "-print", "sree", "111-222-3333", "000-999-8888", "01/14/2020", "12:09","AM", "01/14/2020", "12:09", "AM");
+        assertThat(result.getTextWrittenToStandardError(), containsString("Start date and time can not be equals or after the end date and time of the phone call"));
+    }
+
 
 }

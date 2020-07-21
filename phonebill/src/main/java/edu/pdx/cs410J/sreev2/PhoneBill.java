@@ -4,9 +4,7 @@ import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.AbstractPhoneCall;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
 
@@ -82,6 +80,10 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
      * */
     @Override
     public Collection<PhoneCall> getPhoneCalls() {
+        /*Set<PhoneCall> set = new HashSet<>(phoneCalls);
+        phoneCalls.clear();
+        phoneCalls.addAll(set);*/
+        Collections.sort(phoneCalls, PhoneBill.StartTimeComparator);
         return this.phoneCalls;
     }
 
@@ -95,5 +97,20 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
             }
         }
     }
+
+    public static Comparator<PhoneCall> StartTimeComparator = new Comparator<PhoneCall>() {
+        public int compare(PhoneCall p1, PhoneCall p2) {
+            Date StartTime1 = p1.getStartTime();
+            Date StartTime2 = p2.getStartTime();
+            String CallerNum1 = p1.getCaller();
+            String CallerNum2 = p2.getCaller();
+
+            //ascending order
+            if(StartTime1.compareTo(StartTime2) == 0){
+                return CallerNum1.compareTo(CallerNum2);
+            }
+            return StartTime1.compareTo(StartTime2);
+        }};
+
 
 }

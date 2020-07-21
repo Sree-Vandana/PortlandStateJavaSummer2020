@@ -27,9 +27,9 @@ public class Project3 {
      * */
     private static final String usage = "Expected input\n" +
             "java edu.pdx.cs410J.<login-id>.Project3 [options] <args>\n" +
-            "[options] = [-pretty (file/-) -textFile fileName -print -README] can appear in any order, "
+            "[options] = [-pretty (prettyFile/-) -textFile fileName -print -README] can appear in any order, "
             + "but fileName must be given after -textFile option\n"
-            + "file or - must be given afetr -pretty option, followed by"
+            + "file or - must be given after -pretty option, followed by"
             + "<args> are in this order:\n" +
             arguments+ "The <args> should be given in String.\n";
 
@@ -52,14 +52,18 @@ public class Project3 {
      * 3 cases can happen in this main method
      * <var>length</var> = length of command line Arguments
      * CASE 1: length = 0
-     * CASE 2: length <= 11
+     * CASE 2: length <= 15
      *          [Sub case's]
-     *          CASE i:   README id given
-     *          CASE ii:  Only -print
-     *          CASE iii: Only -textFile FileName
-     *          CASE iv:  Both -print and -textFile FileName
-     *          CASE v:   No Option (if all arguments are given, validate their format)
-     * CASE 3: length > 11
+     *          - README is given
+     *          - Only -print
+     *          - only -textFile
+     *          - only -pretty
+     *          - print & -textFile
+     *          - print & -pretty
+     *          - -pretty & -textFile
+     *          - All 3 options given
+     *          - No Option (if all arguments are given, validate their format)
+     * CASE 3: length > 15
      * */
     public static void main(String[] args) {
 
@@ -135,7 +139,7 @@ public class Project3 {
             }
 
             //print & textFile
-            if(Arrays.asList(args).contains("-print") & Arrays.asList(args).contains("-textFile")) {
+            if(Arrays.asList(args).contains("-print") & Arrays.asList(args).contains("-textFile") & !Arrays.asList(args).contains("-pretty")) {
                 if (Arrays.asList(args).indexOf("-textFile") < 2 & Arrays.asList(args).indexOf("-print") < 3){
                     if (validateArgs(args)) {
                         if (fileNameGivenAfterTextFile(args)) {
@@ -157,13 +161,13 @@ public class Project3 {
                     }
                 }
                 else{
-                    System.err.println("Options must be given before arguments\n" +usage);
+                    System.err.println("SomeThing is out of order\nPlease follow this usage\n" +usage);
                 }
                 System.exit(1);
             }
 
             //print & pretty
-            if(Arrays.asList(args).contains("-print") & Arrays.asList(args).contains("-pretty")) {
+            if(Arrays.asList(args).contains("-print") & Arrays.asList(args).contains("-pretty") & !Arrays.asList(args).contains("-textFile")) {
                 if (Arrays.asList(args).indexOf("-pretty") < 2 & Arrays.asList(args).indexOf("-print") < 3){
                     if (validateArgs(args)) {
                         if (fileNameOrHyphenGivenAfterPretty(args)) {
@@ -176,8 +180,8 @@ public class Project3 {
                             System.out.println(args_m[0] + "'s latest Phone Call Information\n");
                             System.out.println(call.toString());
                         } else {
-                            System.err.println("The \"FileName\" or \"-\" must be given after -textFile Option\n"
-                                    + "[options] = [-pretty (fileName,-) -textFile fileName -print -README] can appear in any order, "
+                            System.err.println("The \"FileName\" or \"-\" must be given after -pretty Option\n"
+                                    + "NOTE:\n[options] = [-pretty (fileName,-) -textFile fileName -print -README] can appear in any order, "
                                     + "but fileName or - must be given after -pretty option\n");
                         }
                     }
@@ -189,32 +193,36 @@ public class Project3 {
             }
 
             //textFile & pretty
-            if(Arrays.asList(args).contains("-textFile") & Arrays.asList(args).contains("-pretty")) {
+            if(Arrays.asList(args).contains("-textFile") & Arrays.asList(args).contains("-pretty") & !Arrays.asList(args).contains("-print")) {
                 if ((Arrays.asList(args).indexOf("-pretty") == 0 &
                         Arrays.asList(args).indexOf("-textFile") == 2) ||
                         (Arrays.asList(args).indexOf("-pretty") == 2 &
                                 Arrays.asList(args).indexOf("-textFile") == 0)){
                     if (validateArgs(args)) {
-                        if (fileNameOrHyphenGivenAfterPretty(args) & fileNameGivenAfterTextFile(args)) {
-                            String name = args[4];
-                            String[] args_m = {args[4], args[5], args[6], args[7]+" "+args[8]+" "+args[9], args[10]+" "+args[11]+" "+args[12]};
-                            PhoneCall call = new PhoneCall(args_m);
-                            PhoneBill bill = new PhoneBill(args_m[0], call);
-                            //TextDumper
-                            writeIntoFile(args, bill);
-                            System.out.println("The given phone call is successfully dumped into the textFile.\n");
-                            PhoneBill readbill = readFromFile(args[Arrays.asList(args).indexOf("-textFile") + 1]);
-                            pretty(args, bill.getCustomer(), bill, readbill);
-                        } else {
-                            System.err.println("The \"FileName\" must be given only after -textFile Option\n"
-                                    + "[options] = [-pretty (fileName,-) -textFile fileName -print -README] can appear in any order, "
-                                    + "but fileName must be given after -textFile option and\n"
-                                    + "fileName or - must be given after -pretty option\n");
+                        if(fileNameOrPathDifferent(args)) {
+                            if (fileNameOrHyphenGivenAfterPretty(args) & fileNameGivenAfterTextFile(args)) {
+                                String name = args[4];
+                                String[] args_m = {args[4], args[5], args[6], args[7] + " " + args[8] + " " + args[9], args[10] + " " + args[11] + " " + args[12]};
+                                PhoneCall call = new PhoneCall(args_m);
+                                PhoneBill bill = new PhoneBill(args_m[0], call);
+                                //TextDumper
+                                writeIntoFile(args, bill);
+                                System.out.println("The given phone call is successfully dumped into the textFile.\n");
+                                PhoneBill readbill = readFromFile(args[Arrays.asList(args).indexOf("-textFile") + 1]);
+                                pretty(args, bill.getCustomer(), readbill);
+                            } else {
+                                System.err.println("The \"FileName\" must be given only after -textFile Option\n"
+                                        + "[options] = [-pretty (fileName,-) -textFile fileName -print -README] can appear in any order, "
+                                        + "but fileName must be given after -textFile option and\n"
+                                        + "fileName or - must be given after -pretty option\n");
+                            }
+                        }else {
+                            System.err.println("please provide different file name/path for -pretty option and -textFile option to avoid unwanted behaviour.\n");
                         }
                     }
                 }
                 else{
-                    System.err.println("Options must be given before arguments\nPlease follow this usage\n" +usage);
+                    System.err.println("Something is out of order\nPlease follow this usage\n" +usage);
                 }
                 System.exit(1);
             }
@@ -227,28 +235,32 @@ public class Project3 {
                         Arrays.asList(args).indexOf("-textFile") < 5) &
                                 Arrays.asList(args).indexOf("-print") < 5){
                     if (validateArgs(args)) {
-                        if (fileNameOrHyphenGivenAfterPretty(args) & fileNameGivenAfterTextFile(args)) {
-                            String name = args[5];
-                            String[] args_m = {args[5], args[6], args[7], args[8]+" "+args[9]+" "+args[10], args[11]+" "+args[12]+" "+args[13]};
-                            PhoneCall call = new PhoneCall(args_m);
-                            PhoneBill bill = new PhoneBill(args_m[0], call);
-                            //TextDumper
-                            writeIntoFile(args, bill);
-                            System.out.println("The given phone call is successfully dumped into the textFile.\n");
-                            System.out.println(args_m[0] + "'s latest Phone Call Information\n");
-                            System.out.println(call.toString());
-                            PhoneBill readbill = readFromFile(args[Arrays.asList(args).indexOf("-textFile") + 1]);
-                            pretty(args, bill.getCustomer(), bill, readbill);
-                        } else {
-                            System.err.println("The \"FileName\" must be given only after -textFile Option\n"
-                                    + "[options] = [-pretty (fileName,-) -textFile fileName -print -README] can appear in any order, "
-                                    + "but fileName must be given after -textFile option and\n"
-                                    + "fileName or - must be given after -pretty option\n");
+                        if(fileNameOrPathDifferent(args)) {
+                            if (fileNameOrHyphenGivenAfterPretty(args) & fileNameGivenAfterTextFile(args)) {
+                                String name = args[5];
+                                String[] args_m = {args[5], args[6], args[7], args[8] + " " + args[9] + " " + args[10], args[11] + " " + args[12] + " " + args[13]};
+                                PhoneCall call = new PhoneCall(args_m);
+                                PhoneBill bill = new PhoneBill(args_m[0], call);
+                                //TextDumper
+                                writeIntoFile(args, bill);
+                                System.out.println("The given phone call is successfully dumped into the textFile.\n");
+                                PhoneBill readbill = readFromFile(args[Arrays.asList(args).indexOf("-textFile") + 1]);
+                                pretty(args, bill.getCustomer(), readbill);
+                                System.out.println(args_m[0] + "'s latest Phone Call Information\n");
+                                System.out.println(call.toString());
+                            } else {
+                                System.err.println("The \"FileName\" must be given only after -textFile Option\n"
+                                        + "[options] = [-pretty (fileName,-) -textFile fileName -print -README] can appear in any order, "
+                                        + "but fileName must be given after -textFile option and\n"
+                                        + "fileName or - must be given after -pretty option\n");
+                            }
+                        }else {
+                            System.err.println("please provide different file name/path for -pretty option and -textFile option to avoid unwanted behaviour.\n");
                         }
                     }
                 }
                 else{
-                    System.err.println("Options must be given before arguments\nPlease follow this usage\n" +usage);
+                    System.err.println("Something is out of order\nPlease follow this usage\n" +usage);
                 }
                 System.exit(1);
             }
@@ -285,8 +297,12 @@ public class Project3 {
             System.err.println("Seems like you have entered more than the required Arguments.\n"
                     + "You can enter:\n" + usage);
         }
-        System.exit(0);
+        System.exit(1);
 
+    }
+
+    private static boolean fileNameOrPathDifferent(String[] args) {
+        return !args[Arrays.asList(args).indexOf("-pretty")+1].equals(args[Arrays.asList(args).indexOf("-textFile")+1]);
     }
 
     private static void pretty(String[] args, String customer, final PhoneBill... bills) {
@@ -294,12 +310,11 @@ public class Project3 {
             var fullBill = new PhoneBill(customer, bills);
             var prettyPrinter = new PrettyPrinter(args[Arrays.asList(args).indexOf("-pretty")+1]);
             if (args[Arrays.asList(args).indexOf("-pretty")+1].equals("-") ){
-                //prettyPrinter.dump(bills[0]);
                 prettyPrinter.printOnStandardIO(fullBill);
-            }else
+            }else {
                 prettyPrinter.dump(fullBill);
                 System.out.println("Phone calls successfully entered into pretty file\n");
-
+            }
         }catch (Exception ex){
             System.err.println(ex.getMessage());
             System.exit(1);
@@ -332,8 +347,8 @@ public class Project3 {
             PhoneBill bill = txtParser.parse();
             return bill;
         } catch (Exception e) {
-            System.err.println("Error occured while reading from text file.");
-            e.printStackTrace();
+            System.err.println(e.getMessage());
+            //e.printStackTrace();
             System.exit(1);
         }
         return null;
@@ -353,7 +368,7 @@ public class Project3 {
             txtDumper.dump(bill);
         } catch (Exception e) {
             System.err.println("Error occured when trying to write to file");
-            e.printStackTrace();
+            //e.printStackTrace();
             System.exit(1);
         }
     }

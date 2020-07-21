@@ -20,13 +20,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class PhoneCallTest {
 
-  @Ignore
-  @Test
-  public void forProject1ItIsOkayIfGetStartTimeReturnsNull() {
-    PhoneCall call = new PhoneCall();
-    assertThat(call.getStartTime(), is(nullValue()));
-  }
-
   @Test
   public void getCallerMethodReturnsPhoneNumber(){
     String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
@@ -140,26 +133,10 @@ public class PhoneCallTest {
   }
 
   @Test
-  public void getStartTimeReturnsStartTimeAndDateInDateFormat(){
-    String[] strArray = new String[]{"sree","123-123-1234", "321-123-4567", "01/15/2020 12:39 AM", "01/16/2020 1:40 PM"};
-    PhoneCall pc = new PhoneCall(strArray);
-    assertThat(pc.getStartTime().toString(), containsString("1/15/2020 19:39"));
-  }
-
-  @Test
   public void checkingDuration(){
     String[] strArray = new String[]{"sree","123-123-1234", "321-123-4567", "01/15/2020 1:40 AM", "01/15/2020 1:42 AM"};
     PhoneCall pc = new PhoneCall(strArray);
     assertThat(String.valueOf(pc.callDuration()), containsString("2"));
-  }
-
-  @Ignore
-  @Test
-  public void testinggetStartTimeMethod(){
-    String[] strArray = new String[]{"123-123-1234", "321-123-4567", "1/15/2020", "19:39", "1/16/2020", "20:40"};
-    PhoneCall pc = new PhoneCall(strArray);
-
-    assertThat(pc.getStartTime().toString(), containsString("1/15/2020 19:39"));
   }
   
 }
