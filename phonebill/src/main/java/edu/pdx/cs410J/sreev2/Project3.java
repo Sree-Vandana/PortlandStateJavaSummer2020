@@ -368,6 +368,7 @@ public class Project3 {
             txtDumper.dump(bill);
         } catch (Exception e) {
             System.err.println("Error occured when trying to write to file");
+            System.err.println(e.getMessage());
             //e.printStackTrace();
             System.exit(1);
         }
