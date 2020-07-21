@@ -269,7 +269,7 @@ public class Project3IT extends InvokeMainTestCase {
     @Test
     public void givingPrettyAndTextFileOptionAtATimeWithFileNAmes(){
         MainMethodResult result = invokeMain(Project3.class, "-pretty", "pretty/prettyFile", "-textFile", "sree/sreefile", "sree", "211-222-3333", "000-999-8888", "01/15/2020", "9:38","AM", "01/15/2020", "9:40", "AM");
-        assertThat(result.getTextWrittenToStandardOut(),containsString("Phone calls successfully entered into pretty file"));
+        assertThat(result.getTextWrittenToStandardOut(),containsString("The given phone call is successfully dumped into the textFile"));
     }
 
     @Test
