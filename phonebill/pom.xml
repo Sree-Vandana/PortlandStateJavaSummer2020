@@ -78,7 +78,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>edu.pdx.cs410J.sreev2.Project2</mainClass>
+              <mainClass>edu.pdx.cs410J.sreev2.Project3</mainClass>
             </manifest>
           </archive>
         </configuration>
