@@ -1,18 +1,20 @@
 This is a README file!
 
 Name: Sree Vandana Nadipalli
-Project 2: phonebill
+Project 3: phonebill
 
-This Project2 phonebill is an extention of project1. One Additional Option is provided, "-textFile fileName"
-using which the user can store the phone calls in a file, unlike project1
+This Project3 phonebill is an extention of project2. One Additional Option is provided, "-pretty (prettyfile/-)"
+using which the user can store the phone bill in a file, which is easy to read.
 
-So, the usage becomes.
+The usage becomes.
 java -jar target/phonebill-Summer2020.jar \
 [options] <args>
-[options] = [-textFile fileName -print -README] they can appear in any order
+[options] = [-textFile fileName -print -pretty (prettyFile/-) -README] they can appear in any order
 but the fileName must be given after -textFile option only.
 <args> are in this order
-<customerName>  <callerNumber>  <calleeNumber>  <start Date>  <start time>  <end Date>  <end time>
+<customerName>  <callerNumber>  <calleeNumber>  <start Date>  <start time>  <end Date> <AM/PM> <end time> <AM/PM>
+
+while all the options functionalities remain same as project 2. there is some aditional functionality provided by -pretty option.
 
 When -README switch is selected, irrespective of any argument or switch given or not,
 the program displays the README.txt file describing the functionality of the program and does not perform any other operations.
@@ -26,6 +28,9 @@ then program dumps the contents into a file and does not output anything.
 
 If both -print and -textFile are given,
 then the program dumps the phone call information into a file and prints the latest phoneCall on to console.
+
+when -pretty prettyFile is given, the phone bill will be printed into a prettyFile
+when -pretty - is given, the phone bill will be printed onto console.
 
 If the arguments are not given or the validation fails, the program informs the details of error to the user.
 The program raises error when, too many or too less arguments are provided by the user.

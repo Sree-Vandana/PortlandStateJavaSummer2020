@@ -131,6 +131,12 @@ public class PhoneCall extends AbstractPhoneCall {
   }
 
 
+  /**
+   * The date and time that is entered in the pretty file is formatted by this method to look good
+   * @param i <type>Integer</type>
+   *          represents start or end time
+   * @return dateTimeprettyFormat of <type>String</type>
+   * */
   public String getPrettyDateTime(int i){
     String pattern = "MM/dd/yy HH:mm a";
     String sdate="";
@@ -151,6 +157,14 @@ public class PhoneCall extends AbstractPhoneCall {
     return dateTimeprettyFormat;
   }
 
+  /**
+   * this method formats the date and time in SimpleDateTime format
+   * parses the given date and time into a <type>Date</type>
+   * @param dateTime
+   *        both start and end date in <type>String</type>
+   * @return date
+   *        of <type>Date</type>
+   * */
   public Date getDateAndTimeInDate(String dateTime) {
     try {
       SimpleDateFormat formatter1 = new SimpleDateFormat("MM/dd/yyyy hh:mm a");

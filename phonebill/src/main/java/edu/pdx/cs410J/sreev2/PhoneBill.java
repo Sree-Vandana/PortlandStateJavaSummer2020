@@ -50,6 +50,12 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
         addPhoneCall(newPhoneCallRecord);
     }
 
+    /**
+     * This constructor copies all the phone calls into phonecalls collection
+     * @param name of type <code>String</code>
+     *             Coustomer Name
+     * @param bills of type <class>PhoneBill</class>
+     * */
     public PhoneBill(final String name, PhoneBill... bills){
         super();
         customerName = name;
@@ -87,6 +93,12 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
         return this.phoneCalls;
     }
 
+    /**
+     * This method is invoked by the constructor and
+     * copies all the given phone calls into <Collection>phoneCalls</Collection>
+     * @throws InvalidParameterException
+     *         when the phone bills contains different customer name
+     * */
     private void copyPhoneBills(PhoneBill... bills){
         for(var bill : bills){
             if(bill != null && customerName.equals(bill.customerName)) {
@@ -98,6 +110,10 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
         }
     }
 
+    /**
+     * The <Collections>ArrayList</Collections> are sorted in this method
+     * and store in <Collections>Phonecalls</Collections>
+     * */
     public static Comparator<PhoneCall> StartTimeComparator = new Comparator<PhoneCall>() {
         public int compare(PhoneCall p1, PhoneCall p2) {
             Date StartTime1 = p1.getStartTime();

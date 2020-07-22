@@ -301,10 +301,23 @@ public class Project3 {
 
     }
 
+    /**
+     * This method checks if the files names or paths for -pretty and -textFile options are same or not
+     * @param args <type>String</type>
+     * @return <class>Boolean</class>
+     * */
     private static boolean fileNameOrPathDifferent(String[] args) {
         return !args[Arrays.asList(args).indexOf("-pretty")+1].equals(args[Arrays.asList(args).indexOf("-textFile")+1]);
     }
 
+    /**
+     * this methods performs the operations when pretty option is given
+     * @param args <type>String[]</type>
+     *             Command line arguments
+     * @param bills <class>PhoneBill...</class>
+     *              group of all phonebills
+     * @throws Exception
+     * */
     private static void pretty(String[] args, String customer, final PhoneBill... bills) {
         try{
             var fullBill = new PhoneBill(customer, bills);
@@ -321,12 +334,22 @@ public class Project3 {
         }
     }
 
+    /**
+     * This method checks if the file name or hyphin is followed by -pretty option
+     * @param args of <type>String[]</type>
+     * @return boolean
+     * */
     private static boolean fileNameOrHyphenGivenAfterPretty(String[] args) {
         int indexOfPretty = Arrays.asList(args).indexOf("-pretty");
         int indexOfPrint = Arrays.asList(args).indexOf("-print");
         return indexOfPrint != indexOfPretty + 1;
     }
 
+    /**
+     * This method checks if the file name is followed by -textFile option
+     * @param args of <type>String[]</type>
+     * @return boolean
+     * */
     private static boolean fileNameGivenAfterTextFile(String[] args) {
         int indexOftextFile = Arrays.asList(args).indexOf("-textFile");
         int indexOfPrint = Arrays.asList(args).indexOf("-print");

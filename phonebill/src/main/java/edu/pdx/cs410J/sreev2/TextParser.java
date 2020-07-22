@@ -86,6 +86,13 @@ public class TextParser implements PhoneBillParser<PhoneBill> {
         return (fileName.matches("^.+?\\.txt$") ? fileName : fileName + ".txt");
     }
 
+    /**
+     * This method validates the arguments read from the file and checks if they are malformatted
+     * @param args of <type>String Array</type>
+     * @param index of <type>int...</type>
+     *
+     * @return <class>Boolean</class>
+     * */
     private static Boolean valiadteArgsFormats(String[] args, int... index) {
 
         boolean phno1 = isValidatePhoneNumber(args[index[0]]);

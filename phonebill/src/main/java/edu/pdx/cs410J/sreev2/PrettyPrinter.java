@@ -10,8 +10,16 @@ import java.util.Arrays;
 
 public class PrettyPrinter implements PhoneBillDumper<PhoneBill> {
 
+    /**
+     * path of type <code>String</code>
+     * */
     private static String path;
 
+    /**
+     * default constructor, generates a path and creates a file
+     * @param fileName
+     *        fileName.txt stores the pretty print output
+     * */
     PrettyPrinter(String fileName) throws IOException{
         super();
         path = new String(createPath(fileName));
@@ -22,6 +30,12 @@ public class PrettyPrinter implements PhoneBillDumper<PhoneBill> {
         }
     }
 
+    /**
+     * writes the pretty phone calls into pretty file
+     * @param phoneBill
+     *        of type <class>PhoneBill</class>
+     * @throws IllegalArgumentException
+     * */
     @Override
     public void dump(PhoneBill phoneBill) throws IOException {
         if(!path.equals("-.txt")){
@@ -36,10 +50,22 @@ public class PrettyPrinter implements PhoneBillDumper<PhoneBill> {
         }
     }
 
+    /**
+     * writes the phoneBill in pretty format onto console
+     * @param phoneBill
+     *        type <class>PhoneBill</class>
+     * */
     final public void printOnStandardIO(PhoneBill phoneBill){
         System.out.println(prettyPhoneBill(phoneBill));
     }
 
+    /**
+     * takes the contents from PhoneCall collection and generates a string for each phonecall
+     * @param phoneBill
+     *        of type <class>PhoneBill</class>
+     * @return String
+     *         containing entire phoneBill
+     * */
     private String prettyPhoneBill(PhoneBill phoneBill) {
         var size = phoneBill.getPhoneCalls().size();
         int counter = size;
