@@ -323,7 +323,7 @@ public class Project3 {
             var fullBill = new PhoneBill(customer, bills);
             var prettyPrinter = new PrettyPrinter(args[Arrays.asList(args).indexOf("-pretty")+1]);
             if (args[Arrays.asList(args).indexOf("-pretty")+1].equals("-") ){
-                prettyPrinter.printOnStandardIO(fullBill);
+                printOnConsole(fullBill);
             }else {
                 prettyPrinter.dump(fullBill);
                 System.out.println("Phone calls successfully entered into pretty file\n");
@@ -332,6 +332,26 @@ public class Project3 {
             System.err.println(ex.getMessage());
             System.exit(1);
         }
+    }
+
+    /**
+     * This method prints the contents on the console when -pretty - is given
+     * @param phoneBill
+     *         This is the phonebill object that holds all the phone call infromation of a customer
+     *         if -textFile option is given, else just the current phone call
+     * */
+    private static void printOnConsole(PhoneBill phoneBill){
+        var num_of_phoneCalls = phoneBill.getPhoneCalls().size();
+        int count = num_of_phoneCalls;
+        String prettyPhoneBill = "";
+        System.out.println("Customer: "+phoneBill.getCustomer()+"\nNumber of phone calls: "+num_of_phoneCalls+"\n");
+        System.out.println("#     Caller Phone Number     Callee Phone Number     Call Start Time      Call End Time       Call Duration\n");
+        System.out.println("-------------------------------------------------------------------------------------------------------------\n");
+        for (PhoneCall c : phoneBill.getPhoneCalls()) {
+            prettyPhoneBill += String.format("%-8d %-23s %-19s %-19s %-18s %8d Minutes\n",num_of_phoneCalls - --count, c.getCaller(),c.getCallee(),
+                    c.getPrettyDateTime(1), c.getPrettyDateTime(2), c.callDuration());
+        }
+        System.out.println(prettyPhoneBill);
     }
 
     /**

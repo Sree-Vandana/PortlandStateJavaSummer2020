@@ -21,18 +21,4 @@ public class PrettyPrintTest {
         prettyPrinter.dump(bill);
     }
 
-    @Test
-    public void giveingCallToPrettyPrintprintsThemToConsole() throws IOException {
-        PhoneBill bill = new PhoneBill("sree");
-        PhoneCall call1 = new PhoneCall(new String[]{"sree", "123-123-4567","123-123-1233", "11/20/2018 03:21 PM",
-                "11/22/2018 2:22 AM"});
-        PhoneCall call2 = new PhoneCall(new String[]{"sree","123-123-7655","678-677-2345", "03/22/2018 9:19 PM",
-                "03/21/2019 2:22 AM"});
-        bill.addPhoneCall(call1);
-        bill.addPhoneCall(call2);
-        //bill.addPhoneCall(call3);
-        PrettyPrinter prettyPrinter = new PrettyPrinter( "-");
-        prettyPrinter.printOnStandardIO(bill);
-
-    }
 }

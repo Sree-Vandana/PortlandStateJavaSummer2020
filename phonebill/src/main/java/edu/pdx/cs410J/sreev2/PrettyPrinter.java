@@ -38,45 +38,29 @@ public class PrettyPrinter implements PhoneBillDumper<PhoneBill> {
      * */
     @Override
     public void dump(PhoneBill phoneBill) throws IOException {
+        var num_of_phone_calls = phoneBill.getPhoneCalls().size();
+        int count = num_of_phone_calls;
         if(!path.equals("-.txt")){
             File file = new File(path);
             FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(prettyPhoneBill(phoneBill));
+            if(file.length()==0){
+                fileWriter.append("Customer: "+phoneBill.getCustomer()
+                        +"\nNumber of phone calls: "+num_of_phone_calls
+                        +"\n#     Caller Phone Number     Callee Phone Number     Call Start time      Call End Time       Call Duration"
+                        +"\n-------------------------------------------------------------------------------------------------------------\n");
+            }else {
+                fileWriter.append("");
+            }
+            for (PhoneCall c : phoneBill.getPhoneCalls()) {
+                fileWriter.append(String.format("%-8d %-23s %-19s %-19s %-18s %8d Minutes\n",num_of_phone_calls - --count, c.getCaller(),c.getCallee(),
+                        c.getPrettyDateTime(1), c.getPrettyDateTime(2), c.callDuration()));
+            }
             fileWriter.flush();
             fileWriter.close();
         }
         else {
-            throw new IllegalFileNameException("The given file is not supported");
+            throw new IllegalFileNameException("The given file is not supported by pretty printer\n");
         }
-    }
-
-    /**
-     * writes the phoneBill in pretty format onto console
-     * @param phoneBill
-     *        type <class>PhoneBill</class>
-     * */
-    final public void printOnStandardIO(PhoneBill phoneBill){
-        System.out.println(prettyPhoneBill(phoneBill));
-    }
-
-    /**
-     * takes the contents from PhoneCall collection and generates a string for each phonecall
-     * @param phoneBill
-     *        of type <class>PhoneBill</class>
-     * @return String
-     *         containing entire phoneBill
-     * */
-    private String prettyPhoneBill(PhoneBill phoneBill) {
-        var size = phoneBill.getPhoneCalls().size();
-        int counter = size;
-        String pretty = "Customer: "+phoneBill.getCustomer()+"\nNumber of phone calls: "+size+"\n";
-        pretty += "#     Caller Phone Number     Callee Phone Number     Call Started At      Call Ended At       Call Duration\n";
-        pretty += "-------------------------------------------------------------------------------------------------------------\n";
-        for (PhoneCall c : phoneBill.getPhoneCalls()) {
-            pretty += String.format("%-8d %-23s %-19s %-19s %-18s %8d Minutes\n",size - --counter, c.getCaller(),c.getCallee(),
-                    c.getPrettyDateTime(1), c.getPrettyDateTime(2), c.callDuration());
-        }
-        return pretty;
     }
 
     /**
