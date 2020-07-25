@@ -1,11 +1,13 @@
 package edu.pdx.cs410J.sreev2;
 
+import edu.pdx.cs410J.ParserException;
 import edu.pdx.cs410J.web.HttpRequestHelper;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.HttpURLConnection;
 import java.util.Map;
 
 /**
@@ -19,8 +21,8 @@ public class Project4 {
     public static void main(String... args) {
         String hostName = null;
         String portString = null;
-        String word = null;
-        String definition = null;
+        String customer = null;
+        String caller = null;
 
         for (String arg : args) {
             if (hostName == null) {
@@ -29,11 +31,11 @@ public class Project4 {
             } else if ( portString == null) {
                 portString = arg;
 
-            } else if (word == null) {
-                word = arg;
+            } else if (customer == null) {
+                customer = arg;
 
-            } else if (definition == null) {
-                definition = arg;
+            } else if (caller == null) {
+                caller = arg;
 
             } else {
                 usage("Extraneous command line argument: " + arg);
@@ -50,7 +52,7 @@ public class Project4 {
         int port;
         try {
             port = Integer.parseInt( portString );
-            
+
         } catch (NumberFormatException ex) {
             usage("Port \"" + portString + "\" must be an integer");
             return;
@@ -58,31 +60,42 @@ public class Project4 {
 
         PhoneBillRestClient client = new PhoneBillRestClient(hostName, port);
 
-        String message ="Fix me!";
+        String message;
         try {
-            if (word == null) {
-                // Print all word/definition pairs
-                /*Map<String, String> dictionary = client.getAllDictionaryEntries();
-                StringWriter sw = new StringWriter();
-                Messages.formatDictionaryEntries(new PrintWriter(sw, true), dictionary);
-                message = sw.toString();*/
+            if (customer == null) {
 
-            } /*else if (definition == null) {
-                // Print all dictionary entries
-                message = Messages.formatDictionaryEntry(word, client.getDefinition(word));
+            } else if (caller == null) {
+                try {
+                    PhoneBill bill = client.getPhoneBill(customer);
 
-            }*/ else {
-                // Post the word/definition pair
-                client.addDictionaryEntry(word, definition);
-                message = Messages.definedWordAs(word, definition);
+                    PrintWriter pw = new PrintWriter(System.out, true);
+                    PhoneBillPrettyPrinter pretty = new PhoneBillPrettyPrinter(pw);
+                    pretty.dump(bill);
+
+                } catch (ParserException e) {
+                    System.err.println("Could not parse response!");
+                    System.exit(1);
+
+                } catch (PhoneBillRestClient.PhoneBillRestException ex) {
+                    switch (ex.getHttpStatusCode()) {
+                        case HttpURLConnection.HTTP_NOT_FOUND:
+                            System.err.println("No phone bill for customer " + customer);
+                            System.exit(1);
+                            return;
+                        default:
+
+                    }
+                }
+
+            } else {
+                // Post the customer/caller pair
+                client.addPhoneCall(customer, caller);
             }
 
         } catch ( IOException ex ) {
             error("While contacting server: " + ex);
             return;
         }
-
-        System.out.println(message);
 
         System.exit(0);
     }
@@ -96,7 +109,7 @@ public class Project4 {
     {
         if (response.getCode() != code) {
             error(String.format("Expected HTTP code %d, got code %d.\n\n%s", code,
-                                response.getCode(), response.getContent()));
+                    response.getCode(), response.getContent()));
         }
     }
 
