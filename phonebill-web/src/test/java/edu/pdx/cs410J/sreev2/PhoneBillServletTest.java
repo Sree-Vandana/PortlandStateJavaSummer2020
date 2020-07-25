@@ -11,8 +11,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import static edu.pdx.cs410J.sreev2.PhoneBillServlet.CALLER_PARAMETER;
-import static edu.pdx.cs410J.sreev2.PhoneBillServlet.CUSTOMER_PARAMETER;
+import static edu.pdx.cs410J.sreev2.PhoneBillURLParameters.CALLER_PARAMETER;
+import static edu.pdx.cs410J.sreev2.PhoneBillURLParameters.CUSTOMER_PARAMETER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -46,7 +46,7 @@ public class PhoneBillServletTest {
     HttpServletRequest request = mock(HttpServletRequest.class);
     HttpServletResponse response = mock(HttpServletResponse.class);
     String customerName = "sree";
-    when(request.getParameter("customer")).thenReturn(customerName);
+    when(request.getParameter(CUSTOMER_PARAMETER)).thenReturn(customerName);
     servlet.doGet(request, response);
 
     verify(response).sendError(HttpServletResponse.SC_NOT_FOUND, Messages.noPhoneBillForCustomer(customerName));
