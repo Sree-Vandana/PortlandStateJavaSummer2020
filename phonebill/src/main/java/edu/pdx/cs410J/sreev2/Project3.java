@@ -7,7 +7,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 /**
@@ -279,6 +282,9 @@ public class Project3 {
                 }
                 if(args.length == 9){
                     boolean validate = validateArgs(args);
+                    String startTimeTest = args[3]+" "+args[4]+" "+args[5];
+                    String endTimeTest = args[6]+" "+args[7]+" "+args[8];
+                    validateStartAndEndTimes(startTimeTest, endTimeTest);
                 }
                 System.exit(1);
             }
@@ -299,6 +305,42 @@ public class Project3 {
         }
         System.exit(1);
 
+    }
+
+    /**
+     * This method validates if the given start and end time are given in correct order or not.
+     * @param startTimeTest <type>String</type>
+     *                      start time
+     * @param endTimeTest <type>String</type>
+     *                    end Time
+     * */
+    private static void validateStartAndEndTimes(String startTimeTest, String endTimeTest) {
+        Date startTime = getDateAndTimeInDate(startTimeTest);
+        Date endTime = getDateAndTimeInDate(endTimeTest);
+        if (!startTime.before(endTime)){
+            System.err.println("Start date and time can not be equals or after the end date and "
+                    + "time of the phone call");
+            System.exit(1);
+        }
+    }
+
+    /**
+     * this method parses the string date into <class>Date</class>
+     * @param timeTest <type>String</type>
+     *                 start or end time
+     * @return Date
+     * */
+    private static Date getDateAndTimeInDate(String timeTest) {
+        try {
+            SimpleDateFormat formatter1 = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+            Date date1 = formatter1.parse(timeTest);
+            return date1;
+        } catch (ParseException e) {
+            System.err.println("Date parsing error");
+            System.exit(1);
+        }
+
+        return null;
     }
 
     /**

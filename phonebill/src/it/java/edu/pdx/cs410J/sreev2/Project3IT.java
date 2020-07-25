@@ -352,7 +352,7 @@ public class Project3IT extends InvokeMainTestCase {
 
     @Test
     public void startDateAndtimeShouldNotBEAfterEndDateAndTime(){
-        MainMethodResult result = invokeMain(Project3.class, "-print", "sree", "111-222-3333", "000-999-8888", "01/14/2020", "12:09","AM", "01/14/2020", "12:09", "AM");
+        MainMethodResult result = invokeMain(Project3.class, "-print", "sree", "111-222-3333", "000-999-8888", "01/14/2020", "12:09","PM", "01/14/2020", "12:09", "AM");
         assertThat(result.getTextWrittenToStandardError(), containsString("Start date and time can not be equals or after the end date and time of the phone call"));
     }
 

@@ -33,16 +33,16 @@ public class PhoneCall extends AbstractPhoneCall {
    * Constructor PhoneCall assigns value to global values
    * */
   public PhoneCall(final String[] args){
-      this.callerNum = args[1];
-      this.calleeNum = args[2];
-      this.startTimeString = args[3];
-      this.endTimeString = args[4];
-      this.startTime = getDateAndTimeInDate(getStartTimeString());
-      this.endTime = getDateAndTimeInDate(getEndTimeString());
-      if (!this.startTime.before(this.endTime)){
-        System.err.println("Start date and time can not be equals or after the end date and "
+    this.callerNum = args[1];
+    this.calleeNum = args[2];
+    this.startTimeString = args[3];
+    this.endTimeString = args[4];
+    this.startTime = getDateAndTimeInDate(getStartTimeString());
+    this.endTime = getDateAndTimeInDate(getEndTimeString());
+    if (!this.startTime.before(this.endTime)){
+      System.err.println("Start date and time can not be equals or after the end date and "
               + "time of the phone call");
-        System.exit(1);
+      System.exit(1);
     }
   }
 
@@ -66,9 +66,7 @@ public class PhoneCall extends AbstractPhoneCall {
     }
   }
 
-  /*public long callDuration(){
-    return TimeUnit.convert(Math.abs(getEndTime().getTime() - getStartTime().getTime()),TimeUnit.MILLISECONDS);
-  }*/
+
   public long callDuration() {
     long diffInMillies = Math.abs(getEndTime().getTime() - getStartTime().getTime());
     return TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS);
@@ -142,10 +140,10 @@ public class PhoneCall extends AbstractPhoneCall {
     String sdate="";
     DateFormat df = new SimpleDateFormat(pattern);
     if(i==1){
-     sdate = getStartTimeString();
+      sdate = getStartTimeString();
     }
     if(i==2){
-       sdate = getEndTimeString();
+      sdate = getEndTimeString();
     }
     Date date = null;
     try {
@@ -168,29 +166,8 @@ public class PhoneCall extends AbstractPhoneCall {
   public Date getDateAndTimeInDate(String dateTime) {
     try {
       SimpleDateFormat formatter1 = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-      SimpleDateFormat formatter2 = new SimpleDateFormat("MM/dd/yyyy h:mm a");
-      formatter1.setLenient(false);
-      formatter2.setLenient(false);
       Date date1 = formatter1.parse(dateTime);
-      Date date2 = formatter2.parse(dateTime);
-
-      if (formatter1.format(date1).equals(dateTime)) {
-        return date1;
-      }
-      else if (formatter2.format(date2).equals(dateTime)) {
-        return date2;
-      }
-      else {
-        System.err.println("Incorrect date/time format given.\n"
-                + "Make Sure the given date and time are in format\n"
-                + "Date: MM/dd/yyy\n"
-                + "where MM = month (01, 02, 03....12); dd = day (01, 02,...) and yyyy = year (1996, 2000, 2020...)\n"
-                + "Time : hh:mm or h:mm AM/PM\n"
-                + "where hh = hour and mm = minitues\n"
-                + "AM/PM must be given\n");
-        System.exit(1);
-      }
-
+      return date1;
     } catch (ParseException e){
       System.err.println("Date parsing error");
       System.exit(1);

@@ -22,7 +22,7 @@ public class PhoneCallTest {
 
   @Test
   public void getCallerMethodReturnsPhoneNumber(){
-    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
+    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 am", "01/15/2020 1:40 am"};
     PhoneCall pc = new PhoneCall(strArray);
 
     assertThat(pc.getCaller(), containsString("123-123-1234"));
@@ -38,10 +38,10 @@ public class PhoneCallTest {
 
   @Test
   public void getStartTimeStringReturnsAStartTimeAndDate(){
-    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
+    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 10:39 pm", "01/15/2020 11:39 PM"};
     PhoneCall pc = new PhoneCall(strArray);
 
-    assertThat(pc.getStartTimeString(), containsString("01/15/2020 1:39 AM"));
+    assertThat(pc.getStartTimeString(), containsString("01/15/2020 10:39 pm"));
   }
 
   @Test
@@ -118,12 +118,13 @@ public class PhoneCallTest {
 
   @Test
   public void getStartTimeStringReturnsStartTimeAndDateWhenGivenStatust(){
-    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 AM", "01/15/2020 1:39 PM"};
+    String[] strArray = new String[]{"sree", "123-123-1234", "123-123-1234", "01/15/2020 1:39 am", "01/15/2020 1:39 pm"};
     PhoneCall pc = new PhoneCall(strArray);
 
-    assertThat(pc.getStartTimeString(), containsString("01/15/2020 1:39 AM"));
+    assertThat(pc.getStartTimeString(), containsString("01/15/2020 1:39 am"));
   }
 
+  @Ignore
   @Test
   public void getStartTimeStringReturnsStartTimeAndDateWhenGivenStatus1(){
     String[] strArray = new String[]{"123-123-1234", "123-123-1234", "01/15/2020", "1:39", "AM", "01/15/2020", "1:39", "PM"};
@@ -138,5 +139,6 @@ public class PhoneCallTest {
     PhoneCall pc = new PhoneCall(strArray);
     assertThat(String.valueOf(pc.callDuration()), containsString("2"));
   }
-  
+
 }
+
