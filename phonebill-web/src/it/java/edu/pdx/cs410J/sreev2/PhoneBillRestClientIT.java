@@ -1,7 +1,9 @@
 package edu.pdx.cs410J.sreev2;
 
 import edu.pdx.cs410J.web.HttpRequestHelper;
+import org.junit.Assert;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -27,17 +29,29 @@ public class PhoneBillRestClientIT {
   }
 
   @Test
-  public void test0RemoveAllDictionaryEntries() throws IOException {
+  public void test0RemoveAllPhonebills() throws IOException {
     PhoneBillRestClient client = newPhoneBillRestClient();
-    client.removeAllDictionaryEntries();
+    client.removeAllPhonebills();
   }
 
   @Test
+  public void nonExsistingPhoneBillThrowsException() throws IOException {
+    PhoneBillRestClient client = newPhoneBillRestClient();
+    try {
+      client.getPhoneBill("sree");
+      Assert.fail("should have thrown a phonebillRestException");
+    } catch (PhoneBillRestClient.PhoneBillRestException e) {
+      assertThat(e.getHttpStatusCode(), equalTo(HttpURLConnection.HTTP_NOT_FOUND) );
+    }
+  }
+
+  /*@Test
   public void test1EmptyServerContainsNoDictionaryEntries() throws IOException {
     PhoneBillRestClient client = newPhoneBillRestClient();
-    Map<String, String> dictionary = client.getAllDictionaryEntries();
+   // Map<String, String> dictionary = client.getAllPhonebills();
     assertThat(dictionary.size(), equalTo(0));
-  }
+  }*/
+
 
   @Test
   public void test2DefineOneWord() throws IOException {
@@ -46,7 +60,7 @@ public class PhoneBillRestClientIT {
     String testDefinition = "TEST DEFINITION";
     client.addDictionaryEntry(testWord, testDefinition);
 
-    String definition = client.getDefinition(testWord);
+    String definition = client.getPhoneBill(testWord);
     assertThat(definition, equalTo(testDefinition));
   }
 

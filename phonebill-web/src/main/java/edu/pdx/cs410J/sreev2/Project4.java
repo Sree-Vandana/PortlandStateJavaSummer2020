@@ -58,20 +58,20 @@ public class Project4 {
 
         PhoneBillRestClient client = new PhoneBillRestClient(hostName, port);
 
-        String message;
+        String message ="Fix me!";
         try {
             if (word == null) {
                 // Print all word/definition pairs
-                Map<String, String> dictionary = client.getAllDictionaryEntries();
+                /*Map<String, String> dictionary = client.getAllDictionaryEntries();
                 StringWriter sw = new StringWriter();
                 Messages.formatDictionaryEntries(new PrintWriter(sw, true), dictionary);
-                message = sw.toString();
+                message = sw.toString();*/
 
-            } else if (definition == null) {
+            } /*else if (definition == null) {
                 // Print all dictionary entries
                 message = Messages.formatDictionaryEntry(word, client.getDefinition(word));
 
-            } else {
+            }*/ else {
                 // Post the word/definition pair
                 client.addDictionaryEntry(word, definition);
                 message = Messages.definedWordAs(word, definition);
