@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class PhoneBillServlet extends HttpServlet
 {
-    static final String WORD_PARAMETER = "word";
+    static final String CUSTOMER_PARAMETER = "customer";
     static final String DEFINITION_PARAMETER = "definition";
 
     private final Map<String, String> dictionary = new HashMap<>();
@@ -35,12 +35,11 @@ public class PhoneBillServlet extends HttpServlet
     {
         response.setContentType( "text/plain" );
 
-        String word = getParameter( WORD_PARAMETER, request );
-        if (word != null) {
-            writeDefinition(word, response);
-
-        } else {
-            writeAllDictionaryEntries(response);
+        String customer = getParameter( CUSTOMER_PARAMETER, request );
+        if (customer == null) {
+            missingRequiredParameter(response, CUSTOMER_PARAMETER);
+        }else{
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, Messages.noPhoneBillForCustomer(customer));
         }
     }
 
@@ -54,9 +53,9 @@ public class PhoneBillServlet extends HttpServlet
     {
         response.setContentType( "text/plain" );
 
-        String word = getParameter(WORD_PARAMETER, request );
+        String word = getParameter(CUSTOMER_PARAMETER, request );
         if (word == null) {
-            missingRequiredParameter(response, WORD_PARAMETER);
+            missingRequiredParameter(response, CUSTOMER_PARAMETER);
             return;
         }
 
@@ -112,7 +111,7 @@ public class PhoneBillServlet extends HttpServlet
      * The text of the message is formatted with
      * {@link Messages#formatDictionaryEntry(String, String)}
      */
-    private void writeDefinition(String word, HttpServletResponse response) throws IOException {
+    /*private void writeDefinition(String word, HttpServletResponse response) throws IOException {
         String definition = this.dictionary.get(word);
 
         if (definition == null) {
@@ -127,14 +126,14 @@ public class PhoneBillServlet extends HttpServlet
             response.setStatus(HttpServletResponse.SC_OK);
         }
     }
-
+*/
     /**
      * Writes all of the dictionary entries to the HTTP response.
      *
      * The text of the message is formatted with
      * {@link Messages#formatDictionaryEntry(String, String)}
      */
-    private void writeAllDictionaryEntries(HttpServletResponse response ) throws IOException
+/*    private void writeAllDictionaryEntries(HttpServletResponse response ) throws IOException
     {
         PrintWriter pw = response.getWriter();
         Messages.formatDictionaryEntries(pw, dictionary);
@@ -142,7 +141,7 @@ public class PhoneBillServlet extends HttpServlet
         pw.flush();
 
         response.setStatus( HttpServletResponse.SC_OK );
-    }
+    }*/
 
     /**
      * Returns the value of the HTTP request parameter with the given name.
