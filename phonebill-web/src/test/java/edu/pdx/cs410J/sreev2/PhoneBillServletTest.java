@@ -60,7 +60,6 @@ public class PhoneBillServletTest {
   PhoneCall call2 = new PhoneCall(List.of(customerName2, callerNumber2,calleeNumber2,startDateTime2,endDateTime2).toArray(new String[0]));
 
 
-
   @Test
   public void requestWithNoCustomerReturnMissingParameter() throws ServletException, IOException {
     PhoneBillServlet servlet = new PhoneBillServlet();
@@ -85,8 +84,35 @@ public class PhoneBillServletTest {
 
     servlet.doGet(request, response);
 
-    verify(response).sendError(HttpServletResponse.SC_NOT_FOUND, Messages.noPhoneBillForCustomer(customerName));
+    verify(response).sendError(HttpServletResponse.SC_NOT_FOUND, Messages.customerDoesNotHaveAPhoneBill(customerName));
 
+  }
+
+  @Test
+  public void requestedCustomerWithExsistingPhoneBillPrintsThePrettyPhoneBill() throws IOException, ServletException {
+    PhoneBillServlet servlet = new PhoneBillServlet();
+    addPhoneCallsUsingdoPost(servlet,1);
+    addPhoneCallsUsingdoPost(servlet,2);
+    addPhoneCallsUsingdoPost(servlet,3);
+    addPhoneCallsUsingdoPost(servlet,4);
+
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getParameter(CUSTOMER_PARAMETER)).thenReturn(customerName);
+
+    HttpServletResponse response = mock(HttpServletResponse.class);
+    PrintWriter pw = mock(PrintWriter.class);
+    when(response.getWriter()).thenReturn(pw);
+
+    servlet.doGet(request,response);
+
+    PhoneBill bill = new PhoneBill(customerName, call1);
+    bill.addPhoneCall(call0);
+    bill.addPhoneCall(call2);
+    bill.addPhoneCall(call);
+
+    PhoneBillPrettyPrinter prettyPrinter = new PhoneBillPrettyPrinter();
+    verify(pw).println(prettyPrinter.getPrettyPhoneCalls(bill));
+    verify(response).setStatus(HttpServletResponse.SC_OK);
   }
 
   @Ignore //delete it later
@@ -119,6 +145,7 @@ public class PhoneBillServletTest {
     assertThat(phoneCall.getCaller(), equalTo(callerPhoneNumber));
   }
 
+  @Ignore //delete later
   @Test
   public void requestingExistingPhoneBillDumpsItToPrintWriter() throws IOException, ServletException {
     String customer = "Customer";

@@ -42,43 +42,8 @@ public class PhoneBillServlet extends HttpServlet
 
         if (search != null)
             searchForPhoneCalls(request, response);
-
-
-    }
-
-    private final void searchForPhoneCalls(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-            if(getParameter(START_TIME_PARAMETER, request) == null) {
-                missingRequiredParameter(response, START_TIME_PARAMETER);
-                return;
-            }
-
-            if(getParameter(END_TIME_PARAMETER, request) == null){
-                missingRequiredParameter(response, END_TIME_PARAMETER);
-                return;
-            }
-
-            String customerName = getParameter(CUSTOMER_PARAMETER, request);
-            PhoneBill bill = phoneBills.get(customerName);
-            if(bill == null) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, Messages.customerDoesNotHaveAPhoneBill(customerName));
-            }
-
-            //String format of date and time
-            String prettyPhoneCalls = "";
-            var startDateTime = new Date(getParameter(START_TIME_PARAMETER, request));
-            var endDateTime = new Date(getParameter(END_TIME_PARAMETER, request));
-            try{
-                prettyPhoneCalls = bill.searchPhoneCallsBetween(startDateTime, endDateTime);
-            }catch (InvalidParameterException e){
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
-            }
-
-            PrintWriter pw = response.getWriter();
-            pw.println(prettyPhoneCalls);
-            pw.flush();
-
-            response.setStatus( HttpServletResponse.SC_OK );
+        else
+            printEntirePhoneBill(request, response);
     }
 
     /**
@@ -127,7 +92,66 @@ public class PhoneBillServlet extends HttpServlet
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    /**
+    private final void printEntirePhoneBill(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        String customerName = getParameter(CUSTOMER_PARAMETER, request);
+        if(customerName == null) {
+            missingRequiredParameter(response, CUSTOMER_PARAMETER);
+            return;
+        }
+
+        PhoneBill bill = phoneBills.get(customerName);
+        if(bill == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, Messages.customerDoesNotHaveAPhoneBill(customerName));
+            return;
+        }
+
+        PhoneBillPrettyPrinter prettyPrinter = new PhoneBillPrettyPrinter();
+        String prettyPhoneBill = prettyPrinter.getPrettyPhoneCalls(bill);
+        PrintWriter pw = response.getWriter();
+        pw.println(prettyPhoneBill);
+
+        pw.flush();
+
+        response.setStatus( HttpServletResponse.SC_OK );
+    }
+
+    private final void searchForPhoneCalls(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        if(getParameter(START_TIME_PARAMETER, request) == null) {
+            missingRequiredParameter(response, START_TIME_PARAMETER);
+            return;
+        }
+
+        if(getParameter(END_TIME_PARAMETER, request) == null){
+            missingRequiredParameter(response, END_TIME_PARAMETER);
+            return;
+        }
+
+        String customerName = getParameter(CUSTOMER_PARAMETER, request);
+        PhoneBill bill = phoneBills.get(customerName);
+        if(bill == null) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND, Messages.customerDoesNotHaveAPhoneBill(customerName));
+        }
+
+        //String format of date and time
+        String prettyPhoneCalls = "";
+        var startDateTime = new Date(getParameter(START_TIME_PARAMETER, request));
+        var endDateTime = new Date(getParameter(END_TIME_PARAMETER, request));
+        try{
+            prettyPhoneCalls = bill.searchPhoneCallsBetween(startDateTime, endDateTime);
+        }catch (InvalidParameterException e){
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+        }
+
+        PrintWriter pw = response.getWriter();
+        pw.println(prettyPhoneCalls);
+        pw.flush();
+
+        response.setStatus( HttpServletResponse.SC_OK );
+    }
+
+    /**---> change the dict term in here...
      * Handles an HTTP DELETE request by removing all dictionary entries.  This
      * behavior is exposed for testing purposes only.  It's probably not
      * something that you'd want a real application to expose.
