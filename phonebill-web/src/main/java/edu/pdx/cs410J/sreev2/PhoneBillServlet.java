@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ import static edu.pdx.cs410J.sreev2.PhoneBillURLParameters.*;
 public class PhoneBillServlet extends HttpServlet
 {
 
-    private final Map<String, PhoneBill> phoneBills = new HashMap<>();
+    public final Map<String, PhoneBill> phoneBills = new HashMap<>();
 
     /**
      * Handles an HTTP GET request from a client by writing the definition of the
@@ -37,27 +38,53 @@ public class PhoneBillServlet extends HttpServlet
     {
         response.setContentType( "text/plain" );
 
-        String customer = getParameter(CUSTOMER_PARAMETER, request );
-        if (customer == null) {
-            missingRequiredParameter(response, CUSTOMER_PARAMETER);
-            return;
+        String search = getParameter(SEARCH_PARAMETER, request);
 
-        }
+        if (search != null)
+            searchForPhoneCalls(request, response);
 
-        PhoneBill bill = getPhoneBill(customer);
-        if (bill == null) {
-            response.sendError(HttpServletResponse.SC_NOT_FOUND, Messages.noPhoneBillForCustomer(customer));
 
-        } else {
-            PhoneBillTextDumper dumper = new PhoneBillTextDumper(response.getWriter());
-            dumper.dump(bill);
-            response.setStatus(HttpServletResponse.SC_OK);
-        }
+    }
+
+    private final void searchForPhoneCalls(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+            if(getParameter(START_TIME_PARAMETER, request) == null) {
+                missingRequiredParameter(response, START_TIME_PARAMETER);
+                return;
+            }
+
+            if(getParameter(END_TIME_PARAMETER, request) == null){
+                missingRequiredParameter(response, END_TIME_PARAMETER);
+                return;
+            }
+
+            String customerName = getParameter(CUSTOMER_PARAMETER, request);
+            PhoneBill bill = phoneBills.get(customerName);
+            if(bill == null) {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, Messages.customerDoesNotHaveAPhoneBill(customerName));
+            }
+
+            //String format of date and time
+            String prettyPhoneCalls = "";
+            var startDateTime = new Date(getParameter(START_TIME_PARAMETER, request));
+            var endDateTime = new Date(getParameter(END_TIME_PARAMETER, request));
+            try{
+                prettyPhoneCalls = bill.searchPhoneCallsBetween(startDateTime, endDateTime);
+            }catch (InvalidParameterException e){
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+            }
+
+            PrintWriter pw = response.getWriter();
+            pw.println(prettyPhoneCalls);
+            pw.flush();
+
+            response.setStatus( HttpServletResponse.SC_OK );
     }
 
     /**
-     * Handles an HTTP POST request by storing the dictionary entry for the
-     * "word" and "definition" request parameters.  It writes the dictionary
+     * Handles an HTTP POST request by storing the phonecalls in a PhoneBill
+     * It writes the calls in phonebills <class>HashMap</class>
+     * which is of <type><String, PhoneBill></type>
      * entry to the HTTP response.
      */
     @Override
@@ -65,22 +92,6 @@ public class PhoneBillServlet extends HttpServlet
     {
         response.setContentType( "text/plain" );
 
-       /* String customer = getParameter(CUSTOMER_PARAMETER, request );
-        if (customer == null) {
-            missingRequiredParameter(response, CUSTOMER_PARAMETER);
-            return;
-        }
-
-        String caller = getParameter(CALLER_NUMBER_PARAMETER, request );
-        if ( caller == null) {
-            missingRequiredParameter( response, CALLER_NUMBER_PARAMETER);
-            return;
-        }
-
-        PhoneBill bill = new PhoneBill(customer);
-        bill.addPhoneCall(new PhoneCall(caller));
-        this.phoneBills.put(customer, bill);*/
-        //String listOfPARAMETERS = new {"CUSTOMER_PARAMETER", "CALLEE_NUMBER_PARAMETER"}
         var print = getParameter(PRINT_PARAMETER, request);
         ArrayList<String> list = new ArrayList<>();
         list.add(getParameter(CUSTOMER_PARAMETER, request));

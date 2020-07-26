@@ -27,6 +27,11 @@ public class Messages
         return String.format("The required parameter \"%s\" is missing", parameterName);
     }
 
+    public static String customerDoesNotHaveAPhoneBill( String customerName )
+    {
+        return String.format("The \"%s\" does not have a exsisting PhoneBill", customerName);
+    }
+
     public static String definedWordAs(String word, String definition )
     {
         return String.format( "Defined %s as %s", word, definition );

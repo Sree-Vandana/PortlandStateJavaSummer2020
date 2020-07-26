@@ -12,4 +12,7 @@ public interface PhoneBillURLParameters {
     static final String END_TIME_PARAMETER = "EndTime";
 
     static final String PRINT_PARAMETER = "print";
+
+    static final String SEARCH_PARAMETER = "search";
+
 }

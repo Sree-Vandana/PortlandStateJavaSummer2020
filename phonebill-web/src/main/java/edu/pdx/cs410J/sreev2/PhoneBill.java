@@ -4,6 +4,7 @@ import edu.pdx.cs410J.AbstractPhoneBill;
 import edu.pdx.cs410J.AbstractPhoneCall;
 
 import java.security.InvalidParameterException;
+import java.text.DateFormat;
 import java.util.*;
 
 public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
@@ -129,4 +130,30 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
         }};
 
 
+    public final String searchPhoneCallsBetween(Date startDateTime, Date endDateTime)throws InvalidParameterException {
+        String prettyPhoneCalls = null;
+        PhoneBill bill = new PhoneBill(this.customerName);
+        PhoneBillPrettyPrinter prettyPrinter = new PhoneBillPrettyPrinter();
+
+        var start = DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(startDateTime);
+        var end = DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT).format(endDateTime);
+
+        if(!startDateTime.before(endDateTime))
+            throw new InvalidParameterException("Start date and time can not be equals or after the end date and time of the phone call");
+
+        var pc = getPhoneCalls();
+        for(PhoneCall c: pc){
+            var date = c.getStartTime();
+            if((date.after(startDateTime) || startDateTime.equals(date)) && (date.before(endDateTime) || endDateTime.equals(date))){
+                bill.addPhoneCall(c);
+            }
+        }
+
+        if (bill.getPhoneCalls().isEmpty())
+            prettyPhoneCalls = "No Phone calls found between " + start  +" and " + end;
+        else
+            prettyPhoneCalls = "Phone Calls between dates "+ start + " and " + end +":\n" + prettyPrinter.getPrettyPhoneCalls(bill);
+
+        return prettyPhoneCalls;
+    }
 }

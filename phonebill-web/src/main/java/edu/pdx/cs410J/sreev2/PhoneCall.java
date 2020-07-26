@@ -20,6 +20,9 @@ public class PhoneCall extends AbstractPhoneCall {
     private Date startTime;
     private Date endTime;
 
+    public PhoneCall(){
+        super();
+    }
     /**
      * Default constructor
      *
@@ -31,6 +34,7 @@ public class PhoneCall extends AbstractPhoneCall {
         this.callerNum = callerPhoneNumber;
         this.calleeNum = calleePhoneNumber;
     }
+
     public PhoneCall(String callerPhoneNumber)
     {
         super();
