@@ -1,5 +1,6 @@
 package edu.pdx.cs410J.sreev2;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
@@ -10,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.List;
 
-import static edu.pdx.cs410J.sreev2.PhoneBillURLParameters.CALLER_NUMBER_PARAMETER;
-import static edu.pdx.cs410J.sreev2.PhoneBillURLParameters.CUSTOMER_PARAMETER;
+import static edu.pdx.cs410J.sreev2.PhoneBillURLParameters.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.*;
@@ -22,6 +23,36 @@ import static org.mockito.Mockito.*;
  * provide mock http requests and responses.
  */
 public class PhoneBillServletTest {
+
+  private String customerName = "sree";
+  private String callerNumber = "123-456-7890";
+  private String calleeNumber = "203-123-1234";
+  private String startDateTime = "01/15/2020 1:10 am";
+  private String endDateTime = "01/15/2020 1:30 pm";
+
+  private String customerName0 = "sree";
+  private String callerNumber0 = "123-456-7890";
+  private String calleeNumber0 = "203-123-1234";
+  private String startDateTime0 = "01/15/2020 3:30 am";
+  private String endDateTime0 = "01/15/2020 4:30 am";
+
+  private String customerName1 = "vandana";
+  private String callerNumber1 = "012-123-7890";
+  private String calleeNumber1 = "203-456-1234";
+  private String startDateTime1 = "02/16/2020 11:10 am";
+  private String endDateTime1 = "02/16/2020 12:30 pm";
+
+  private String customerName2 = "vandana";
+  private String callerNumber2 = "456-267-4789";
+  private String calleeNumber2 = "123-123-1234";
+  private String startDateTime2 = "01/15/2020 3:30 am";
+  private String endDateTime2 = "01/15/2020 4:30 am";
+
+  private String print = "print";
+  private String nullprint = "null";
+  private String emptyprint = "";
+
+
 
   @Test
   public void requestWithNoCustomerReturnMissingParameter() throws ServletException, IOException {
@@ -51,6 +82,7 @@ public class PhoneBillServletTest {
 
   }
 
+  @Ignore //delete it later
   @Test
   public void addPhoneCallToPhoneBill() throws ServletException, IOException {
     PhoneBillServlet servlet = new PhoneBillServlet();
@@ -107,6 +139,26 @@ public class PhoneBillServletTest {
     assertThat(textPhoneBill, containsString(customer));
     assertThat(textPhoneBill, containsString(callerPhoneNumber));
 
+  }
+
+  @Test
+  public void testingdoPostMethodWithPrintOption() throws IOException, ServletException {
+    PhoneBillServlet servlet = new PhoneBillServlet();
+    PhoneCall call1 = new PhoneCall(List.of(customerName, callerNumber,calleeNumber,startDateTime,endDateTime).toArray(new String[0]));
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    when(request.getParameter(CUSTOMER_PARAMETER)).thenReturn(customerName);
+    when(request.getParameter(CALLER_NUMBER_PARAMETER)).thenReturn(callerNumber);
+    when(request.getParameter(CALLEE_NUMBER_PARAMETER)).thenReturn(calleeNumber);
+    when(request.getParameter(START_TIME_PARAMETER)).thenReturn(startDateTime);
+    when(request.getParameter(END_TIME_PARAMETER)).thenReturn(endDateTime);
+    when(request.getParameter(PRINT_PARAMETER)).thenReturn(print);
+    HttpServletResponse response = mock(HttpServletResponse.class);
+    PrintWriter pw = mock(PrintWriter.class);
+    when(response.getWriter()).thenReturn(pw);
+
+    servlet.doPost(request, response);
+    verify(pw).println(Messages.addedPhoneCallMessage(call1, print));
+    verify(response).setStatus(HttpServletResponse.SC_OK);
   }
 
 }

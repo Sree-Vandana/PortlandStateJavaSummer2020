@@ -22,15 +22,21 @@ public class PhoneCall extends AbstractPhoneCall {
 
     /**
      * Default constructor
-     * */
-    public PhoneCall() {
+     *
+     * @param callerPhoneNumber
+     * @param calleePhoneNumber*/
+    public PhoneCall(String callerPhoneNumber, String calleePhoneNumber)
+    {
         super();
+        this.callerNum = callerPhoneNumber;
+        this.calleeNum = calleePhoneNumber;
+    }
+    public PhoneCall(String callerPhoneNumber)
+    {
+        super();
+        this.callerNum = callerPhoneNumber;
     }
 
-    public PhoneCall(String caller)
-    {
-        callerNum = caller;
-    }
 
     /**
      * @param args <code>String</code>

@@ -90,4 +90,8 @@ public class Messages
     static String noPhoneBillForCustomer(String customerName) {
         return String.format("No phone bill for customer %s", customerName);
     }
+
+    public static String addedPhoneCallMessage(PhoneCall call, String print) {
+        return (print == null || !print.equals("print"))? "Phone call added successfully." : "Phone call added successfully.\n"+call.toString();
+    }
 }

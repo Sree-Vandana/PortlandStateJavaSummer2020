@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,7 +65,7 @@ public class PhoneBillServlet extends HttpServlet
     {
         response.setContentType( "text/plain" );
 
-        String customer = getParameter(CUSTOMER_PARAMETER, request );
+       /* String customer = getParameter(CUSTOMER_PARAMETER, request );
         if (customer == null) {
             missingRequiredParameter(response, CUSTOMER_PARAMETER);
             return;
@@ -77,9 +79,41 @@ public class PhoneBillServlet extends HttpServlet
 
         PhoneBill bill = new PhoneBill(customer);
         bill.addPhoneCall(new PhoneCall(caller));
-        this.phoneBills.put(customer, bill);
+        this.phoneBills.put(customer, bill);*/
+        //String listOfPARAMETERS = new {"CUSTOMER_PARAMETER", "CALLEE_NUMBER_PARAMETER"}
+        var print = getParameter(PRINT_PARAMETER, request);
+        ArrayList<String> list = new ArrayList<>();
+        list.add(getParameter(CUSTOMER_PARAMETER, request));
+        list.add(getParameter(CALLER_NUMBER_PARAMETER, request));
+        list.add(getParameter(CALLEE_NUMBER_PARAMETER, request));
+        list.add(getParameter(START_TIME_PARAMETER, request));
+        list.add(getParameter(END_TIME_PARAMETER, request));
 
-        response.setStatus( HttpServletResponse.SC_OK);
+        String parameter= "";
+        for(int i=0; i<list.size(); i++) {
+            if(list.get(i) == null) {
+                parameter= (i==0)? CUSTOMER_PARAMETER : (i==1)? CALLER_NUMBER_PARAMETER : (i==2)? CALLEE_NUMBER_PARAMETER : (i==3)? START_TIME_PARAMETER : END_TIME_PARAMETER;
+                missingRequiredParameter(response, parameter);
+                return;
+            }
+        }
+
+        PhoneCall call = new PhoneCall(list.toArray(new String[0]));
+
+        if(this.phoneBills.get(list.get(0)) == null)
+            this.phoneBills.put(list.get(0), new PhoneBill(list.get(0),call));
+        else {
+            var phoneCalls = this.phoneBills.get(list.get(0));
+            phoneCalls.addPhoneCall(call);
+            this.phoneBills.put(list.get(0), phoneCalls);
+        }
+
+        String message = Messages.addedPhoneCallMessage(call, print);
+        PrintWriter pw = response.getWriter();
+        pw.println(message);
+
+        pw.flush();
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     /**
