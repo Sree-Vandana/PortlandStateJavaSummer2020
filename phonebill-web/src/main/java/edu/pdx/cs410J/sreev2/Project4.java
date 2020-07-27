@@ -61,12 +61,12 @@ public class Project4 {
         PhoneBillRestClient client = new PhoneBillRestClient(hostName, port);
 
         String message;
-        try {
+ /*       try {
             if (customer == null) {
 
             } else if (caller == null) {
                 try {
-                    PhoneBill bill = client.getPhoneBill(customer);
+                    PhoneBill bill = client.printEntirePhoneBill(customer);
 
                     PrintWriter pw = new PrintWriter(System.out, true);
                     PhoneBillPrettyPrinter pretty = new PhoneBillPrettyPrinter(pw);
@@ -95,7 +95,7 @@ public class Project4 {
         } catch ( IOException ex ) {
             error("While contacting server: " + ex);
             return;
-        }
+        }*/
 
         System.exit(0);
     }

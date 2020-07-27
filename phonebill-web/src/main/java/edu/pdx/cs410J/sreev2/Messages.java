@@ -29,7 +29,7 @@ public class Messages
 
     public static String customerDoesNotHaveAPhoneBill( String customerName )
     {
-        return String.format("\"%s\" does not have a exsisting PhoneBill", customerName);
+        return String.format("'%s' does not have a exsisting PhoneBill", customerName);
     }
 
     public static String definedWordAs(String word, String definition )

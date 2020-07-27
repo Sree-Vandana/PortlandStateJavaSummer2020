@@ -1,11 +1,9 @@
 package edu.pdx.cs410J.sreev2;
 
 import com.google.common.annotations.VisibleForTesting;
-import edu.pdx.cs410J.ParserException;
 import edu.pdx.cs410J.web.HttpRequestHelper;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.Map;
 
 import static edu.pdx.cs410J.sreev2.PhoneBillURLParameters.*;
@@ -35,18 +33,43 @@ public class PhoneBillRestClient extends HttpRequestHelper
 
     /**
      * Returns the phone bill for the given customer
+     * @return
      */
-    public PhoneBill getPhoneBill(String customer) throws IOException, ParserException {
+   /* public PhoneBill getPhoneBill(String customer) throws IOException, ParserException {
         Response response = get(this.url, Map.of(CUSTOMER_PARAMETER, customer));
         throwExceptionIfNotOkayHttpStatus(response);
         String content = response.getContent();
         PhoneBillTextParser parser = new PhoneBillTextParser(new StringReader(content));
         return parser.parse();
     }
-
-    public void addPhoneCall(String customer, String caller) throws IOException {
-        Response response = postToMyURL(Map.of(CUSTOMER_PARAMETER, customer, CALLER_NUMBER_PARAMETER, caller));
+*/
+    public String addPhoneCall(boolean checkoption, final String[] phoneCallValues) throws IOException {
+        checkoption= true;
+        Response response = postToMyURL(Map.of(
+                PRINT_PARAMETER, checkoption?"print":"",
+                CUSTOMER_PARAMETER, phoneCallValues[0],
+                CALLER_NUMBER_PARAMETER, phoneCallValues[1],
+                CALLEE_NUMBER_PARAMETER, phoneCallValues[2],
+                START_TIME_PARAMETER, phoneCallValues[3],
+                END_TIME_PARAMETER, phoneCallValues[4]));
         throwExceptionIfNotOkayHttpStatus(response);
+        return response.getContent();
+    }
+
+    public String searchForPhoneCalls(final String[] phoneCallValues) throws IOException {
+        Response response = get(this.url, Map.of(
+                SEARCH_PARAMETER, "search",
+                CUSTOMER_PARAMETER, phoneCallValues[1],
+                START_TIME_PARAMETER, phoneCallValues[2],
+                END_TIME_PARAMETER, phoneCallValues[3]));
+        throwExceptionIfNotOkayHttpStatus(response);
+        return response.getContent();
+    }
+
+    public String printEntirePhoneBill(final String customer) throws IOException{
+        Response response = get(this.url,Map.of(CUSTOMER_PARAMETER,customer));
+        throwExceptionIfNotOkayHttpStatus(response);
+        return response.getContent();
     }
 
     @VisibleForTesting
@@ -62,7 +85,7 @@ public class PhoneBillRestClient extends HttpRequestHelper
     private Response throwExceptionIfNotOkayHttpStatus(Response response) {
         int code = response.getCode();
         if (code != HTTP_OK) {
-            throw new PhoneBillRestException(code);
+            throw new PhoneBillRestException(code, response.getContent());
         }
         return response;
     }
@@ -71,8 +94,8 @@ public class PhoneBillRestClient extends HttpRequestHelper
     class PhoneBillRestException extends RuntimeException {
         private final int httpStatusCode;
 
-        PhoneBillRestException(int httpStatusCode) {
-            super("Got an HTTP Status Code of " + httpStatusCode);
+        PhoneBillRestException(int httpStatusCode, String message) {
+            super("Got an HTTP Status Code of " + httpStatusCode+"\nMessage: "+message);
             this.httpStatusCode = httpStatusCode;
         }
 
