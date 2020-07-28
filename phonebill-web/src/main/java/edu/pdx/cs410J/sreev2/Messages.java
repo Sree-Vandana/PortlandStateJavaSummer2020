@@ -96,7 +96,23 @@ public class Messages
         return String.format("No phone bill for customer %s", customerName);
     }
 
-    public static String addedPhoneCallMessage(PhoneCall call, String print) {
-        return (print == null || !print.equals("print"))? "Phone call added successfully." : "Phone call added successfully.\n"+call.toString();
+    public static String addedPhoneCallMessage(PhoneCall call) {
+        return ("Phone call added successfully.");
+    }
+
+    public static String startTimeBeforEndTime() {
+        return ("Start date and time can not be equals or after the end date and "
+                + "time of the phone call");
+    }
+
+    public static String malformattedDateOrTime(String TimeParameter) {
+        final String format = "DateTime: MM/dd/yyy hh:mm am/pm";
+        return String.format("Given %s is not in correct format\n\tplease follow the below format\n%s", TimeParameter, format);
+    }
+
+    public static String malformattedPhoneCall(String callerNumberParameter) {
+        final String format = "nnn-nnn-nnnn where n = number [0-9]";
+        return String.format("Given %s is not in correct format\n\tplease follow the below format\n%s", callerNumberParameter, format);
+
     }
 }

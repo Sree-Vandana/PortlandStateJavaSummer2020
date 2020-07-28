@@ -43,31 +43,31 @@ public class PhoneBillRestClient extends HttpRequestHelper
         return parser.parse();
     }
 */
-    public String addPhoneCall(boolean checkoption, final String[] phoneCallValues) throws IOException {
-        checkoption= true;
+    public String addPhoneCall(final String[] phoneCallValues) throws IOException {
         Response response = postToMyURL(Map.of(
-                PRINT_PARAMETER, checkoption?"print":"",
                 CUSTOMER_PARAMETER, phoneCallValues[0],
                 CALLER_NUMBER_PARAMETER, phoneCallValues[1],
                 CALLEE_NUMBER_PARAMETER, phoneCallValues[2],
                 START_TIME_PARAMETER, phoneCallValues[3],
                 END_TIME_PARAMETER, phoneCallValues[4]));
+
         throwExceptionIfNotOkayHttpStatus(response);
         return response.getContent();
     }
 
     public String searchForPhoneCalls(final String[] phoneCallValues) throws IOException {
         Response response = get(this.url, Map.of(
-                SEARCH_PARAMETER, "search",
-                CUSTOMER_PARAMETER, phoneCallValues[1],
-                START_TIME_PARAMETER, phoneCallValues[2],
-                END_TIME_PARAMETER, phoneCallValues[3]));
+                CUSTOMER_PARAMETER, phoneCallValues[0],
+                START_TIME_PARAMETER, phoneCallValues[1],
+                END_TIME_PARAMETER, phoneCallValues[2]));
+
         throwExceptionIfNotOkayHttpStatus(response);
         return response.getContent();
     }
 
     public String printEntirePhoneBill(final String customer) throws IOException{
         Response response = get(this.url,Map.of(CUSTOMER_PARAMETER,customer));
+
         throwExceptionIfNotOkayHttpStatus(response);
         return response.getContent();
     }

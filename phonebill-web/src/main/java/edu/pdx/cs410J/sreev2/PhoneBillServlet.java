@@ -9,10 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.InvalidParameterException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import static edu.pdx.cs410J.sreev2.PhoneBillURLParameters.*;
 
@@ -38,12 +41,67 @@ public class PhoneBillServlet extends HttpServlet
     {
         response.setContentType( "text/plain" );
 
-        String search = getParameter(SEARCH_PARAMETER, request);
+        String customerName = getParameter(CUSTOMER_PARAMETER, request);
+        String startTime = getParameter(START_TIME_PARAMETER, request);
+        String endTime = getParameter(END_TIME_PARAMETER, request);
 
-        if (search != null)
-            searchForPhoneCalls(request, response);
-        else
+        if(customerName == null) {
+            missingRequiredParameter(response, CUSTOMER_PARAMETER);
+        }
+        else if(startTime == null & endTime == null) {
             printEntirePhoneBill(request, response);
+        }
+        else if(startTime == null){
+            missingRequiredParameter(response, START_TIME_PARAMETER);
+        }
+        else if(endTime == null){
+            missingRequiredParameter(response, END_TIME_PARAMETER);
+        }
+        else{
+            if(validateStartAndEndTime(request, response))
+                searchForPhoneCalls(request, response);
+        }
+    }
+
+    private boolean validateStartAndEndTime(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String start = getParameter(START_TIME_PARAMETER, request);
+        String end = getParameter(END_TIME_PARAMETER, request);
+
+        Date startTime = getDateAndTimeInDate(start);
+        Date endTime = getDateAndTimeInDate(end);
+        String regexDate = "^(0?[1-9]|1[0-2])/(0?[1-9]|1\\d|2\\d|3[01])/(19|20)\\d{2}\\s(((0?[1-9])|(1[0-2])):([0-5])([0-9])\\s[PpAa][Mm])$";
+        if(!Pattern.matches(regexDate, start)){
+            response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, Messages.malformattedDateOrTime(START_TIME_PARAMETER));
+            return false;
+        }
+        if(!Pattern.matches(regexDate, end)){
+            response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, Messages.malformattedDateOrTime(END_TIME_PARAMETER));
+            return false;
+        }
+        if (!startTime.before(endTime)){
+            response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, Messages.startTimeBeforEndTime());
+            return false;
+        }
+        return true;
+    }
+    /**
+     * this method formats the date and time in SimpleDateTime format
+     * parses the given date and time into a <type>Date</type>
+     * @param dateTime
+     *        both start and end date in <type>String</type>
+     * @return date
+     *        of <type>Date</type>
+     * */
+    public Date getDateAndTimeInDate(String dateTime) {
+        try {
+            SimpleDateFormat formatter1 = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+            Date date1 = formatter1.parse(dateTime);
+            return date1;
+        } catch (ParseException e){
+            System.err.println("Date parsing error");
+        }
+
+        return null;
     }
 
     /**
@@ -57,8 +115,8 @@ public class PhoneBillServlet extends HttpServlet
     {
         response.setContentType( "text/plain" );
 
-        var print = getParameter(PRINT_PARAMETER, request);
         ArrayList<String> list = new ArrayList<>();
+
         list.add(getParameter(CUSTOMER_PARAMETER, request));
         list.add(getParameter(CALLER_NUMBER_PARAMETER, request));
         list.add(getParameter(CALLEE_NUMBER_PARAMETER, request));
@@ -68,39 +126,58 @@ public class PhoneBillServlet extends HttpServlet
         String parameter= "";
         for(int i=0; i<list.size(); i++) {
             if(list.get(i) == null) {
-                parameter= (i==0)? CUSTOMER_PARAMETER : (i==1)? CALLER_NUMBER_PARAMETER : (i==2)? CALLEE_NUMBER_PARAMETER : (i==3)? START_TIME_PARAMETER : END_TIME_PARAMETER;
+                parameter= (i==0)? CUSTOMER_PARAMETER
+                        : (i==1)? CALLER_NUMBER_PARAMETER
+                        : (i==2)? CALLEE_NUMBER_PARAMETER
+                        : (i==3)? START_TIME_PARAMETER
+                        : END_TIME_PARAMETER;
                 missingRequiredParameter(response, parameter);
                 return;
             }
         }
+
+        if(validateStartAndEndTime(request, response) & validatePhoneCalls(request, response)){
 
         PhoneCall call = new PhoneCall(list.toArray(new String[0]));
 
         if(this.phoneBills.get(list.get(0)) == null)
             this.phoneBills.put(list.get(0), new PhoneBill(list.get(0),call));
         else {
-            var phoneCalls = this.phoneBills.get(list.get(0));
-            phoneCalls.addPhoneCall(call);
-            this.phoneBills.put(list.get(0), phoneCalls);
+            var customer_phoneBill = this.phoneBills.get(list.get(0));
+            customer_phoneBill.addPhoneCall(call);
+            this.phoneBills.put(list.get(0), customer_phoneBill);
         }
-
-        String message = Messages.addedPhoneCallMessage(call, print);
+        response.setStatus(HttpServletResponse.SC_OK);
+        String message = "HTTP Status: "+response.getStatus()+"\n"+Messages.addedPhoneCallMessage(call);
         PrintWriter pw = response.getWriter();
         pw.println(message);
 
         pw.flush();
-        response.setStatus(HttpServletResponse.SC_OK);
+        }
     }
 
-    private final void printEntirePhoneBill(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private boolean validatePhoneCalls(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String caller = getParameter(CALLER_NUMBER_PARAMETER, request);
+        String callee = getParameter(CALLEE_NUMBER_PARAMETER, request);
+
+        String regexDate = "^\\d{3}[\\s-]\\d{3}[\\s-]\\d{4}$";
+        if(!Pattern.matches(regexDate, caller)){
+            response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, Messages.malformattedPhoneCall(CALLER_NUMBER_PARAMETER));
+            return false;
+        }
+        if(!Pattern.matches(regexDate, callee)){
+            response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, Messages.malformattedPhoneCall(CALLEE_NUMBER_PARAMETER));
+            return false;
+        }
+        return true;
+    }
+
+    private void printEntirePhoneBill(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String customerName = getParameter(CUSTOMER_PARAMETER, request);
-        if(customerName == null) {
-            missingRequiredParameter(response, CUSTOMER_PARAMETER);
-            return;
-        }
 
         PhoneBill bill = phoneBills.get(customerName);
+
         if(bill == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, Messages.customerDoesNotHaveAPhoneBill(customerName));
             return;
@@ -118,17 +195,8 @@ public class PhoneBillServlet extends HttpServlet
 
     private final void searchForPhoneCalls(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        if(getParameter(START_TIME_PARAMETER, request) == null) {
-            missingRequiredParameter(response, START_TIME_PARAMETER);
-            return;
-        }
-
-        if(getParameter(END_TIME_PARAMETER, request) == null){
-            missingRequiredParameter(response, END_TIME_PARAMETER);
-            return;
-        }
-
         String customerName = getParameter(CUSTOMER_PARAMETER, request);
+
         PhoneBill bill = phoneBills.get(customerName);
         if(bill == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, Messages.customerDoesNotHaveAPhoneBill(customerName));
@@ -138,6 +206,7 @@ public class PhoneBillServlet extends HttpServlet
         String prettyPhoneCalls = "";
         var startDateTime = new Date(getParameter(START_TIME_PARAMETER, request));
         var endDateTime = new Date(getParameter(END_TIME_PARAMETER, request));
+
         try{
             prettyPhoneCalls = bill.searchPhoneCallsBetween(startDateTime, endDateTime);
         }catch (InvalidParameterException e){

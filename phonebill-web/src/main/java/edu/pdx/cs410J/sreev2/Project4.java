@@ -63,19 +63,15 @@ public class Project4 {
         String message;
  /*       try {
             if (customer == null) {
-
             } else if (caller == null) {
                 try {
                     PhoneBill bill = client.printEntirePhoneBill(customer);
-
                     PrintWriter pw = new PrintWriter(System.out, true);
                     PhoneBillPrettyPrinter pretty = new PhoneBillPrettyPrinter(pw);
                     pretty.dump(bill);
-
                 } catch (ParserException e) {
                     System.err.println("Could not parse response!");
                     System.exit(1);
-
                 } catch (PhoneBillRestClient.PhoneBillRestException ex) {
                     switch (ex.getHttpStatusCode()) {
                         case HttpURLConnection.HTTP_NOT_FOUND:
@@ -83,15 +79,12 @@ public class Project4 {
                             System.exit(1);
                             return;
                         default:
-
                     }
                 }
-
             } else {
                 // Post the customer/caller pair
                 client.addPhoneCall(customer, caller);
             }
-
         } catch ( IOException ex ) {
             error("While contacting server: " + ex);
             return;

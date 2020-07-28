@@ -35,6 +35,7 @@ public class Project4IT extends InvokeMainTestCase {
         assertThat(result.getTextWrittenToStandardError(), containsString(Project4.MISSING_ARGS));
     }
 
+    @Ignore
     @Test
     public void test3UnknownPhoneBillIssuesUnknownPhoneBillError() throws Throwable {
         String customer = "Customer";
@@ -53,6 +54,7 @@ public class Project4IT extends InvokeMainTestCase {
         assertThat(result.getExitCode(), equalTo(0));
     }
 
+    @Ignore
     @Test
     public void test5PhoneBillIsPrettyPrinted() {
         String customer = "Customer";
