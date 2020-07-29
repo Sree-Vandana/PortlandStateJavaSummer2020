@@ -105,14 +105,18 @@ public class Messages
                 + "time of the phone call");
     }
 
-    public static String malformattedDateOrTime(String TimeParameter) {
+    public static String malformattedDateOrTime(String TimeParameter, String date) {
         final String format = "DateTime: MM/dd/yyy hh:mm am/pm";
-        return String.format("Given %s is not in correct format\n\tplease follow the below format\n%s", TimeParameter, format);
+        return String.format("Given %s is not in correct format. please follow the format %s (Given: %s)", TimeParameter, format, date);
     }
 
     public static String malformattedPhoneCall(String callerNumberParameter) {
         final String format = "nnn-nnn-nnnn where n = number [0-9]";
-        return String.format("Given %s is not in correct format\n\tplease follow the below format\n%s", callerNumberParameter, format);
+        return String.format("Given %s is not in correct format. please follow the format %s", callerNumberParameter, format);
 
+    }
+
+    public static String noWordGiven(String word) {
+        return ("no word : "+word);
     }
 }

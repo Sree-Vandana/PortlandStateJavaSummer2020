@@ -67,17 +67,17 @@ public class PhoneBillServlet extends HttpServlet
         String start = getParameter(START_TIME_PARAMETER, request);
         String end = getParameter(END_TIME_PARAMETER, request);
 
-        Date startTime = getDateAndTimeInDate(start);
-        Date endTime = getDateAndTimeInDate(end);
         String regexDate = "^(0?[1-9]|1[0-2])/(0?[1-9]|1\\d|2\\d|3[01])/(19|20)\\d{2}\\s(((0?[1-9])|(1[0-2])):([0-5])([0-9])\\s[PpAa][Mm])$";
         if(!Pattern.matches(regexDate, start)){
-            response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, Messages.malformattedDateOrTime(START_TIME_PARAMETER));
+            response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, Messages.malformattedDateOrTime(START_TIME_PARAMETER, start));
             return false;
         }
         if(!Pattern.matches(regexDate, end)){
-            response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, Messages.malformattedDateOrTime(END_TIME_PARAMETER));
+            response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, Messages.malformattedDateOrTime(END_TIME_PARAMETER, end));
             return false;
         }
+        Date startTime = getDateAndTimeInDate(start);
+        Date endTime = getDateAndTimeInDate(end);
         if (!startTime.before(endTime)){
             response.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE, Messages.startTimeBeforEndTime());
             return false;
@@ -200,6 +200,7 @@ public class PhoneBillServlet extends HttpServlet
         PhoneBill bill = phoneBills.get(customerName);
         if(bill == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, Messages.customerDoesNotHaveAPhoneBill(customerName));
+            return;
         }
 
         //String format of date and time

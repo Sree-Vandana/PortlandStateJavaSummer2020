@@ -32,8 +32,8 @@ public class PhoneBillPrettyPrinter implements PhoneBillDumper<PhoneBill> {
         int count = num_of_phoneCalls;
         String prettyPhoneCalls = "Customer: "+ bill.getCustomer() + "\n";
         prettyPhoneCalls += "Number of phone calls: " + num_of_phoneCalls + "\n";
-        prettyPhoneCalls += "#     Caller Phone Number     Callee Phone Number     Call Started At     Call Ended At     Call Duration\n";
-        prettyPhoneCalls += "-----------------------------------------------------------------------------------------------------------\n";
+        prettyPhoneCalls += "#     Caller Phone Number     Callee Phone Number     Call Started At      Call Ended At     Call Duration\n";
+        prettyPhoneCalls += "------------------------------------------------------------------------------------------------------------\n";
         for (PhoneCall c : bill.getPhoneCalls()) {
             prettyPhoneCalls += String.format("%-8d %-23s %-19s %-19s %-18s %8d Minutes\n",num_of_phoneCalls - --count, c.getCaller(),c.getCallee(),
                     c.getPrettyDateTime(1), c.getPrettyDateTime(2), c.callDuration());

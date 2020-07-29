@@ -44,15 +44,6 @@ public class Project4IT extends InvokeMainTestCase {
         assertThat(result.getExitCode(), equalTo(1));
     }
 
-    @Test
-    public void test4AddPhoneCall() {
-        String customer = "Customer";
-        String caller = "234-567-8901";
-
-        MainMethodResult result = invokeMain( Project4.class, HOSTNAME, PORT, customer, caller );
-        assertThat(result.getTextWrittenToStandardOut(), equalTo(""));
-        assertThat(result.getExitCode(), equalTo(0));
-    }
 
     @Ignore
     @Test
@@ -65,5 +56,50 @@ public class Project4IT extends InvokeMainTestCase {
         String pretty = result.getTextWrittenToStandardOut();
         assertThat(pretty, containsString(customer));
         assertThat(pretty, containsString("  " + caller));
+    }
+
+
+    @Test
+    public void testingforprint(){
+        String args[]={"-print", "-host", "localhost", "-port", "8080", "sree", "123-123-4567", "123-156-7890", "01/15/2020", "10:30", "am", "01/16/2020", "10:40", "pm"};
+        MainMethodResult result = invokeMain( Project4.class, args );
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Phone call from"));
+    }
+
+    @Test
+    public void testingwithoutprint(){
+        String args[]={"-host", "localhost", "-port", "8080", "sree", "123-123-4567", "123-156-7890", "01/15/2020", "10:30", "am", "01/16/2020", "10:40", "pm"};
+        MainMethodResult result = invokeMain( Project4.class, args );
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Phone call added successfully"));
+    }
+
+    @Ignore
+    @Test
+    public void givingOnlyCustomerName(){
+        String args[]={"-host", "localhost", "-port", "8080", "sree"};
+        MainMethodResult result = invokeMain( Project4.class, args );
+        assertThat(result.getTextWrittenToStandardOut(), containsString("Phone call added successfully"));
+    }
+
+    @Test
+    public void nooptionandnocustomer(){
+        String args[]={"-host", "localhost", "-port", "8080"};
+        MainMethodResult result = invokeMain( Project4.class, args );
+        assertThat(result.getTextWrittenToStandardError(), containsString("-print or -search or customerName are not given and no arguments provided!"));
+    }
+
+    @Test
+    public void noOptionButGaveAdditionalArgsWithCustomerNameButInsufficient(){
+        String args[]={"-host", "localhost", "-port", "8080","sree","am"};
+        MainMethodResult result = invokeMain( Project4.class, args );
+        assertThat(result.getTextWrittenToStandardError(), containsString("-print or -search are not given and insufficient arguments provided!"));
+    }
+
+    @Ignore
+    @Test
+    public void checkingConnectionRefused(){
+        String args[]={"-host", "localhost", "-port", "8080", "sree", "123-123-4567", "123-156-7890", "01/15/2020", "10:30", "am", "01/16/2020", "10:40", "pm"};
+        MainMethodResult result = invokeMain( Project4.class, args );
+        assertThat(result.getTextWrittenToStandardError(), containsString("Refused to Connect to the Server"));
     }
 }
