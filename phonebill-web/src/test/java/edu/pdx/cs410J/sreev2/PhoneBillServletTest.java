@@ -174,4 +174,22 @@ public class PhoneBillServletTest {
         assertThat(textPhoneBill, containsString(calleeNumber));
     }
 
+    @Test
+    public void testingdoPostWithnullArgs() throws IOException, ServletException {
+        PhoneBillServlet servlet = new PhoneBillServlet();
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+
+        HttpServletResponse response = mock(HttpServletResponse.class);
+
+        PrintWriter pw = mock(PrintWriter.class);
+
+        when(response.getWriter()).thenReturn(pw);
+
+        servlet.doDelete(request, response);
+
+       verify(response).setStatus(HttpServletResponse.SC_OK);
+
+    }
+
 }

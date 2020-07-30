@@ -7,9 +7,10 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import static edu.pdx.cs410J.sreev2.PhoneBillURLParameters.CALLEE_NUMBER_PARAMETER;
+import static edu.pdx.cs410J.sreev2.PhoneBillURLParameters.START_TIME_PARAMETER;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.*;
 
 public class MessagesTest {
 
@@ -67,5 +68,25 @@ public class MessagesTest {
 
     Map<String, String> actual = Messages.parseDictionary(formatted);
     assertThat(actual, equalTo(dictionary));
+  }
+
+  @Test
+  public void testingNoPhoneBillCustomerStatement(){
+    assertThat(Messages.noPhoneBillForCustomer("xyz"), containsString("No phone bill for customer"));
+  }
+
+  @Test
+  public void testingStartTimeBeforeEndTimeStatement(){
+    assertThat(Messages.startTimeBeforEndTime(), containsString("Start date and time can not be equals or"));
+  }
+
+  @Test
+  public void malformattedDateOrTimeMsg(){
+    assertThat(Messages.malformattedDateOrTime(START_TIME_PARAMETER, "01/15/20/2 10:30 pm"), containsString("is not in correct format. please follow the format"));
+  }
+
+  @Test
+  public void malformattedPhoneNumber(){
+    assertThat(Messages.malformattedPhoneCall(CALLEE_NUMBER_PARAMETER), containsString("is not in correct format. please follow the format"));
   }
 }

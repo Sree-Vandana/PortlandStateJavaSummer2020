@@ -30,13 +30,12 @@ public class PhoneBillTest {
         PhoneBill pb = new PhoneBill();
     }
 
-    @Ignore
     @Test
     public void testingsearchBetweenDatesMethod(){
-        String args[] ={"sree", "111-222-3333", "000-999-8888", "01/15/2020", "10:30", "am" , "01/15/2020", "11:40", "am"};
-        String args0[] ={"sree", "111-222-3333", "000-999-8888", "01/16/2020", "10:30", "am" , "01/16/2020", "11:40", "am"};
-        String args1[] ={"sree", "111-222-3333", "000-999-8888", "01/17/2020", "10:30", "am" , "01/17/2020", "11:40", "am"};
-        String args2[] ={"sree", "111-222-3333", "000-999-8888", "01/18/2020", "10:30", "am" , "01/18/2020", "11:40", "am"};
+        String args[] ={"sree", "111-222-3333", "000-999-8888", "01/15/2020 10:30 am" , "01/15/2020 11:40 am"};
+        String args0[] ={"sree", "111-222-3333", "000-999-8888", "01/16/2020 10:30 am" , "01/16/2020 11:40 am"};
+        String args1[] ={"sree", "111-222-3333", "000-999-8888", "01/17/2020 10:30 am" , "01/17/2020 11:40 am"};
+        String args2[] ={"sree", "111-222-3333", "000-999-8888", "01/18/2020 10:30 am" , "01/18/2020 11:40 am"};
 
         PhoneCall call = new PhoneCall(args);
         PhoneCall call0 = new PhoneCall(args0);
@@ -52,8 +51,8 @@ public class PhoneBillTest {
         Date d1 = new Date("01/15/2020 10:30 am");
         Date d2 = new Date("01/16/2020 11:40 am");
 
-        //String ans = bill.searchPhoneCallsBetween(d1, d2);
-        //assertThat(ans, containsString("Phone Calls between dates"));
+        PhoneBill ans = bill.searchPhoneCallsBetween(d1, d2);
+        assertThat(ans.getCustomer(), containsString("sree"));
 
     }
 }
