@@ -22,10 +22,26 @@ public class Messages
         return String.format("  %s : %s", word, definition);
     }
 
+
+    /**
+     * notifies the user that the required parameter id missing
+     * @param parameterName <type>String</type>
+     *                      name of the parametr that is missing
+     * @return information
+     * */
+
     public static String missingRequiredParameter( String parameterName )
     {
         return String.format("The required parameter \"%s\" is missing", parameterName);
     }
+
+    /**
+     * notifies the user that the given
+     * customer name does not have an exsisting phonebill
+     * @param customerName <type>String</type>
+     *                      name of the customer
+     * @return information
+     * */
 
     public static String customerDoesNotHaveAPhoneBill( String customerName )
     {
@@ -92,31 +108,62 @@ public class Messages
         return map;
     }
 
+    /**
+     * notifies the user that the given
+     * customer name does not have an exsisting phonebill
+     * @param customerName <type>String</type>
+     *                      name of the customer
+     * @return information
+     * */
+
     static String noPhoneBillForCustomer(String customerName) {
         return String.format("No phone bill for customer %s", customerName);
     }
 
+    /**
+     * notifies the user that the given
+     * phonecall is succesfully added
+     * @param call <class>PhoneCall</class>
+     *                      phonecall of a customer
+     * @return information
+     * */
     public static String addedPhoneCallMessage(PhoneCall call) {
         return ("Phone call added successfully.");
     }
 
+    /**
+     * notifies the user that the given
+     * start time id before the end time
+     * @return information
+     * */
     public static String startTimeBeforEndTime() {
         return ("Start date and time can not be equals or after the end date and "
                 + "time of the phone call");
     }
 
+    /**
+     * notifies the user that the given
+     * start time or end time are malformatted
+     * @return information
+     * */
     public static String malformattedDateOrTime(String TimeParameter, String date) {
         final String format = "DateTime: MM/dd/yyy hh:mm am/pm";
         return String.format("Given %s is not in correct format. please follow the format %s (Given: %s)", TimeParameter, format, date);
     }
 
+    /**
+     * notifies the user that the given
+     * phonecall is  malformatted
+     * @param callerNumberParameter <type>String</type>
+     * @return information
+     * */
     public static String malformattedPhoneCall(String callerNumberParameter) {
         final String format = "nnn-nnn-nnnn where n = number [0-9]";
         return String.format("Given %s is not in correct format. please follow the format %s", callerNumberParameter, format);
 
     }
 
-    public static String noWordGiven(String word) {
+  /*  public static String noWordGiven(String word) {
         return ("no word : "+word);
-    }
+    }*/
 }

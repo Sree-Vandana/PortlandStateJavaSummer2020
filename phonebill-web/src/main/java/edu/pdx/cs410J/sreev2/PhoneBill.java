@@ -126,6 +126,14 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
         }};
 
 
+    /**
+     * This method is used to search the phone calls between the two given dates
+     * @param startDateTime <type>Date</type>
+     *                      start time and date in Date format
+     * @param endDateTime <type>Date</type>
+     *                    end time and date in Date Format
+     * @throws InvalidParameterException
+     * */
     public final PhoneBill searchPhoneCallsBetween(Date startDateTime, Date endDateTime)throws InvalidParameterException {
         String prettyPhoneCalls = null;
         PhoneBill bill = new PhoneBill(this.customerName);
@@ -145,11 +153,6 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
             }
         }
 
-        /*if (bill.getPhoneCalls().isEmpty())
-            prettyPhoneCalls = "No Phone calls found between " + start  +" and " + end;
-        else
-            prettyPhoneCalls = "Phone Calls between dates "+ start + " and " + end +":\n" + prettyPrinter.getPrettyPhoneCalls(bill);
-*/
         return bill;
     }
 }

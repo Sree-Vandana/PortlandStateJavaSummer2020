@@ -9,9 +9,24 @@ import java.io.PrintWriter;
  * this class is used to pretty print customers phonebill.
  * */
 public class PhoneBillPrettyPrinter{
+    /**
+     * start of <type>String</type>
+     * */
     private String start;
+
+    /**
+     * end of <type>String</type>
+     * */
     private String end;
+
+    /**
+     * writer of <class>PrintWriter</class>
+     * */
     private PrintWriter writer;
+
+    /**
+     * num of <type>int</type>
+     * */
     private int num;
 
     /**
@@ -22,11 +37,19 @@ public class PhoneBillPrettyPrinter{
         this.num = 0;
     }
 
+    /**
+     * PhoneBillPrettyPrinter Constructor which take 2 parameter
+     * @param start <type>String</type>
+     *              start time
+     * @param end <type>String</type>
+     *            end Time
+     * */
     public PhoneBillPrettyPrinter(String start, String end){
         this.start = start;
         this.end = end;
         this.num = 1;
     }
+
     /**
      * This method pretty projnts the phonecalls.
      * @param bill <class>PhoneBill</class>
@@ -41,7 +64,7 @@ public class PhoneBillPrettyPrinter{
 
         if(num == 1){
             if (bill.getPhoneCalls().isEmpty()) {
-                prettyPhoneCalls = "No Phone calls found between " + this.start + " and " + this.end;
+                prettyPhoneCalls = "For "+bill.getCustomer()+" No Phone calls found between " + this.start + " and " + this.end;
                 return prettyPhoneCalls;
             }
             else{

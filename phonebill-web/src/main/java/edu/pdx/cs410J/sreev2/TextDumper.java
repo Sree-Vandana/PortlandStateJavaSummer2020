@@ -45,28 +45,5 @@ public class TextDumper implements PhoneBillDumper<PhoneBill> {
                     + separator + phoneCall.getEndTimeString());
         }
 
-
-        /*fileHasSameCustomerName(phoneBill.getCustomer());
-        String separator = ",";
-        File file = new File(path);
-        FileWriter fileWriter = new FileWriter(file, true);
-        var phoneCalls = phoneBill.getPhoneCalls();
-        if (file.length() == 0) {
-            fileWriter.append(phoneBill.getCustomer() + "\n"
-                    + "Caller Number" + separator + "Callee Number"
-                    + separator + "Start Date and Time"
-                    + separator + "End Date and Time");
-        } else {
-            fileWriter.append("");
-        }
-        for (PhoneCall phoneCall : phoneCalls) {
-            fileWriter.append("\n" + phoneCall.getCaller() + separator + phoneCall.getCallee()
-                    + separator + phoneCall.getStartTimeString()
-                    + separator + phoneCall.getEndTimeString());
-        }
-        fileWriter.flush();
-        fileWriter.close();*/
-
-
     }
 }

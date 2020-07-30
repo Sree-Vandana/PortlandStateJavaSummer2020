@@ -82,6 +82,9 @@ public class PhoneCall extends AbstractPhoneCall {
     }
 
 
+    /**
+     * this method calculates the duration of the calls
+     * */
     public long callDuration() {
         long diffInMillies = Math.abs(getEndTime().getTime() - getStartTime().getTime());
         return TimeUnit.MINUTES.convert(diffInMillies,TimeUnit.MILLISECONDS);
