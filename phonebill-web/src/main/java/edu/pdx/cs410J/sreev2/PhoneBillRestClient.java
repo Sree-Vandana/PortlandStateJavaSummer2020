@@ -11,13 +11,23 @@ import static java.net.HttpURLConnection.HTTP_OK;
 
 /**
  * A helper class for accessing the rest client.  Note that this class provides
- * an example of how to make gets and posts to a URL.  You'll need to change it
- * to do something other than just send dictionary entries.
+ * an example of how to make gets and posts to a URL.
  */
 public class PhoneBillRestClient extends HttpRequestHelper
 {
+    /**
+     * WEB_APP of <type>String</type>
+     * */
     private static final String WEB_APP = "phonebill";
+
+    /**
+     * SERVLET of <type>String</type>
+     * */
     private static final String SERVLET = "calls";
+
+    /**
+     * url of <type>String</type>
+     * */
     private final String url;
 
 
@@ -32,18 +42,12 @@ public class PhoneBillRestClient extends HttpRequestHelper
     }
 
     /**
-     * Returns the phone bill for the given customer
-     * @return
+     * Adds the phone call for the given customer to exsisting bill or creates new.
+     * @param phoneCallValues <type>String[]</type>
+     *                        phonecall arguments
+     * @return responce content sent by the server
      */
-   /* public PhoneBill getPhoneBill(String customer) throws IOException, ParserException {
-        Response response = get(this.url, Map.of(CUSTOMER_PARAMETER, customer));
-        throwExceptionIfNotOkayHttpStatus(response);
-        String content = response.getContent();
-        PhoneBillTextParser parser = new PhoneBillTextParser(new StringReader(content));
-        return parser.parse();
-    }
-*/
-    public String addPhoneCall(final String[] phoneCallValues) throws IOException {
+  public String addPhoneCall(final String[] phoneCallValues) throws IOException {
         Response response = postToMyURL(Map.of(
                 CUSTOMER_PARAMETER, phoneCallValues[0],
                 CALLER_NUMBER_PARAMETER, phoneCallValues[1],
@@ -55,6 +59,12 @@ public class PhoneBillRestClient extends HttpRequestHelper
         return response.getContent();
     }
 
+    /**
+     * searches the phone calls between two dates of a given customer.
+     * @param phoneCallValues <type>String[]</type>
+     *                        phonecall arguments
+     * @return responce content sent by the server
+     */
     public String searchForPhoneCalls(final String[] phoneCallValues) throws IOException {
         Response response = get(this.url, Map.of(
                 CUSTOMER_PARAMETER, phoneCallValues[0],
@@ -65,6 +75,12 @@ public class PhoneBillRestClient extends HttpRequestHelper
         return response.getContent();
     }
 
+    /**
+     * pretty prints the entire phonebill of a customer
+     * @param customer <type>String</type>
+     *                        phonecall arguments customer String
+     * @return responce content sent by the server
+     */
     public String printEntirePhoneBill(final String customer) throws IOException{
         Response response = get(this.url,Map.of(CUSTOMER_PARAMETER,customer));
 
@@ -72,22 +88,32 @@ public class PhoneBillRestClient extends HttpRequestHelper
         return response.getContent();
     }
 
-    @VisibleForTesting
-    Response postToMyURL(Map<String, String> dictionaryEntries) throws IOException {
-        return post(this.url, dictionaryEntries);
-    }
-
+    /**
+     * removes all phonecalls of a phonebill
+     */
     public void removeAllPhoneBills() throws IOException {
         Response response = delete(this.url, Map.of());
         throwExceptionIfNotOkayHttpStatus(response);
     }
 
+    /**
+     * this method throws exception if the responce is not SK_OK
+     * @param response <type>Responce</type>
+     *                        phonecall arguments customer String
+     * @return responce content sent by the server
+     * @throws PhoneBillRestException
+     */
     private Response throwExceptionIfNotOkayHttpStatus(Response response) {
         int code = response.getCode();
         if (code != HTTP_OK) {
             throw new PhoneBillRestException(code, response.getContent());
         }
         return response;
+    }
+
+    @VisibleForTesting
+    Response postToMyURL(Map<String, String> dictionaryEntries) throws IOException {
+        return post(this.url, dictionaryEntries);
     }
 
     @VisibleForTesting

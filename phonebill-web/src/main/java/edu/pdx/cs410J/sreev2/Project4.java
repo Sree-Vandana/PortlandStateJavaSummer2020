@@ -17,18 +17,39 @@ import java.util.regex.Pattern;
  */
 public class Project4 {
 
+    /**
+     * MISSING_ARGS of type <code>String</code>
+     * */
     public static final String MISSING_ARGS = "Missing command line arguments";
 
+    /**
+     * format of type <code>String</code>
+     * */
     public static final String format = "Format:\nFor phone number: nnn-nnn-nnnn where n =  number [0-9]\n" +
-            "For Date: MM/dd/yyyy\n" +
-            "For time: hh:mm am/pm\n";
+                                        "For Date: MM/dd/yyyy\n" +
+                                        "For time: hh:mm am/pm\n";
 
+    /**
+     * validHostAndPort of type <code>String</code>
+     * */
     public static final String validHostAndPort = "-host <hostname> -port <portNumber>";
 
+    /**
+     * validPrintArgs of type <code>String</code>
+     * */
     public static final String validPrintArgs = "<customerName> <CallerPhoneNumber> <CalleePhoneNumber> <startDate> <startTime> <am/pm> <endDate> <endTime> <am/pm>";
 
+    /**
+     * validSearchArgs of type <code>String</code>
+     * */
     public static final String validSearchArgs = "<customerName> <startDate> <startTime> <am/pm> <endDate> <endTime> <am/pm>\"";
 
+    /**
+     * this main method validates the arguments give, before it sends to the server.
+     * And performs the appropreate action based on the option provided.
+     * @param args of type <code>String[]</code>
+     *             The phone call information, <customerName> <CallerPhoneNumber> <CalleePhoneNumber> <startDate> <startTime> <am/pm> <endDate> <endTime> <am/pm>
+     * */
     public static void main(String[] args) {
 
         var length = args.length;
@@ -100,6 +121,12 @@ public class Project4 {
         }
     }
 
+    /**
+     * This method validates the given Arguments and checks if they are given in correct format or not.
+     * @param args <type>String</type>
+     *             PhoneCall information
+     * @return boolean
+     * */
     private static boolean validateData(String[] args) {
         int length = args.length;
 
@@ -207,6 +234,16 @@ public class Project4 {
         return true;
     }
 
+    /**
+     * this method checks for the format of the given arguments
+     * @param len <type>int</type>
+     *            length of arguments being sent
+     * @param args <type>String[]</type>
+     *             the Arguments
+     * @param index <type>int...</type>
+     *              index of the atguments for validation
+     * @return boolean
+     * */
     private static boolean checkFormatOfArguments(int len, String[] args, int... index) {
 
         boolean phno1 = true;
@@ -264,10 +301,10 @@ public class Project4 {
     }
 
     /**
+     *  Method for validating PhoneNumber Format (nnn-nnn-nnnn)
      * @param phoneNumber
      *        the phone number should be of the format  nnn-nnn-nnnn
      * @return boolean
-     * Method for validating PhoneNumber Format (nnn-nnn-nnnn)
      * */
     private static boolean isValidatePhoneNumber(String phoneNumber){
         String regexPhoneNo = "^\\d{3}[\\s-]\\d{3}[\\s-]\\d{4}$";
@@ -275,10 +312,10 @@ public class Project4 {
     }
 
     /**
+     *  Method for validating Date Format (mm/dd/yyyy)
      * @param date
      *        the date should be of the format mm/dd/yyyy
      * @return boolean
-     * Method for validating Date Format (mm/dd/yyyy)
      * */
     private static boolean isValidateDate(String date){
         String regexDate = "^(0?[1-9]|1[0-2])/(0?[1-9]|1\\d|2\\d|3[01])/(19|20)\\d{2}$";
@@ -286,16 +323,22 @@ public class Project4 {
     }
 
     /**
+     * Method for validating Time Format (hh:mm)
      * @param time
-     *        the time shuld be of the format hh:mm
+     *        the time should be of the format hh:mm
      * @return boolean
-     *Method for validating Time Format (hh:mm)
      * */
     private static boolean isValidateTime(String time){
         String regexTime = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
         return Pattern.matches(regexTime, time);
     }
 
+    /**
+     * Method for validating Time Format (am/pm)
+     * @param marker
+     *        the time should be of the format amAM/pmPM
+     * @return boolean
+     * */
     private static boolean isValidateMarker(String marker) {
         String regexMarker = "^[PpAa][Mm]$";
         return Pattern.matches(regexMarker, marker);
@@ -408,11 +451,18 @@ public class Project4 {
                         "[Options][Arguments]\n"+
                         "[options] = [-host hostName -port portNumber -search -print -README]"+
                         "[Arguments] = [Customer callerNumber CalleeNumber Start End]\n" +
-                "The client can perform several functions:\n" +
+                "\nThe client can perform several functions:\n" +
                 "– Add a phone call to the server: Provide all Arguments along with host and port number.\n" +
                 "– Add a phone call to the server & display latest call information: Provide All required arguments along with -print option and host and port\n" +
                 "– Search for the calls begun between two times: provide -search option with "+validSearchArgs+"\n" +
-                "– Pretty print all phone calls in a phone bill: This can be done by just providing customer name whose phone bill you want to display.\n";
-    System.exit(0);
+                "– Pretty print all phone calls in a phone bill: This can be done by just providing customer name whose phone bill you want to display.\n" +
+                "\nNOTE:\n"+
+                "1. Donot give -search and -print together\n"+
+                "2. host and port must be specified.\n"+
+                "3. Time must follow 12-hour clock format and specify the start and end as (MM/dd/yyyy hh:mm am/pm)\n"+
+                "4. provide -search followed  by <customer>, <start> and <end> to get dates between dates start and end\n"+
+                "5. just providing customer name prints entire phonebill of that customer of it exists.(this must be follwed by -host and -port options).";
+        System.out.println(readme);
+        System.exit(0);
     }
 }

@@ -87,9 +87,6 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
      * */
     @Override
     public Collection<PhoneCall> getPhoneCalls() {
-        /*Set<PhoneCall> set = new HashSet<>(phoneCalls);
-        phoneCalls.clear();
-        phoneCalls.addAll(set);*/
         Collections.sort(phoneCalls, PhoneBill.StartTimeComparator);
         return this.phoneCalls;
     }
