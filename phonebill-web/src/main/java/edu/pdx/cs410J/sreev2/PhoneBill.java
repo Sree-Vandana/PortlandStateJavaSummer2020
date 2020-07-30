@@ -1,7 +1,6 @@
 package edu.pdx.cs410J.sreev2;
 
 import edu.pdx.cs410J.AbstractPhoneBill;
-import edu.pdx.cs410J.AbstractPhoneCall;
 
 import java.security.InvalidParameterException;
 import java.text.DateFormat;
@@ -127,7 +126,7 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
         }};
 
 
-    public final String searchPhoneCallsBetween(Date startDateTime, Date endDateTime)throws InvalidParameterException {
+    public final PhoneBill searchPhoneCallsBetween(Date startDateTime, Date endDateTime)throws InvalidParameterException {
         String prettyPhoneCalls = null;
         PhoneBill bill = new PhoneBill(this.customerName);
         PhoneBillPrettyPrinter prettyPrinter = new PhoneBillPrettyPrinter();
@@ -146,11 +145,11 @@ public class PhoneBill extends AbstractPhoneBill<PhoneCall>{
             }
         }
 
-        if (bill.getPhoneCalls().isEmpty())
+        /*if (bill.getPhoneCalls().isEmpty())
             prettyPhoneCalls = "No Phone calls found between " + start  +" and " + end;
         else
             prettyPhoneCalls = "Phone Calls between dates "+ start + " and " + end +":\n" + prettyPrinter.getPrettyPhoneCalls(bill);
-
-        return prettyPhoneCalls;
+*/
+        return bill;
     }
 }

@@ -127,12 +127,14 @@ public class PhoneBillServlet extends HttpServlet
             return;
         }
 
-        PhoneBillPrettyPrinter prettyPrinter = new PhoneBillPrettyPrinter();
+       /* PhoneBillPrettyPrinter prettyPrinter = new PhoneBillPrettyPrinter();
         String prettyPhoneBill = prettyPrinter.getPrettyPhoneCalls(bill);
         PrintWriter pw = response.getWriter();
         pw.println(prettyPhoneBill);
+        */
 
-        pw.flush();
+        TextDumper dumper = new TextDumper(response.getWriter());
+        dumper.dump(bill);
 
         response.setStatus( HttpServletResponse.SC_OK );
     }
@@ -154,19 +156,22 @@ public class PhoneBillServlet extends HttpServlet
         }
 
         //String format of date and time
-        String prettyPhoneCalls = "";
+        PhoneBill searchedPhoneCalls = null;
         var startDateTime = new Date(getParameter(START_TIME_PARAMETER, request));
         var endDateTime = new Date(getParameter(END_TIME_PARAMETER, request));
 
         try{
-            prettyPhoneCalls = bill.searchPhoneCallsBetween(startDateTime, endDateTime);
+            searchedPhoneCalls = bill.searchPhoneCallsBetween(startDateTime, endDateTime);
         }catch (InvalidParameterException e){
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
         }
 
-        PrintWriter pw = response.getWriter();
+       /* PrintWriter pw = response.getWriter();
         pw.println(prettyPhoneCalls);
-        pw.flush();
+        pw.flush();*/
+
+        TextDumper dumper = new TextDumper(response.getWriter());
+        dumper.dump(searchedPhoneCalls);
 
         response.setStatus( HttpServletResponse.SC_OK );
     }

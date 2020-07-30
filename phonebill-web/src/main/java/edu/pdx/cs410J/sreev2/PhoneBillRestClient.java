@@ -1,9 +1,11 @@
 package edu.pdx.cs410J.sreev2;
 
 import com.google.common.annotations.VisibleForTesting;
+import edu.pdx.cs410J.ParserException;
 import edu.pdx.cs410J.web.HttpRequestHelper;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.Map;
 
 import static edu.pdx.cs410J.sreev2.PhoneBillURLParameters.*;
@@ -65,14 +67,20 @@ public class PhoneBillRestClient extends HttpRequestHelper
      *                        phonecall arguments
      * @return responce content sent by the server
      */
-    public String searchForPhoneCalls(final String[] phoneCallValues) throws IOException {
+    public String searchForPhoneCalls(final String[] phoneCallValues) throws IOException, ParserException {
         Response response = get(this.url, Map.of(
                 CUSTOMER_PARAMETER, phoneCallValues[0],
                 START_TIME_PARAMETER, phoneCallValues[1],
                 END_TIME_PARAMETER, phoneCallValues[2]));
 
         throwExceptionIfNotOkayHttpStatus(response);
-        return response.getContent();
+
+        String searchedCalls = response.getContent();
+        TextParser parser = new TextParser(new StringReader(searchedCalls));
+        //return parser.parse();
+
+        PhoneBillPrettyPrinter prettyPrinter = new PhoneBillPrettyPrinter(phoneCallValues[1], phoneCallValues[2]);
+        return prettyPrinter.getPrettyPhoneCalls(parser.parse());
     }
 
     /**
@@ -81,11 +89,16 @@ public class PhoneBillRestClient extends HttpRequestHelper
      *                        phonecall arguments customer String
      * @return responce content sent by the server
      */
-    public String printEntirePhoneBill(final String customer) throws IOException{
+    public String printEntirePhoneBill(final String customer) throws IOException, ParserException {
         Response response = get(this.url,Map.of(CUSTOMER_PARAMETER,customer));
 
         throwExceptionIfNotOkayHttpStatus(response);
-        return response.getContent();
+        //return response.getContent();
+        String entirePhoneBill = response.getContent();
+        TextParser parser = new TextParser(new StringReader(entirePhoneBill));
+
+        PhoneBillPrettyPrinter prettyPrinter = new PhoneBillPrettyPrinter();
+        return prettyPrinter.getPrettyPhoneCalls(parser.parse());
     }
 
     /**

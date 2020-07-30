@@ -68,8 +68,9 @@ public class PhoneBillRestClientIT {
         }
     }
 
+
     @Test
-    public void addPhoneCallAndGetAPhoneCall() throws IOException {
+    public void addPhoneCallAndGetAPhoneCall() throws IOException, ParserException {
         PhoneBillRestClient client = newPhoneBillRestClient();
         client.removeAllPhoneBills();
         String[] args ={customerName, callerNumber,calleeNumber,startDateTime,endDateTime};
@@ -84,8 +85,9 @@ public class PhoneBillRestClientIT {
         assertThat(phoneCalls, containsString(calleeNumber));
     }
 
+
     @Test
-    public void testingSearchBetweenMethod() throws IOException {
+    public void testingSearchBetweenMethod() throws IOException, ParserException {
         PhoneBillRestClient client = newPhoneBillRestClient();
         client.removeAllPhoneBills();
         String[] args ={customerName, callerNumber,calleeNumber,startDateTime,endDateTime};
@@ -94,9 +96,24 @@ public class PhoneBillRestClientIT {
         status = client.addPhoneCall(args0);
         assertThat(status, containsString("Phone call added successfully"));
 
-        String phoneCalls = client.searchForPhoneCalls(new String[]{customerName, startDateTime, endDateTime0});
+        String phoneCalls = client.searchForPhoneCalls(new String[]{customerName, "01/15/2020 1:10 am", "01/15/2020 11:59 pm"});
 
-        assertThat(phoneCalls, containsString(customerName));
+        assertThat(phoneCalls, containsString("Phone Calls between dates"));
+    }
+
+    @Test
+    public void testingSearchBetweenMethodempty() throws IOException, ParserException {
+        PhoneBillRestClient client = newPhoneBillRestClient();
+        client.removeAllPhoneBills();
+        String[] args ={customerName, callerNumber,calleeNumber,startDateTime,endDateTime};
+        String[] args0 = {customerName0, callerNumber0,calleeNumber0,startDateTime0,endDateTime0};
+        String status = client.addPhoneCall(args);
+        status = client.addPhoneCall(args0);
+        assertThat(status, containsString("Phone call added successfully"));
+
+        String phoneCalls = client.searchForPhoneCalls(new String[]{customerName, "09/15/2020 1:10 am", "09/15/2020 11:59 pm"});
+
+        assertThat(phoneCalls, containsString("No Phone calls found between"));
     }
 
 }
