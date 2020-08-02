@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>HTML forms for interacting with the REST API</title>
+    <style type="text/css">
+        div {
+            padding-bottom: 1em;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>
+
+    This page contains a couple of HTML forms that GET and POST to the
+    REST API provided by your project.
+
+</h1>
+
+<div>
+    Note that these forms are meant to help people who are familiar with
+    HTML and web programming get started with the project. This HTML
+    interface is <b>not</b> required for the project and will not be tested.
+</div>
+
+<h2>
+    These forms let you interact with the phone bill REST API.
+</h2>
+
+
+<div>
+    <form method="get" action="calls">
+        Fetch phone bill for <input name="customer" type="text" size="10" title="Customer"/>
+        <input type="submit" definition="Submit"/>
+    </form>
+</div>
+
+<div>
+    <form method="get" action="calls">
+        Fetch phone bill for <input name="customer" type="text" size="10" title="Customer"/>
+        From: <input name="startTime" type="text" size="10" title="startTime"/>
+        To  : <input name="endTime" type="text" size="10" title="endTime"/>
+        <input type="submit" definition="Submit"/>
+    </form>
+</div>
+
+<div>
+    <form method="post" action="calls">
+        Create a phone call for customer: <input name="customer" type="text" size="10" title="Customer"/>
+        Caller number: <input name="callerNumber" type="text" size="10" title="Caller Number"/>
+        Callee number: <input name="calleeNumber" type="text" size="10" title="Callee Number"/>
+        start        : <input name="startTime" type="text" size="10" title="startTime"/>
+        end          : <input name="endTime" type="text" size="10" title="endTime"/>
+
+        <input type="submit" definition="Submit"/>
+    </form>
+</div>
+
+</body>
+</html>
