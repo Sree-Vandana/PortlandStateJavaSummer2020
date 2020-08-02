@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.pdx.cs510j.sreev2.phonebill">
+    package="edu.pdx.cs410j.sreev2.phonebill">
 
     <application
         android:allowBackup="true"
