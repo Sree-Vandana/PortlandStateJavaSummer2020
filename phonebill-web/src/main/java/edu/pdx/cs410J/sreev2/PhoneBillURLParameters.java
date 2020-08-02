@@ -20,11 +20,11 @@ public interface PhoneBillURLParameters {
     /**
      * START_TIME_PARAMETER of <type>String</type>
      * */
-    static final String START_TIME_PARAMETER = "startTime";
+    static final String START_TIME_PARAMETER = "start";
 
     /**
      * END_TIME_PARAMETER of <type>String</type>
      * */
-    static final String END_TIME_PARAMETER = "endTime";
+    static final String END_TIME_PARAMETER = "end";
 
 }
