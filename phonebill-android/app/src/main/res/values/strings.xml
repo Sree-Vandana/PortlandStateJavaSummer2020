@@ -16,4 +16,22 @@
     -->
     <string name="hello_world">Hello Square World!</string>
     <string name="title_activity_read_me">ReadMeActivity</string>
+    <string name="title_activity_add_phone_calls">AddPhoneCallsActivity</string>
+    <string name="name">Name</string>
+    <string name="customername">CustomerName:</string>
+    <string name="start_date_time">Start Date Time:</string>
+    <string name="callernumber">CallerNumber:</string>
+    <string name="add_create">Add / Create</string>
+    <string name="mm_dd_yyyy_hh_mm_am_pm">mm/dd/yyyy hh:mm am/pm</string>
+    <string name="end_date_time">End Date Time:</string>
+    <string name="end">end</string>
+    <string name="callee_number">Callee Number:</string>
+    <string name="add_or_create_phonebill">Add Or Create PhoneBill</string>
+    <string name="caller_number">Caller Number</string>
+    <string name="nnn_nnn_nnnn">nnn-nnn-nnnn</string>
+    <string name="title_activity_view_phone_bill">ViewPhoneBillActivity</string>
+    <string name="view_phone_bill">View Phone Bill</string>
+    <string name="customer_name">Customer Name:</string>
+    <string name="pretty_print">Pretty Print</string>
+    <string name="enetr_the_customer_name_whose_phone_bill_you_want_to_pretty_print">Enetr the customer name whose phone bill you want to pretty print</string>
 </resources>

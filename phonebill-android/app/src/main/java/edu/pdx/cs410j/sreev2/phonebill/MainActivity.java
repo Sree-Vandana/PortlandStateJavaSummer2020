@@ -32,6 +32,32 @@ private Button button;
             }
         });
 
+        button = (Button) findViewById(R.id.addOrCreateMainButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAddOrCreateActivity();
+            }
+        });
+
+        button = (Button) findViewById(R.id.viewMainButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openViewPhoneBillActivity();
+            }
+        });
+
+        button = (Button) findViewById(R.id.searchMainButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSearchPhoneCallsActivity();
+            }
+        });
+
+
+
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -44,6 +70,21 @@ private Button button;
 
     public void openReadMeActivity() {
         Intent intent = new Intent(this, ReadMeActivity.class);
+        startActivity(intent);
+    }
+
+    public void openAddOrCreateActivity() {
+        Intent intent = new Intent(this, AddPhoneCallsActivity.class);
+        startActivity(intent);
+    }
+
+    public void openViewPhoneBillActivity() {
+        Intent intent = new Intent(this, ViewPhoneBillActivity.class);
+        startActivity(intent);
+    }
+
+    public void openSearchPhoneCallsActivity() {
+        Intent intent = new Intent(this, SearchPhoneCallsActivity.class);
         startActivity(intent);
     }
 
