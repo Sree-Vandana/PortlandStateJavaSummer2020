@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchForCallsActivity">
+    tools:context=".SearchForCallsActivity"
+    android:background="@drawable/gradient_2">
 
     <TextView
         android:id="@+id/searchCallsHeadTextView"
@@ -40,6 +41,9 @@
         android:hint="customer name"
         android:inputType="textPersonName"
         android:textColor="#070707"
+        android:textColorHighlight="#191717"
+        android:textColorLink="#151313"
+        android:textCursorDrawable="@drawable/color_cursor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -67,6 +71,9 @@
         android:hint="mm/dd/yyyy hh:mm am/pm"
         android:inputType="textPersonName"
         android:textColor="#151515"
+        android:textColorHighlight="#121111"
+        android:textColorLink="#151515"
+        android:textCursorDrawable="@drawable/color_cursor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -94,6 +101,9 @@
         android:hint="mm/dd/yyyy hh:mm am/pm"
         android:inputType="textPersonName"
         android:textColor="#090808"
+        android:textColorHighlight="#151414"
+        android:textColorLink="#121111"
+        android:textCursorDrawable="@drawable/color_cursor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

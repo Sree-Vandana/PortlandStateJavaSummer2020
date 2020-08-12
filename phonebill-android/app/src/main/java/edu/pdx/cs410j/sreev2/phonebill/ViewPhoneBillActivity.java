@@ -47,16 +47,17 @@ public class ViewPhoneBillActivity extends AppCompatActivity  {
                             stringBuilder.append(callData).append("\n");
                         }
                         if(stringBuilder.toString().length() == 0){
-                            openDialog("Information", "No phone calls exist for "+customerNameInput);
+                            openDialog("Information", "No phone bill exist for "+customerNameInput);
                         }
                         else{
                             openViewResultActivity();
                         }
                     } catch (FileNotFoundException e) {
-                        openDialog("in catch block", "No phone calls exist for "+customerNameInput);
-                        e.printStackTrace();
+                        openDialog("Information", "No phone bill exist for "+customerNameInput);
+                        //e.printStackTrace();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        openDialog("Information", "Something went wrong, Please try after some time");
+                        //e.printStackTrace();
                     }
                     customerName_et.getText().clear();
                 }

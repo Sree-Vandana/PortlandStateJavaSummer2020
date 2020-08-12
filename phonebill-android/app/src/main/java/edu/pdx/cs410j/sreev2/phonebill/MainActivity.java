@@ -14,15 +14,21 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 private Button button;
+TextView mainAppDiscription;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mainAppDiscription = findViewById(R.id.mainAppDiscription);
+        mainAppDiscription.setText("Create, add, view or search phone calls using this application, using the buttons below.\n" +
+                "Go to README for additional Help. ");
 
         button = (Button) findViewById(R.id.readMeButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -56,16 +62,6 @@ private Button button;
             }
         });
 
-
-
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
     }
 
     public void openReadMeActivity() {

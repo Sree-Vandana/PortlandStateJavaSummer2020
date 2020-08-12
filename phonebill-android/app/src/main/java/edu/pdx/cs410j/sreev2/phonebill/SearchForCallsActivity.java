@@ -46,8 +46,10 @@ public class SearchForCallsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(validateName() & validateStart() & validateEnd()){
                     if(startTimeBeforeEndTime()){
+
                         String customerNameInput = customerName_et.getText().toString().trim();
                         String fileName =customerNameInput + ".txt";
+
                         try {
                             FileInputStream fileInputStream = openFileInput(fileName);
                             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
@@ -64,16 +66,17 @@ public class SearchForCallsActivity extends AppCompatActivity {
                             else{
                                 openSearchResultActivity();
                             }
-
+                            clearAllFields();
                         } catch (FileNotFoundException e) {
                             openDialog("Error", "No PhoneBill found for customer "+customerNameInput);
-                            e.printStackTrace();
+                            //e.printStackTrace();
                         } catch (IOException e) {
-                            openDialog("Error", "Error occured when reading from file");
-                            e.printStackTrace();
-                        }finally {
-                            clearAllFields();
+                            openDialog("Error", "Something went wrong, please try again after sometime");
+                            //e.printStackTrace();
                         }
+//                        finally {
+//                            clearAllFields();
+//                        }
                     }
                 }
             }

@@ -41,8 +41,7 @@ public class SearchResult extends AppCompatActivity {
             BufferedReader fileData = new BufferedReader(inputStreamReader);
             final List<String> listOfPhoneCalls = new ArrayList<>();
             String strCurrentLine;
-            String contentHead = "The phone calls between "+startInput+" and "+endInput+" for customer "+customerName
-                    + "\n-----------------------------------------------------------------------------------\n\n";
+            String contentHead = "The phone calls between "+startInput+" and "+endInput+" for customer "+customerName;
             String content = "";
             while((strCurrentLine = fileData.readLine()) != null){
                 listOfPhoneCalls.add(strCurrentLine);
@@ -55,7 +54,11 @@ public class SearchResult extends AppCompatActivity {
                 }
             }
             if(content.length() == 0){
-                content = "No phone calls available between the given dates";
+                content = "\n\nNo phone calls available between the given dates";
+            }
+            else{
+                contentHead += "\n\nCallerNumber, CalleeNumber, StartDate, EndDate, CallDuration\n"
+                        + "-----------------------------------------------------------------------------------\n\n";
             }
                 searchResultTextView.setText(contentHead + "" +content);
         } catch (FileNotFoundException e) {

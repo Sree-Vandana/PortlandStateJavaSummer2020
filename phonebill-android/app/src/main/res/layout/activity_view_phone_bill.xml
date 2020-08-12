@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/box_inset_layout_padding"
-    tools:context=".ViewPhoneBillActivity">
+    tools:context=".ViewPhoneBillActivity"
+    android:background="@drawable/gradient_2">
 
 
     <TextView
@@ -43,6 +44,9 @@
         android:ems="10"
         android:hint="customer name"
         android:inputType="textPersonName"
+        android:textColorHighlight="#322F2F"
+        android:textColorLink="#1C1B1B"
+        android:textCursorDrawable="@drawable/color_cursor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

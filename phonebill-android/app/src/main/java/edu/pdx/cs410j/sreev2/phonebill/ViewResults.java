@@ -11,11 +11,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 
 public class ViewResults extends AppCompatActivity {
 
     TextView viewResult;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,7 @@ public class ViewResults extends AppCompatActivity {
                 while((callData = bufferedReader.readLine()) != null){
                     stringBuilder.append(callData).append("\n\n");
                 }
+
                 if(stringBuilder.toString().length() == 0){
                     openDialog("Information", "No phone calls exist for "+customer_name);
                 }
@@ -56,6 +61,7 @@ public class ViewResults extends AppCompatActivity {
             }
 
     }
+
     public void openDialog(String t, String s){
         DialogsInPhoneBillApp dialog = new DialogsInPhoneBillApp(t, s);
         dialog.show(getSupportFragmentManager(), "Alert Dialog");

@@ -56,6 +56,7 @@ public class AddPhoneCallsActivity extends AppCompatActivity {
                         String calleeNumberInput = calleeNumber_et.getText().toString().trim();
                         String startInput = start_et.getText().toString().trim();
                         String endInput = end_et.getText().toString().trim();
+
                         Date startTime = getDateAndTimeInDate(startInput);
                         Date endTime = getDateAndTimeInDate(endInput);
                         String prettyStartTime = getPrettyDateTime(startInput);
@@ -98,18 +99,18 @@ public class AddPhoneCallsActivity extends AppCompatActivity {
                         } catch(FileNotFoundException ex){
                             openDialog("Error","File does not exists");
                         }catch (IOException e) {
-                            openDialog("error", "error occured when trying to write to file");
+                            openDialog("Error", "error occurred when trying to write to file");
                         }finally {
                             if(fileOutputStream!= null){
                                 try {
                                     fileOutputStream.close();
                                    // fileInputStream.close();
                                 } catch (IOException e) {
-                                    e.printStackTrace();
+                                    openDialog("Error", "Something went wrong, please try again after some time");
                                 }
                             }
                         }
-                        openDialog("Information","Phone Call added succesfully");
+                        openDialog("Information","Phone Call added successfully");
                     }
                 }
             }
@@ -134,7 +135,7 @@ public class AddPhoneCallsActivity extends AppCompatActivity {
             callerNumber_et.setError("Field can't be Empty");
             return false;
         }else if(!PHONE_NUMBER_PATTERN.matcher(callerNumberInput).matches()){
-            openDialog("Error", "Given Caller Number is not in correct format\nPlease follow the format\nnnn-nnn-nnnn\nwhere n= number [0-9]");
+            openDialog("Error", "Given Caller Number is not in correct format\nPlease follow the format\nnnn-nnn-nnnn\nwhere n= number [0-9]\nyou entered:\n" + callerNumberInput);
             return false;
         }else{
             callerNumber_et.setError(null);
@@ -202,7 +203,7 @@ public class AddPhoneCallsActivity extends AppCompatActivity {
             Date date1 = formatter1.parse(dateTime);
             return date1;
         } catch (ParseException e){
-            openDialog("Error","date parsing error");
+            openDialog("Error","Something went wrong, please try after some time");
             return null;
         }
     }
@@ -215,7 +216,7 @@ public class AddPhoneCallsActivity extends AppCompatActivity {
         try {
             date = df.parse(sdate);
         } catch (ParseException e) {
-            openDialog("Error","Error Occured while parsing to pretty date-time format");
+            openDialog("Error","Something went wrong, please try after some time");
         }
         String dateTimePrettyFormat = df.format(date);
         return dateTimePrettyFormat;
