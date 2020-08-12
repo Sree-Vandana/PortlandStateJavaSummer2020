@@ -4,112 +4,112 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchPhoneCallsActivity">
+    tools:context=".SearchForCallsActivity">
 
     <TextView
-        android:id="@+id/searchHead"
+        android:id="@+id/searchCallsHeadTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Search For Calls"
+        android:text="Search For PhoneCalls"
         android:textColor="#100F0F"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/searchNameTextView"
+        android:id="@+id/searchCustomerNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/customer_name"
-        android:textColor="#0E0E0E"
+        android:layout_marginStart="32dp"
+        android:text="Customer Name:"
+        android:textColor="#100F0F"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/searchNameEditText"
-        app:layout_constraintHorizontal_bias="0.098"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/searchHead"
-        app:layout_constraintVertical_bias="0.194" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2" />
 
     <EditText
-        android:id="@+id/searchNameEditText"
+        android:id="@+id/searchCustomerNameEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="Name"
+        android:hint="customer name"
         android:inputType="textPersonName"
+        android:textColor="#070707"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.226" />
+        app:layout_constraintVertical_bias="0.168" />
 
     <TextView
         android:id="@+id/searchStartTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/start_date_time"
-        android:textColor="#131313"
+        android:layout_marginStart="8dp"
+        android:text="StartDateAndTime:"
+        android:textColor="#151414"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/searchStartEditText"
-        app:layout_constraintHorizontal_bias="0.123"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.338" />
+        app:layout_constraintVertical_bias="0.302" />
 
     <EditText
         android:id="@+id/searchStartEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_width="237dp"
+        android:layout_height="54dp"
+        android:layout_marginEnd="4dp"
         android:ems="10"
         android:hint="mm/dd/yyyy hh:mm am/pm"
         android:inputType="textPersonName"
+        android:textColor="#151515"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.327" />
+        app:layout_constraintVertical_bias="0.291" />
 
     <TextView
         android:id="@+id/searchEndTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="@string/end_date_time"
-        android:textColor="#0E0E0E"
+        android:layout_marginStart="8dp"
+        android:text="EndDateAndTime:"
+        android:textColor="#0C0C0C"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.448" />
+        app:layout_constraintVertical_bias="0.417" />
 
     <EditText
         android:id="@+id/searchEndEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_width="237dp"
+        android:layout_height="54dp"
+        android:layout_marginEnd="4dp"
         android:ems="10"
-        android:hint="@string/mm_dd_yyyy_hh_mm_am_pm"
+        android:hint="mm/dd/yyyy hh:mm am/pm"
         android:inputType="textPersonName"
-        android:textColor="#FFFFFF"
+        android:textColor="#090808"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.439" />
+        app:layout_constraintVertical_bias="0.408" />
 
     <Button
-        android:id="@+id/searchButton"
-        android:layout_width="122dp"
-        android:layout_height="53dp"
-        android:text="Search"
+        android:id="@+id/searchPhoneCallButton"
+        android:layout_width="128dp"
+        android:layout_height="51dp"
+        android:text="search"
+        android:textColor="#100F0F"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.603" />
+        app:layout_constraintVertical_bias="0.601" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

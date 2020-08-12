@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SearchPhoneCallsActivity"></activity>
-        <!-- <uses-library -->
+        <activity android:name=".SearchResult"></activity>
+        <activity android:name=".SearchForCallsActivity" />
+        <activity android:name=".ViewResults" /> <!-- <uses-library -->
         <!-- android:name="com.google.android.wearable" -->
         <!-- android:required="true" /> -->
         <!-- android:required="true" /> -->

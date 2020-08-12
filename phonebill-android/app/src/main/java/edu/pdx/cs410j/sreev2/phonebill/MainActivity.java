@@ -84,7 +84,7 @@ private Button button;
     }
 
     public void openSearchPhoneCallsActivity() {
-        Intent intent = new Intent(this, SearchPhoneCallsActivity.class);
+        Intent intent = new Intent(this, SearchForCallsActivity.class);
         startActivity(intent);
     }
 

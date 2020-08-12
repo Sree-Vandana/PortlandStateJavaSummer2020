@@ -21,53 +21,71 @@
 
     <Button
         android:id="@+id/readMeButton"
-        android:layout_width="177dp"
-        android:layout_height="156dp"
+        android:layout_width="201dp"
+        android:layout_height="188dp"
+        android:background="#DAD6D6"
         android:text="README"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.068"
+        app:layout_constraintBottom_toTopOf="@+id/addOrCreateMainButton"
+        app:layout_constraintEnd_toStartOf="@+id/searchMainButton"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.234" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/addOrCreateMainButton"
-        android:layout_width="177dp"
-        android:layout_height="149dp"
+        android:layout_width="206dp"
+        android:layout_height="172dp"
+        android:layout_marginStart="4dp"
+        android:background="#8C8A8A"
         android:text="Add / Create"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.068"
+        app:layout_constraintEnd_toStartOf="@+id/viewMainButton"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.625" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/viewMainButton"
-        android:layout_width="184dp"
-        android:layout_height="150dp"
+        android:layout_width="207dp"
+        android:layout_height="172dp"
+        android:background="#DAD6D6"
         android:text="View Phone Bill"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.931"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.575" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/searchMainButton"
-        android:layout_width="188dp"
-        android:layout_height="153dp"
+        android:layout_width="210dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="160dp"
+        android:background="#8C8A8A"
         android:text="Search"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/viewMainButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.323" />
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/welcomeMainHead"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to Phone Bill Application"
+        android:textColor="#151515"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
