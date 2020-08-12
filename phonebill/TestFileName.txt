@@ -1,2 +1,0 @@
-pat
-Caller Number,Callee Number,Start Date and Time,End Date and Time

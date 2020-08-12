@@ -1,7 +1,0 @@
-Customer: sree
-Number of phone calls: 3
-#     Caller Phone Number     Callee Phone Number     Call Start time      Call End Time       Call Duration
--------------------------------------------------------------------------------------------------------------
-1        075-445-123             689-667-7886        03/12/18 12:30 PM   03/21/20 02:22 AM   1065712 Minutes
-2        123-123-7655            678-677-2345        03/22/18 09:19 AM   03/21/19 02:22 AM    523023 Minutes
-3        123-123-4567            123-123-1233        11/20/18 03:21 AM   11/22/18 02:22 AM      2101 Minutes
